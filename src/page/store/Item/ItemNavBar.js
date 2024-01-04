@@ -1,15 +1,12 @@
-import React from 'react';
+import React from "react";
 import * as PropTypes from "prop-types";
-
+import { Button } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 function ItemNavBar(props) {
-  return (
-  <Button size="lg"
+  const navigate = useNavigate();
 
-          onClick={() => navigate("/login")}>
-
-  </Button>
-  );
+  return <Button size="lg" onClick={() => navigate("")}></Button>;
 }
 
 export default ItemNavBar;

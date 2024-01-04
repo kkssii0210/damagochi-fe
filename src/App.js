@@ -9,15 +9,16 @@ import {
 import ItemRegister from "./page/store/Item/ItemRegister";
 import ItemList from "./page/store/Item/ItemList";
 import HomeLayout from "./page/component/HomeLayout";
-
+import ItemView from "./page/store/Item/ItemView";
+import Main from "./page/component/Main";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<HomeLayout />}>
-      <Route index element={<ItemList />} />
-      <Route path="register" element={<ItemRegister />} />
-      {/*<Route path="board/:id" element={<BoardView />} />*/}
-      {/*id는 useParams() 사용*/}
+      <Route index element={<Main />} />
+      <Route path="item/view" element={<ItemView />} />
+      <Route path="item/register" element={<ItemRegister />} />
+      <Route path="item/list" element={<ItemList />} />
     </Route>,
   ),
 );

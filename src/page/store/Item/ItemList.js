@@ -1,8 +1,12 @@
 import React from 'react';
+import {Button} from "@chakra-ui/react";
+import {useNavigate} from "react-router-dom";
 
 function ItemList(props) {
+  const navigate = useNavigate();
+
   return (
-    <div></div>
+    <Button onClick={()=> navigate("/item/register")}>아이템 등록</Button>
   );
 }
 
