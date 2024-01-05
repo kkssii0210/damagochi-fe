@@ -15,6 +15,11 @@ export function Management() {
         return <div>로딩중</div>
     }
 
+    if (mong.exp === 100 && mong.level <= 9) {
+        axios.put("/api/manage/mong/levelUp", {memberId : mong.memberId})
+            .then(()=> console.log("레벨업 !!!"))
+    }
+
     function handleFeedClick() {
         axios.put("/api/manage/feed", {memberId : mong.memberId})
             .then(()=> console.log("먹이주기"))
@@ -40,7 +45,7 @@ export function Management() {
         axios.put("/api/manage/training", {memberId : mong.memberId})
             .then(()=> {
                 console.log("훈련하기 경험치 + 10");
-                axios.post("/api/manage/training/trainingCool")
+                axios.post("/api/manage/training/trainingCool");
             })
             .catch((error)=> {
                 if (error.response.status === 400) {
