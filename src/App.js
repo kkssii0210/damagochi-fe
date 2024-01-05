@@ -1,16 +1,30 @@
-import {createBrowserRouter, createRoutesFromElements, Route} from "react-router-dom";
-import {RouterProvider} from "react-router";
-import {WelcomePage} from "./WelcomePage";
+import {
+  BrowserRouter,
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  Routes,
+} from "react-router-dom";
+import { RouterProvider } from "react-router";
+import { WelcomePage } from "./WelcomePage";
+import { MemberLogin } from "./MemberLogin";
 
-const routes = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<WelcomePage/>}>
-
-    </Route>
-  )
-)
+// const routes = createBrowserRouter(
+//   createRoutesFromElements(
+//     <Route path="/" element={<WelcomePage />}>
+//       <Route path="login" element={<MemberLogin />} />
+//     </Route>,
+//   ),
+// );
 function App() {
-  return <RouterProvider router={routes}/>
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<WelcomePage />} />
+        <Route path="login" element={<MemberLogin />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
