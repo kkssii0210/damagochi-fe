@@ -16,20 +16,35 @@ export function Management() {
     }
 
     function handleFeedClick() {
-        axios.put("/api/manage/mong/feed", {memberId : mong.memberId})
+        axios.put("/api/manage/feed", {memberId : mong.memberId})
             .then(()=> console.log("먹이주기"))
             .catch(()=>console.log("포만감이 가득 찼습니다."))
     }
 
     function handleStrokeClick() {
-        axios.put("/api/manage/mong/stroke", {memberId : mong.memberId})
+        axios.put("/api/manage/stroke", {memberId : mong.memberId})
             .then(()=> {
                 console.log("쓰다듬기")
-                axios.post("/api/manage/mong/strokeCool");
+                axios.post("/api/manage/stroke/strokeCool");
             })
             .catch((error)=> {
                 if (error.response.status === 400) {
                     console.log("피로도가 가득 찼습니다.")
+                } else if (error.response.status === 404) {
+                    console.log("쿨타임 중")
+                }
+            })
+    }
+
+    function handleTrainigClick() {
+        axios.put("/api/manage/training", {memberId : mong.memberId})
+            .then(()=> {
+                console.log("훈련하기 경험치 + 10");
+                axios.post("/api/manage/training/trainingCool")
+            })
+            .catch((error)=> {
+                if (error.response.status === 400) {
+                    console.log("피로도가 없습니다.")
                 } else if (error.response.status === 404) {
                     console.log("쿨타임 중")
                 }
@@ -41,7 +56,7 @@ export function Management() {
             {/* setTimeout을 이용해서 먹이를 준후 랜덤시간 똥싸기 clean false */}
             <div onClick={handleFeedClick}>먹이주기</div>
             <div onClick={handleStrokeClick}>쓰다듬기</div>
-            <div>훈련하기</div>
+            <div onClick={handleTrainigClick}>훈련하기</div>
             <div>잠자기</div>
             {/* clean 이 false 시 활성화 */}
             <div>청소</div>
