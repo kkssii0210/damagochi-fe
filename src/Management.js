@@ -23,8 +23,17 @@ export function Management() {
 
     function handleStrokeClick() {
         axios.put("/api/manage/mong/stroke", {memberId : mong.memberId})
-            .then(()=> console.log("쓰다듬기"))
-            .catch(()=>console.log("피로도가 가득 찼습니다."))
+            .then(()=> {
+                console.log("쓰다듬기")
+                axios.post("/api/manage/mong/strokeCool");
+            })
+            .catch((error)=> {
+                if (error.response.status === 400) {
+                    console.log("피로도가 가득 찼습니다.")
+                } else if (error.response.status === 404) {
+                    console.log("쿨타임 중")
+                }
+            })
     }
 
     return <div>
