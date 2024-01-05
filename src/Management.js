@@ -3,12 +3,13 @@ import axios from "axios";
 
 export function Management() {
 
-    const [mong, setMong] = useState(null)
+    const [mong, setMong] = useState(null);
+    const [reload, setReload] = useState(0);
 
     useEffect(() => {
         axios.get("/api/manage/mong")
             .then(({data}) => setMong(data))
-    }, []);
+    }, [reload]);
 
 
     if (mong === null) {
@@ -17,12 +18,18 @@ export function Management() {
 
     if (mong.exp === 100 && mong.level <= 9) {
         axios.put("/api/manage/mong/levelUp", {memberId : mong.memberId})
-            .then(()=> console.log("레벨업 !!!"))
+            .then(()=> {
+                console.log("레벨업 !!!");
+                setReload(reload + 1);
+            })
     }
 
     function handleFeedClick() {
         axios.put("/api/manage/feed", {memberId : mong.memberId})
-            .then(()=> console.log("먹이주기"))
+            .then(()=> {
+                console.log("먹이주기");
+                setReload(reload + 1);
+            })
             .catch(()=>console.log("포만감이 가득 찼습니다."))
     }
 
@@ -31,6 +38,7 @@ export function Management() {
             .then(()=> {
                 console.log("쓰다듬기")
                 axios.post("/api/manage/stroke/strokeCool");
+                setReload(reload + 1);
             })
             .catch((error)=> {
                 if (error.response.status === 400) {
@@ -46,6 +54,7 @@ export function Management() {
             .then(()=> {
                 console.log("훈련하기 경험치 + 10");
                 axios.post("/api/manage/training/trainingCool");
+                setReload(reload + 1);
             })
             .catch((error)=> {
                 if (error.response.status === 400) {
