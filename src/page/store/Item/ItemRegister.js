@@ -12,22 +12,100 @@ import {
   Heading,
   HStack,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function ItemRegister(props) {
   const [imageFile, setImageFile] = useState();
   const [itemName, setItemName] = useState();
   const [itemFunction, setItemFunction] = useState();
   const [itemPrice, setItemPrice] = useState();
+
   const [itemCategory, setItemCategory] = useState();
+  const [food, setFood] = useState();
+  const [liquidMedicine, setLiquidMedicine] = useState();
+  const [map, setMap] = useState();
+
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
+  const toast = useToast();
 
   const handleCategoryChange = (selectedCategory) => {
     setItemCategory(selectedCategory);
   };
+
+  // function convertToStoreDto() {
+  //   let storeData = {};
+  //   if (itemCategory === food) {
+  //     storeData = {
+  //       itemCategory: food,
+  //       itemName: itemName,
+  //       itemFunction: itemFunction,
+  //       itemPrice: itemPrice,
+  //     };
+  //   } else if (itemCategory === liquidMedicine) {
+  //     storeData = {
+  //       itemCategory: liquidMedicine,
+  //       itemName: itemName,
+  //       itemFunction: itemFunction,
+  //       itemPrice: itemPrice,
+  //     };
+  //   } else if (itemCategory === map) {
+  //     storeData = {
+  //       itemCategory: map,
+  //       itemName: itemName,
+  //       itemFunction: itemFunction,
+  //       itemPrice: itemPrice,
+  //     };
+  //   }
+  //   return storeData;
+  // }
+
+  const storeData = {
+    itemCategory,
+    itemName,
+    itemFunction,
+    itemPrice,
+  };
+
   function handleSubmit() {
-    axios.get("/api/item/register");
+    setIsSubmitting(true);
+
+    // const storeDtoData = convertToStoreDto();
+
+    axios
+      .post(
+        "/api/store/item/register",
+        storeData,
+        // storeDtoData,
+        // imageFile
+      )
+      .then(() => {
+        toast({
+          description: "새 아이템이 저장되었습니다",
+          status: "success",
+        });
+        navigate("/store/item/list");
+      })
+      .catch((error) => {
+        console.log(error.response.status);
+        if (error.response.status === 400) {
+          toast({
+            description: "작성한 내용을 확인 해주세요",
+            status: "error",
+          });
+        } else {
+          toast({
+            description: "등록 중 문제가 발생하였습니다.",
+            status: "error",
+          });
+        }
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   }
 
   return (
@@ -55,18 +133,21 @@ function ItemRegister(props) {
               <HStack mr={3}>
                 <Button
                   isActive={itemCategory === "food"}
+                  value={food}
                   onClick={() => handleCategoryChange("food")}
                 >
                   음식
                 </Button>
                 <Button
                   isActive={itemCategory === "liquidMedicine"}
+                  value={liquidMedicine}
                   onClick={() => handleCategoryChange("liquidMedicine")}
                 >
                   물약
                 </Button>
                 <Button
                   isActive={itemCategory === "map"}
+                  value={map}
                   onClick={() => handleCategoryChange("map")}
                 >
                   맵

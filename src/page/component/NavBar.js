@@ -10,7 +10,11 @@ export function NavBar(props) {
       <Button variant="ghost" size="lg" onClick={() => navigate("/")}>
         Home
       </Button>
-      <Button variant="ghost" size="lg" onClick={() => navigate("/item/list")}>
+      <Button
+        variant="ghost"
+        size="lg"
+        onClick={() => navigate("/store/item/list")}
+      >
         상점가기
       </Button>
     </Flex>
