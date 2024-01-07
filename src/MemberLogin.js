@@ -39,7 +39,11 @@ export function MemberLogin() {
       });
   }
 
-  return (
+    function handleSignUp() {
+        navigate("/MemberSignUp");
+    }
+
+    return (
     <Box p={10} borderRadius={10} mt={5} w="60%" ml="20%">
       <Heading textAlign="center" mb={10}>
         Login
@@ -65,6 +69,9 @@ export function MemberLogin() {
       <Button colorScheme="blue" onClick={handleLogin}>
         로그인
       </Button>
+        <Button colorScheme="blue" onClick={handleSignUp}>
+            회원가입
+        </Button>
       <Spacer h={20} />
     </Box>
   );

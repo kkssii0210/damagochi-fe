@@ -1,20 +1,8 @@
-import {
-  BrowserRouter,
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-  Routes,
-} from "react-router-dom";
-import { RouterProvider } from "react-router";
-import { WelcomePage } from "./WelcomePage";
-import { MemberLogin } from "./MemberLogin";
+import {BrowserRouter, Route, Routes,} from "react-router-dom";
+import {WelcomePage} from "./WelcomePage";
+import {MemberLogin} from "./MemberLogin";
+import {MemberSignUp} from "./MemberSignUp";
 
-// const routes = createBrowserRouter(
-//   createRoutesFromElements(
-//     <Route path="/" element={<WelcomePage />}>
-//       <Route path="login" element={<MemberLogin />} />
-//     </Route>,
-//   ),
 // );
 function App() {
   return (
@@ -22,6 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<WelcomePage />} />
         <Route path="login" element={<MemberLogin />} />
+        <Route path="MemberSignUp" element={<MemberSignUp />} />
       </Routes>
     </BrowserRouter>
   );
