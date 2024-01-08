@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {useToast} from "@chakra-ui/react";
+import {Button, useToast} from "@chakra-ui/react";
 
 export function Management() {
 
@@ -67,15 +67,23 @@ export function Management() {
             })
     }
 
+    function handleSleepClick() {
+        axios.put("/api/manage/sleep", {memberId : mong.memberId})
+            .then(() => {
+                console.log("잠자기");
+                setReload(reload + 1);
+            })
+    }
+
     return <div>
         <div style={{display : "flex", justifyContent : "space-between", width : "500px"}}>
             {/* setTimeout을 이용해서 먹이를 준후 랜덤시간 똥싸기 clean false */}
-            <div onClick={handleFeedClick}>먹이주기</div>
-            <div onClick={handleStrokeClick}>쓰다듬기</div>
-            <div onClick={handleTrainigClick}>훈련하기</div>
-            <div>잠자기</div>
+            <Button onClick={handleFeedClick}>먹이주기</Button>
+            <Button onClick={handleStrokeClick}>쓰다듬기</Button>
+            <Button onClick={handleTrainigClick}>훈련하기</Button>
+            <Button onClick={handleSleepClick}>잠자기</Button>
             {/* clean 이 false 시 활성화 */}
-            <div>청소</div>
+            <Button>청소하기</Button>
         </div>
         <div style={{marginTop : "50px"}}>
             <div>이름 : {mong.name}</div>
