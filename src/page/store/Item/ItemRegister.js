@@ -36,34 +36,8 @@ function ItemRegister(props) {
     setItemCategory(selectedCategory);
   };
 
-  // function convertToStoreDto() {
-  //   let storeData = {};
-  //   if (itemCategory === food) {
-  //     storeData = {
-  //       itemCategory: food,
-  //       itemName: itemName,
-  //       itemFunction: itemFunction,
-  //       itemPrice: itemPrice,
-  //     };
-  //   } else if (itemCategory === liquidMedicine) {
-  //     storeData = {
-  //       itemCategory: liquidMedicine,
-  //       itemName: itemName,
-  //       itemFunction: itemFunction,
-  //       itemPrice: itemPrice,
-  //     };
-  //   } else if (itemCategory === map) {
-  //     storeData = {
-  //       itemCategory: map,
-  //       itemName: itemName,
-  //       itemFunction: itemFunction,
-  //       itemPrice: itemPrice,
-  //     };
-  //   }
-  //   return storeData;
-  // }
-
   const storeData = {
+    // imageFile
     itemCategory,
     itemName,
     itemFunction,
@@ -73,15 +47,8 @@ function ItemRegister(props) {
   function handleSubmit() {
     setIsSubmitting(true);
 
-    // const storeDtoData = convertToStoreDto();
-
     axios
-      .post(
-        "/api/store/item/register",
-        storeData,
-        // storeDtoData,
-        // imageFile
-      )
+      .post("/api/store/item/register", storeData)
       .then(() => {
         toast({
           description: "새 아이템이 저장되었습니다",
@@ -169,6 +136,7 @@ function ItemRegister(props) {
             <FormLabel>아이템 기능</FormLabel>
             <Input
               value={itemFunction}
+              type="text"
               placeholder="ex) 근력강화, 공격력증가, 방어력 증가, 포만감 상승 등"
               onChange={(e) => setItemFunction(e.target.value)}
             />
