@@ -23,9 +23,16 @@ export function Management() {
         axios.put("/api/manage/feed", {memberId : mong.memberId})
             .then(()=> {
                 console.log("먹이주기");
+                axios.post("/api/manage/feed/feedCool")
                 setReload(reload + 1);
             })
-            .catch(()=>console.log("포만감이 가득 찼습니다."))
+            .catch((error)=> {
+                if (error.response.status === 400) {
+                    console.log("포만감이 가득 찼습니다.")
+                } else if (error.response.status === 404) {
+                    console.log("쿨타임 중")
+                }
+            })
     }
 
     function handleStrokeClick() {
