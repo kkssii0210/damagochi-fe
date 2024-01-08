@@ -6,18 +6,63 @@ export function Management() {
 
     const [mong, setMong] = useState(null);
     const [reload, setReload] = useState(0);
+    const [condition, setCondition] = useState("");
 
     const toast = useToast();
 
+    const socket = new WebSocket('ws://172.30.1.35:3000/management');
+
+    socket.addEventListener('open', (event) => {
+        console.log('WebSocket 연결이 열렸습니다.');
+
+        // '/topic/management' 주제를 구독
+        socket.send(JSON.stringify({
+            type: 'subscribe',
+            destination: '/topic/management'
+        }));
+    });
+
+    socket.addEventListener('message', (event) => {
+        const receivedMessage = JSON.parse(event.data);
+        console.log('받은 메시지:', receivedMessage);
+
+        // TODO: 메시지를 받아서 원하는 동작 수행
+    });
+
+    socket.addEventListener('close', (event) => {
+        console.log('WebSocket 연결이 닫혔습니다.');
+    });
+
+    socket.addEventListener('error', (event) => {
+        console.error('WebSocket 에러:', event);
+    });
+
+
     useEffect(() => {
         axios.get("/api/manage/mong")
-            .then(({data}) => setMong(data))
+            .then(({data}) => {
+                setMong(data)
+                if (data.tired <= 50) {
+                    setCondition("졸림");
+                } else if (data.feed <= 50) {
+                    setCondition("배고픔")
+                } else if (data.tired >= 80 && data.feed >= 80) {
+                    setCondition("신남")
+                } else {
+                    setCondition("보통")
+                }
+            })
+
     }, [reload]);
+
+
 
 
     if (mong === null) {
         return <div>로딩중</div>
     }
+
+
 
     function handleFeedClick() {
         axios.put("/api/manage/feed", {memberId : mong.memberId})
@@ -91,7 +136,7 @@ export function Management() {
             <div>레벨 : {mong.level}</div>
             <div>경험치 : {mong.exp}</div>
             {/* 아픔 디버프가 있다면 상태에 같이 표시 */}
-            <div>상태 : {mong.status}</div>
+            <div>상태 : {condition}</div>
             <div>포만감 : {mong.feed}</div>
             <div>피로도 : {mong.tired}</div>
             <div>근력 : {mong.strength}</div>
