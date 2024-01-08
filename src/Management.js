@@ -1,10 +1,13 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {useToast} from "@chakra-ui/react";
 
 export function Management() {
 
     const [mong, setMong] = useState(null);
     const [reload, setReload] = useState(0);
+
+    const toast = useToast();
 
     useEffect(() => {
         axios.get("/api/manage/mong")
@@ -14,14 +17,6 @@ export function Management() {
 
     if (mong === null) {
         return <div>로딩중</div>
-    }
-
-    if (mong.exp === 100 && mong.level <= 9) {
-        axios.put("/api/manage/mong/levelUp", {memberId : mong.memberId})
-            .then(()=> {
-                console.log("레벨업 !!!");
-                setReload(reload + 1);
-            })
     }
 
     function handleFeedClick() {
