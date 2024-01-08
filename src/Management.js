@@ -46,8 +46,8 @@ export function Management() {
 
     function handleTrainigClick() {
         axios.put("/api/manage/training", {memberId : mong.memberId})
-            .then(()=> {
-                console.log("훈련하기 경험치 + 10");
+            .then(({data})=> {
+                console.log(data);
                 axios.post("/api/manage/training/trainingCool");
                 setReload(reload + 1);
             })
