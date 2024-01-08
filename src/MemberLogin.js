@@ -25,6 +25,8 @@ export function MemberLogin() {
       .then((response) => {
         localStorage.setItem("accessToken", response.data.accessToken);
         localStorage.setItem("refreshToken", response.data.refreshToken);
+        console.log(response.data.accessToken);
+        console.log(response.data.refreshToken);
         toast({
           description: "로그인 되었습니다.",
           status: "success",
@@ -39,11 +41,11 @@ export function MemberLogin() {
       });
   }
 
-    function handleSignUp() {
-        navigate("/MemberSignUp");
-    }
+  function handleSignUp() {
+    navigate("/MemberSignUp");
+  }
 
-    return (
+  return (
     <Box p={10} borderRadius={10} mt={5} w="60%" ml="20%">
       <Heading textAlign="center" mb={10}>
         Login
@@ -69,9 +71,9 @@ export function MemberLogin() {
       <Button colorScheme="blue" onClick={handleLogin}>
         로그인
       </Button>
-        <Button colorScheme="blue" onClick={handleSignUp}>
-            회원가입
-        </Button>
+      <Button colorScheme="blue" onClick={handleSignUp}>
+        회원가입
+      </Button>
       <Spacer h={20} />
     </Box>
   );
