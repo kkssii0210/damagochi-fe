@@ -1,6 +1,8 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Button, useToast} from "@chakra-ui/react";
+import WebSocketComponent from "./WebSocketComponent";
+import {Stomp} from "@stomp/stompjs";
 
 export function Management() {
 
@@ -10,32 +12,14 @@ export function Management() {
 
     const toast = useToast();
 
-    const socket = new WebSocket('ws://172.30.1.35:3000/management');
+    const [receivedMessage, setReceivedMessage] = useState('');
 
-    socket.addEventListener('open', (event) => {
-        console.log('WebSocket 연결이 열렸습니다.');
+    const handleWebSocketMessage = (message) => {
+        console.log(message);
+        setReceivedMessage(message);
 
-        // '/topic/management' 주제를 구독
-        socket.send(JSON.stringify({
-            type: 'subscribe',
-            destination: '/topic/management'
-        }));
-    });
-
-    socket.addEventListener('message', (event) => {
-        const receivedMessage = JSON.parse(event.data);
-        console.log('받은 메시지:', receivedMessage);
-
-        // TODO: 메시지를 받아서 원하는 동작 수행
-    });
-
-    socket.addEventListener('close', (event) => {
-        console.log('WebSocket 연결이 닫혔습니다.');
-    });
-
-    socket.addEventListener('error', (event) => {
-        console.error('WebSocket 에러:', event);
-    });
+        setReload(reload+1);
+    };
 
 
     useEffect(() => {
@@ -52,6 +36,7 @@ export function Management() {
                     setCondition("보통")
                 }
             })
+
 
     }, [reload]);
 
@@ -120,7 +105,12 @@ export function Management() {
             })
     }
 
+
     return <div>
+        <div>
+            <WebSocketComponent onMessageReceived={handleWebSocketMessage} />
+            <h1>Received Message: {receivedMessage}</h1>
+        </div>
         <div style={{display : "flex", justifyContent : "space-between", width : "500px"}}>
             {/* setTimeout을 이용해서 먹이를 준후 랜덤시간 똥싸기 clean false */}
             <Button onClick={handleFeedClick}>먹이주기</Button>
