@@ -1,6 +1,8 @@
-import { Box, Progress, Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { Box, Button, Flex, Progress, Text } from "@chakra-ui/react";
 import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import React from "react";
 import axios from "axios";
 
 export function NavBar(props) {
@@ -129,7 +131,21 @@ export function NavBar(props) {
           colorScheme={filledPercentage > 50 ? "green" : "red"}
         />
       </Box>
+        <Flex>
+            <Button variant="ghost" size="lg" onClick={() => navigate("/")}>
+                Home
+            </Button>
+            <Button
+                variant="ghost"
+                size="lg"
+                onClick={() => navigate("/store/item/list")}
+            >
+                상점가기
+            </Button>
+        </Flex>
     </Box>
   );
 }
+
+
 export default NavBar;
