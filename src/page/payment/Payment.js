@@ -8,7 +8,7 @@ const customerKey = nanoid();
 const selector = "#payment-widget";
 export function Payment() {
   const location = useLocation();
-  const { paymentUid, paymentName, customerName, amount, customerEmail } =
+  const { orderId, orderName, customerName, amount, customerEmail } =
     location.state;
   console.log(location.state);
 
@@ -95,8 +95,8 @@ export function Payment() {
               const paymentWidget = paymentWidgetRef.current;
               try {
                 await paymentWidget?.requestPayment({
-                  orderId: paymentUid,
-                  orderName: paymentName,
+                  orderId: orderId,
+                  orderName: orderName,
                   customerName: customerName,
                   customerEmail: customerEmail,
                   successUrl: `${window.location.origin}/success`,

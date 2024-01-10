@@ -57,6 +57,7 @@ function OrderWrite(props) {
           ...response.data,
         },
       });
+      console.log(response.data);
     } catch (error) {
       console.error("결제 요청 실패:", error);
     }
