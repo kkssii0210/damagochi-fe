@@ -106,4 +106,4 @@ export function MongStatusInfo(props) {
     </Center>
   );
 }
-export default MongStstusInfo;
+export default MongStatusInfo;
