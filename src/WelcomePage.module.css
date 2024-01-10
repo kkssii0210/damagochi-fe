@@ -1,0 +1,47 @@
+/* WelcomePage.module.css */
+.container {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background: #1E1E1E; /* 배경색 */
+    background: linear-gradient(
+            180deg,
+            rgba(0,0,128,1) 0%,
+            rgba(102, 104, 129, 1) 33%,
+            rgba(71, 88, 165, 1) 66%,
+            rgba(145, 118, 198, 1) 100%
+    ); /* 그라데이션 배경 */
+    font-family: 'Arial', sans-serif;
+}
+
+.logo {
+    font-size: 4em; /* 로고 크기 */
+    color: #FFFFFF; /* 로고 색상 */
+    text-transform: uppercase; /* 대문자 변환 */
+    margin-top: 2em;
+}
+
+.character {
+    width: 120px; /* 캐릭터 크기 */
+    margin-top: -3em; /* 로고와 겹치도록 위치 조정 */
+}
+
+.guideText {
+    color: #FFFFFF;
+    margin-bottom: 3em;
+}
+
+.button {
+    background-color: #6C63FF; /* 버튼 색상 */
+    border: none;
+    border-radius: 20px; /* 버튼 둥글게 */
+    color: white;
+    padding: 10px 20px;
+    font-size: 1em;
+    margin-bottom: 2em;
+    cursor: pointer;
+}
