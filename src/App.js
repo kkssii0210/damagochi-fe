@@ -19,10 +19,19 @@ import ItemRegister from "./page/store/Item/ItemRegister";
 import ItemList from "./page/store/Item/ItemList";
 import ItemView from "./page/store/Item/ItemView";
 import ItemEdit from "./page/store/Item/ItemEdit";
+import Main from "./page/component/Main";
+import MongStstusInfo from "./page/mongInfo/MongStatusInfo";
+import MongBattleInfo from "./page/mongInfo/MongBattleInfo";
+import MongBasicInfo from "./page/mongInfo/MongBasicInfo";
+import MongTutorial from "./page/mongInfo/MongTutorial";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<HomeLayout />}>
+      <Route index element={<Main />} />
+      <Route path="store/item/view" element={<ItemView />} />
+      <Route path="store/item/register" element={<ItemRegister />} />
+      <Route path="store/item/list" element={<ItemList />} />
       <Route index element={<WelcomePage />} />
       <Route path="login" element={<MemberLogin />} />
       <Route path="MemberSignUp" element={<MemberSignUp />} />
@@ -30,6 +39,10 @@ const routes = createBrowserRouter(
       <Route path="payment" element={<Payment />} />
       <Route path="success" element={<Success />} />
       <Route path="fail" element={<Fail />} />
+      <Route path="MongStatusInfo" element={<MongStstusInfo/>} />
+      <Route path="MongBattleInfo" element={<MongBattleInfo/>} />
+      <Route path="MongBasicInfo" element={<MongBasicInfo/>} />
+      <Route path="MongTutorial" element={<MongTutorial/>} />
       <Route path={"management"} element={<Management />} />
       <Route path="store/item/register" element={<ItemRegister />} />
       <Route path="store/item/list" element={<ItemList />} />
@@ -38,7 +51,6 @@ const routes = createBrowserRouter(
     </Route>,
   ),
 );
-
 function App() {
   return (
     <div>
