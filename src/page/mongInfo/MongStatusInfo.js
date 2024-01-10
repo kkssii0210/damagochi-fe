@@ -16,7 +16,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
-export function MongStstusInfo(props) {
+export function MongStatusInfo(props) {
   const [tired, setTired] = useState();
   const [strength, setStrength] = useState(0);
   const [Mong_id, setMong_id] = useState([]);
