@@ -117,19 +117,19 @@ export function NavBar(props) {
         alignItems: "center", // Align items vertically in the center
       }}
     >
-      <Box
-        padding="4"
-        borderWidth="1px"
-        borderRadius="lg"
-        onClick={handleClick}
-        cursor="pointer"
-      >
-        <Text mb="8px">내 포인트: {totalPoints}</Text>
-        <Progress
-          value={filledPercentage}
-          colorScheme={filledPercentage > 50 ? "green" : "red"}
-        />
-      </Box>
+      {/*<Box*/}
+      {/*  padding="4"*/}
+      {/*  borderWidth="1px"*/}
+      {/*  borderRadius="lg"*/}
+      {/*  onClick={handleClick}*/}
+      {/*  cursor="pointer"*/}
+      {/*>*/}
+      {/*  /!*<Text mb="8px">내 포인트: {totalPoints}</Text>*!/*/}
+      {/*  <Progress*/}
+      {/*    value={filledPercentage}*/}
+      {/*    colorScheme={filledPercentage > 50 ? "green" : "red"}*/}
+      {/*  />*/}
+      {/*</Box>*/}
         <Flex>
             <Button variant="ghost" size="lg" onClick={() => navigate("/")}>
                 Home

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-function MongTutorial(props) {
+export function MongTutorial(props) {
   return (
     <div></div>
   );

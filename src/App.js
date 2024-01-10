@@ -17,6 +17,10 @@ import ItemRegister from "./page/store/Item/ItemRegister";
 import ItemList from "./page/store/Item/ItemList";
 import ItemView from "./page/store/Item/ItemView";
 import Main from "./page/component/Main";
+import MongStstusInfo from "./page/mongInfo/MongStstusInfo";
+import MongBattleInfo from "./page/mongInfo/MongBattleInfo";
+import MongBasicInfo from "./page/mongInfo/MongBasicInfo";
+import MongTutorial from "./page/mongInfo/MongTutorial";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -32,17 +36,13 @@ const routes = createBrowserRouter(
       <Route path="payment" element={<Payment />} />
       <Route path="success" element={<Success />} />
       <Route path="fail" element={<Fail />} />
+      <Route path="MongStatusInfo" element={<MongStstusInfo/>} />
+      <Route path="MongBattleInfo" element={<MongBattleInfo/>} />
+      <Route path="MongBasicInfo" element={<MongBasicInfo/>} />
+      <Route path="MongTutorial" element={<MongTutorial/>} />
     </Route>,
   ),
 );
-
-function creatBrowserRouter(ceateRoutesFromElements) {
-    return undefined;
-}
-
-function ceateRoutesFromElements(route) {
-    return undefined;
-}
 
 function App() {
     return <RouterProvider router={routes}/>;
