@@ -17,6 +17,8 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.4",
+    "framer-motion": "^10.17.4",
+    "axios": "^1.6.4",
     "framer-motion": "^10.17.9",
     "lodash": "^4.17.21",
     "@tosspayments/payment-widget-sdk": "^0.10.0",
@@ -38,7 +40,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "set PORT=5000 && react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -62,9 +64,13 @@
     ]
   },
   "proxy": "http://localhost:8080",
+  "devDependencies": {
+    "prettier": "^3.1.1"
+  },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
   "keywords": [],
   "author": "",
   "license": "ISC"
+
 }

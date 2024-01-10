@@ -1,4 +1,4 @@
-import { Box, Progress, Text } from "@chakra-ui/react";
+import { Box, Button, Progress, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import axios from "axios";
@@ -100,7 +100,7 @@ export function NavBar(props) {
 
   const handleClick = () => {
     // 클릭 이벤트 핸들러
-    navigate("/store");
+    navigate("/store/item/list");
   };
   return (
     <Box
@@ -116,6 +116,9 @@ export function NavBar(props) {
         alignItems: "center", // Align items vertically in the center
       }}
     >
+      <Button variant="ghost" size="lg" onClick={() => navigate("/")}>
+        Home
+      </Button>
       <Box
         padding="4"
         borderWidth="1px"
