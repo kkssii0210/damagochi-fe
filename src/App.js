@@ -14,6 +14,7 @@ import OrderWrite from "./page/payment/OrderWrite";
 import Payment from "./page/payment/Payment";
 import { Success } from "./page/payment/Success";
 import { Fail } from "./page/payment/Fail";
+import {Management} from "./Management";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -25,6 +26,7 @@ const routes = createBrowserRouter(
       <Route path="payment" element={<Payment />} />
       <Route path="success" element={<Success />} />
       <Route path="fail" element={<Fail />} />
+      <Route path={"management"} element={<Management />} />
     </Route>,
   ),
 );
