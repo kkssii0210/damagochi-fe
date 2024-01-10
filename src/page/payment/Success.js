@@ -11,7 +11,7 @@ export function Success() {
 
   useEffect(() => {
     const requestData = {
-      paymentUid: searchParams.get("orderId"),
+      orderId: searchParams.get("orderId"),
       amount: searchParams.get("amount"),
       paymentKey: searchParams.get("paymentKey"),
     };

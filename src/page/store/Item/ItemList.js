@@ -17,6 +17,7 @@ import axios from "axios";
 
 function ItemList(props) {
   const [itemList, setItemList] = useState(null);
+  const [itemCount, setItemCount] = useState();
   const navigate = useNavigate();
   const [fileUrl, setFileUrl] = useState();
   const [currentPage, setCurrentPage] = useState(0);
@@ -28,6 +29,7 @@ function ItemList(props) {
       .get(`/api/store/item/list`)
       .then((response) => {
         setItemList(response.data.content);
+        setItemCount(response.data.totalElements);
       })
       .catch((error) => console.log(error))
       .finally();
@@ -35,10 +37,13 @@ function ItemList(props) {
 
   return (
     <>
-      <Button mr={5} onClick={() => navigate("/store/item/register")}>
+      <Button mr={5} mt={5} onClick={() => navigate("/store/item/register")}>
         아이템 등록
       </Button>
 
+      <Text mb={3} mt={3}>
+        총 '{itemCount}개'의 아이템이 있습니다.
+      </Text>
       <SimpleGrid
         border="1px solid black"
         placeItems="center"
@@ -50,23 +55,24 @@ function ItemList(props) {
         ) : (
           itemList.map((item) => (
             <Card
-              border="1px solid black"
+              border="0px solid black"
               // key={item.fileUrl}
               width="100%"
-              onClick={() => navigate(`/store/item/view`)}
+              onClick={() => navigate(`/store/item/view/id/${item.storeId}`)}
             >
               <CardHeader>
+                <Heading size="sm">{item.storeId}.</Heading>
                 <Heading size="m">{item.itemName}</Heading>
               </CardHeader>
               <CardBody>
                 <Box>{item.itemCategory}</Box>
-                <Box>{item.itemFunction}</Box>
-                <Box>{item.itemPrice}</Box>
+                <Box mb={2}>{item.itemFunction}</Box>
+                <Box>{item.itemPrice} 포인트</Box>
               </CardBody>
               <CardFooter>
-                <ButtonGroup spacing="2">
-                  <Button w="60%" variant="solid" colorScheme="pink">
-                    장바구니
+                <ButtonGroup>
+                  <Button w="70%" variant="solid" colorScheme="purple">
+                    담기
                   </Button>
                 </ButtonGroup>
               </CardFooter>

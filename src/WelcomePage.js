@@ -1,5 +1,5 @@
 import styles from "./WelcomePage.module.css";
-import TamagotchiImage from "./다마고찌1.gif";
+import TamagotchiImage from "./다마고찌.gif";
 import { useNavigate } from "react-router";
 export function WelcomePage() {
   const navigate = useNavigate();

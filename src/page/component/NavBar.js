@@ -1,7 +1,6 @@
-import { Box, Button, Flex, Progress, Text } from "@chakra-ui/react";
-import { useLocation, useNavigate } from "react-router";
+import { Box, Button, Progress, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import React from "react";
+import { useLocation, useNavigate } from "react-router";
 import axios from "axios";
 
 export function NavBar(props) {
@@ -101,7 +100,7 @@ export function NavBar(props) {
 
   const handleClick = () => {
     // 클릭 이벤트 핸들러
-    navigate("/store");
+    navigate("/store/item/list");
   };
   return (
     <Box
@@ -117,34 +116,23 @@ export function NavBar(props) {
         alignItems: "center", // Align items vertically in the center
       }}
     >
-      {/*<Box*/}
-      {/*  padding="4"*/}
-      {/*  borderWidth="1px"*/}
-      {/*  borderRadius="lg"*/}
-      {/*  onClick={handleClick}*/}
-      {/*  cursor="pointer"*/}
-      {/*>*/}
-      {/*  /!*<Text mb="8px">내 포인트: {totalPoints}</Text>*!/*/}
-      {/*  <Progress*/}
-      {/*    value={filledPercentage}*/}
-      {/*    colorScheme={filledPercentage > 50 ? "green" : "red"}*/}
-      {/*  />*/}
-      {/*</Box>*/}
-        <Flex>
-            <Button variant="ghost" size="lg" onClick={() => navigate("/")}>
-                Home
-            </Button>
-            <Button
-                variant="ghost"
-                size="lg"
-                onClick={() => navigate("/store/item/list")}
-            >
-                상점가기
-            </Button>
-        </Flex>
+      <Button variant="ghost" size="lg" onClick={() => navigate("/")}>
+        Home
+      </Button>
+      <Box
+        padding="4"
+        borderWidth="1px"
+        borderRadius="lg"
+        onClick={handleClick}
+        cursor="pointer"
+      >
+        <Text mb="8px">내 포인트: {totalPoints}</Text>
+        <Progress
+          value={filledPercentage}
+          colorScheme={filledPercentage > 50 ? "green" : "red"}
+        />
+      </Box>
     </Box>
   );
 }
-
-
 export default NavBar;
