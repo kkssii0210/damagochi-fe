@@ -15,50 +15,34 @@ import React from "react";
 export function MongTutorial(props) {
   return (
     <>
-      <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>
+      <SimpleGrid border="1px solid" spacing={4} columns={4}>
         <Card border="1px solid">
           <CardHeader>
-            <Heading size='md'> Customer dashboard</Heading>
           </CardHeader>
           <CardBody>
-            <Text>View a summary of all your customers over the last month.</Text>
+            <Text>전희연</Text>
           </CardBody>
-          <CardFooter>
-            <Button>View here</Button>
-          </CardFooter>
         </Card>
-        <Card>
+        <Card border="1px solid">
           <CardHeader>
-            <Heading size='md'> Customer dashboard</Heading>
           </CardHeader>
           <CardBody>
-            <Text>View a summary of all your customers over the last month.</Text>
+            <Text>전희연</Text>
           </CardBody>
-          <CardFooter>
-            <Button>View here</Button>
-          </CardFooter>
         </Card>
-        <Card>
+        <Card border="1px solid">
           <CardHeader>
-            <Heading size='md'> Customer dashboard</Heading>
           </CardHeader>
           <CardBody>
-            <Text>View a summary of all your customers over the last month.</Text>
+            <Text>전희연</Text>
           </CardBody>
-          <CardFooter>
-            <Button>View here</Button>
-          </CardFooter>
         </Card>
-        <Card>
+        <Card border="1px solid">
           <CardHeader>
-            <Heading size='md'> Customer dashboard</Heading>
           </CardHeader>
           <CardBody>
-            <Text>View a summary of all your customers over the last month.</Text>
+            <Text>전희연</Text>
           </CardBody>
-          <CardFooter>
-            <Button>View here</Button>
-          </CardFooter>
         </Card>
       </SimpleGrid>
     </>
