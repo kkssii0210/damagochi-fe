@@ -97,6 +97,7 @@ export function MemberSignUp() {
             <Flex>
               <Input
                 maxWidth={200}
+                placeholder="email을 입력하세요"
                 value={playerId}
                 onChange={(e) => {
                   setPlayerId(e.target.value);
