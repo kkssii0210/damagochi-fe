@@ -51,13 +51,13 @@ export function MongStatusInfo(props) {
   //   axios.get("").then((response) => setStrength(response.data));
   // }
 
+  const scale = 0.1;
   return (
     <div>
       <Center>
         <Box>
-          <Box display="flex" justifyContent="space-around" border="1px solid red" borderRadius="full">
-            <SimpleGrid columns={2} spacingX="50px" spacingY="50px">
-              <Box onChange={(e) => setTired(e.target.value)}>
+          <Box position="relative" mt={100} borderRadius="full">
+              <Box position="absolute" sx={{transform: `translate(${0 * scale}px, ${-1000 * scale}px)`}} onChange={(e) => setTired(e.target.value)}>
                 <CircularProgress value={tired} color="red" max={100}>
                   <CircularProgressLabel>
                     <FontAwesomeIcon
@@ -70,7 +70,7 @@ export function MongStatusInfo(props) {
                 {tired}
                 {/*<Button onClick={handleClick}>업데이트</Button>*/}
               </Box>
-              <Box onChange={(e) => setStrength(e.target.value)}>
+              <Box position="absolute" sx={{transform: `translate(${-951 * scale}px, ${-309 * scale}px)`}} onChange={(e) => setStrength(e.target.value)}>
                 <CircularProgress value={strength} color="#00b303">
                   <CircularProgressLabel>
                     <FontAwesomeIcon
@@ -80,9 +80,8 @@ export function MongStatusInfo(props) {
                     />
                   </CircularProgressLabel>
                 </CircularProgress>
-                strength
               </Box>
-              <Box  onChange={(e) => setSleep(e.target.value)}>
+              <Box position="absolute" sx={{transform: `translate(${-588 * scale}px, ${809 * scale}px)`}} onChange={(e) => setSleep(e.target.value)}>
                 <CircularProgress value={sleep} color="#FFB300">
                   <CircularProgressLabel>
                     <FontAwesomeIcon
@@ -92,9 +91,8 @@ export function MongStatusInfo(props) {
                     />
                   </CircularProgressLabel>
                 </CircularProgress>
-                sleep
               </Box>
-              <Box onChange={(e) => setStrength(e.target.value)}>
+              <Box position="absolute" sx={{transform: `translate(${588 * scale}px, ${809 * scale}px)`}} onChange={(e) => setStrength(e.target.value)}>
                 <CircularProgress value={80} color="#FFB300">
                   <CircularProgressLabel>
                     <FontAwesomeIcon
@@ -104,9 +102,8 @@ export function MongStatusInfo(props) {
                     />
                   </CircularProgressLabel>
                 </CircularProgress>
-                jeje'slike
               </Box>
-              <Box onChange={(e) => setFeed(e.target.value)}>
+              <Box position="absolute" sx={{transform: `translate(${951 * scale}px, ${-309 * scale}px)`}} onChange={(e) => setFeed(e.target.value)}>
                 <CircularProgress value={feed} color="#9933ff">
                   <CircularProgressLabel>
                     <FontAwesomeIcon
@@ -116,9 +113,7 @@ export function MongStatusInfo(props) {
                     />
                   </CircularProgressLabel>
                 </CircularProgress>
-                feed
               </Box>
-            </SimpleGrid>
           </Box>
         </Box>
       </Center>
