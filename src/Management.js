@@ -3,29 +3,30 @@ import axios from "axios";
 import {Button, useToast} from "@chakra-ui/react";
 import WebSocketComponent from "./WebSocketComponent";
 import {Stomp} from "@stomp/stompjs";
+import {useNavigate} from "react-router-dom";
 
-export function Management() {
+export function Management({reload2}) {
 
     const [mong, setMong] = useState(null);
     const [reload, setReload] = useState(0);
     const [condition, setCondition] = useState("");
 
     const toast = useToast();
-
-    const [receivedMessage, setReceivedMessage] = useState('');
-
-    const handleWebSocketMessage = (message) => {
-        console.log(message);
-        setReceivedMessage(message);
-
-        setReload(reload+1);
-    };
+    const navigate = useNavigate();
 
 
     useEffect(() => {
-        axios.get("/api/manage/mong")
+        axios.get("/api/manage/mong", {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            }
+        })
             .then(({data}) => {
-                setMong(data)
+                if (data === null) {
+                    navigate("/login");
+                }
+
+                setMong(data);
                 if (data.tired <= 50) {
                     setCondition("졸림");
                 } else if (data.feed <= 50) {
@@ -38,7 +39,7 @@ export function Management() {
             })
 
 
-    }, [reload]);
+    }, [reload,reload2]);
 
 
 
@@ -107,10 +108,6 @@ export function Management() {
 
 
     return <div>
-        <div>
-            <WebSocketComponent onMessageReceived={handleWebSocketMessage} />
-            <h1>Received Message: {receivedMessage}</h1>
-        </div>
         <div style={{display : "flex", justifyContent : "space-between", width : "500px"}}>
             {/* setTimeout을 이용해서 먹이를 준후 랜덤시간 똥싸기 clean false */}
             <Button onClick={handleFeedClick}>먹이주기</Button>
