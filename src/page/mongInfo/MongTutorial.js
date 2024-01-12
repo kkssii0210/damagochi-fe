@@ -19,19 +19,26 @@ import Step3Damagochi from "../../사춘기.gif";
 import Step4Damagochi from "../../다큼.gif";
 import styles from "../../WelcomePage.module.css";
 
+const iconStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  color: "#3178f2"
+};
 export function MongTutorial(props) {
   return (
     <>
-      <SimpleGrid border="1px solid" spacing={1} columns={7} margin="flex" >
+      <SimpleGrid spacing={1} columns={7} margin="flex" >
         <Card>
           <CardHeader>
             <img src={Step1Damagochi} alt="step1" className={styles.step} />
           </CardHeader>
           <CardBody>
-            <Text>전희연</Text>
+
           </CardBody>
+          <CardFooter><Text>전희연</Text></CardFooter>
         </Card>
-        <FontAwesomeIcon size="5x" icon={faAngleUp} rotation={90} style={{color: "#3178f2",}} />
+        <Box style={iconStyle}><FontAwesomeIcon size="5x" icon={faAngleUp} rotation={90} style={{color: "#3178f2",}} /></Box>
         <Card >
           <CardHeader>
             <img src={Step2Damagochi} alt="step1" className={styles.step} />
@@ -40,7 +47,7 @@ export function MongTutorial(props) {
             <Text>전희연</Text>
           </CardBody>
         </Card>
-        <FontAwesomeIcon size="5x" icon={faAngleUp} rotation={90} style={{color: "#3178f2",}} />
+        <Box style={iconStyle}><FontAwesomeIcon size="5x" icon={faAngleUp} rotation={90} style={{color: "#3178f2",}} /></Box>
         <Card>
           <CardHeader>
             <img src={Step3Damagochi} alt="step1" className={styles.step} />
@@ -49,7 +56,7 @@ export function MongTutorial(props) {
             <Text>전희연</Text>
           </CardBody>
         </Card>
-        <FontAwesomeIcon size="5x" icon={faAngleUp} rotation={90} style={{color: "#3178f2",}} />
+        <Box style={iconStyle}><FontAwesomeIcon size="5x" icon={faAngleUp} rotation={90} style={{color: "#3178f2",}} /></Box>
         <Card >
           <CardHeader>
             <img src={Step4Damagochi} alt="step1" className={styles.step} />
@@ -59,7 +66,7 @@ export function MongTutorial(props) {
           </CardBody>
         </Card>
       </SimpleGrid>
-      <FontAwesomeIcon size="5x" icon={faAngleUp} rotation={90} style={{color: "#3178f2",}} />
+      {/*<FontAwesomeIcon size="5x" icon={faAngleUp} rotation={90} style={{color: "#3178f2",}} />*/}
     </>
   )
 }
