@@ -28,7 +28,8 @@ import WebSocketComponent from "./WebSocketComponent";
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<HomeLayout />}>
-      <Route index element={<Main />} />
+      {/*<Route index element={<Main />} />*/}
+      <Route path="/loginprocess/KAKAO" element={<KakaoRedirectPage />} />
       <Route path="store/item/view" element={<ItemView />} />
       <Route path="store/item/register" element={<ItemRegister />} />
       <Route path="store/item/list" element={<ItemList />} />
