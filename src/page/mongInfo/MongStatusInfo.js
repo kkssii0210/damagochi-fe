@@ -14,6 +14,7 @@ import {
   faPersonRunning,
   faUtensils,
 } from "@fortawesome/free-solid-svg-icons";
+import styles from "../../WelcomePage.module.css"
 import axios from "axios";
 
 
@@ -53,11 +54,11 @@ export function MongStatusInfo(props) {
 
   const scale = 0.1;
   return (
-    <div>
+    <div className={styles.container}>
       <Center>
-        <Box>
-          <Box position="relative" mt={100} borderRadius="full">
-              <Box position="absolute" sx={{transform: `translate(${0 * scale}px, ${-1000 * scale}px)`}} onChange={(e) => setTired(e.target.value)}>
+        <Box border="1px solid white" w="500px" h="500px"  >
+          <Box border="1px solid" w="500px" h="500px" position="relative" mt={300} borderRadius="full">
+              <Box border="1px solid" position="absolute" sx={{transform: `translate(${0 * scale}px, ${-1000 * scale}px)`}} onChange={(e) => setTired(e.target.value)}>
                 <CircularProgress value={tired} color="red" max={100}>
                   <CircularProgressLabel>
                     <FontAwesomeIcon
@@ -112,7 +113,7 @@ export function MongStatusInfo(props) {
                       style={{ color: "#9933ff" }}
                     />
                   </CircularProgressLabel>
-                </CircularProgress>
+                </CircularProgress> gmldus
               </Box>
           </Box>
         </Box>

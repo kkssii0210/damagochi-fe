@@ -33,22 +33,21 @@ const iconStyle = {
 const cardStyleInHeader={
   textAlign:"center"};
 export function MongTutorial(props) {
-  const [evolutionLevel, setEvolutionLevel] = useState(0);
-  useEffect(() => {
-    axios.get("/MongTutorial/evolutionLevel")
-      .then((response) => {
-        setEvolutionLevel(response.data.evolutionLevel);
-      })
-      .catch((error) => {
-        console.log("error....try again", error);
-      });
-  }, []);
-  
+  // const [evolutionLevel, setEvolutionLevel] = useState(0);
+  {/*useEffect(() => {
+   axios.get("/MongTutorial/evolutionLevel")
+   .then((response) => {
+   setEvolutionLevel(response.data.evolutionLevel);
+   })
+   .catch((error) => {
+   console.log("error....try again", error);
+   });
+   }, []);
+   */}
   return (
     <div className={styles.container}>
-      <div>
       <SimpleGrid spacing={1} columns={7} style={sg2Style} >
-        <Card>
+        <Card style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}>
           <CardHeader>
             <Text style={cardStyleInHeader}>Step 1</Text>
           </CardHeader>
@@ -58,7 +57,7 @@ export function MongTutorial(props) {
           <CardFooter><Text>"알 정보를 입력해주세요 "</Text></CardFooter>
         </Card>
         <Box style={iconStyle}><FontAwesomeIcon size="5x" icon={faAngleUp} rotation={90} /></Box>
-        <Card>
+        <Card style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}>
           <CardHeader>
             <Text style={cardStyleInHeader}>Step 2</Text>
           </CardHeader>
@@ -68,7 +67,7 @@ export function MongTutorial(props) {
           <CardFooter><Text>알 정보를 입력해주세요</Text></CardFooter>
         </Card>
         <Box style={iconStyle}><FontAwesomeIcon size="5x" icon={faAngleUp} rotation={90} /></Box>
-        <Card>
+        <Card style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}>
           <CardHeader>
           <Text style={cardStyleInHeader}>Step 3</Text>
           </CardHeader>
@@ -79,7 +78,7 @@ export function MongTutorial(props) {
             <Text>알 정보를 입력해주세요</Text></CardFooter>
         </Card>
         <Box style={iconStyle}><FontAwesomeIcon size="5x" icon={faAngleUp} rotation={90}/></Box>
-        <Card>
+        <Card style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}>
           <CardHeader>
             <Text style={cardStyleInHeader}>Step 4</Text>
           </CardHeader>
@@ -89,14 +88,6 @@ export function MongTutorial(props) {
           <CardFooter><Text>알 정보를 입력해주세요</Text></CardFooter>
         </Card>
       </SimpleGrid>
-      </div>
-      <Flex >
-        <Card>1</Card>
-        <Card>1</Card>
-        <Card>1</Card>
-        <Card>1</Card>
-      </Flex>
-      {/*display="flex" marginBottom="3rem" columns={4}*/}
     </div>
   )
 }
