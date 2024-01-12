@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Cart } from "./Cart";
 
 function ItemList(props) {
   const [itemList, setItemList] = useState(null);
@@ -45,39 +46,44 @@ function ItemList(props) {
         총 '{itemCount}개'의 아이템이 있습니다.
       </Text>
       <SimpleGrid
-        border="1px solid black"
+        border="0px solid black"
         placeItems="center"
         templateColumns="repeat(4, 1fr)" // 각 열에 4개의 카드를 나열
         gap={3}
+        mr="15%"
       >
         {itemList === null ? (
           <Spinner />
         ) : (
-          itemList.map((item) => (
-            <Card
-              border="0px solid black"
-              // key={item.fileUrl}
-              width="100%"
-              onClick={() => navigate(`/store/item/view/id/${item.storeId}`)}
-            >
-              <CardHeader>
-                <Heading size="sm">{item.storeId}.</Heading>
-                <Heading size="m">{item.itemName}</Heading>
-              </CardHeader>
-              <CardBody>
-                <Box>{item.itemCategory}</Box>
-                <Box mb={2}>{item.itemFunction}</Box>
-                <Box>{item.itemPrice} 포인트</Box>
-              </CardBody>
-              <CardFooter>
-                <ButtonGroup>
-                  <Button w="70%" variant="solid" colorScheme="purple">
-                    담기
-                  </Button>
-                </ButtonGroup>
-              </CardFooter>
-            </Card>
-          ))
+          <>
+            <Cart />
+
+            {itemList.map((item) => (
+              <Card
+                border="0px solid black"
+                // key={item.fileUrl}
+                width="100%"
+                onClick={() => navigate(`/store/item/view/id/${item.storeId}`)}
+              >
+                <CardHeader>
+                  <Heading size="sm">{item.storeId}.</Heading>
+                  <Heading size="m">{item.itemName}</Heading>
+                </CardHeader>
+                <CardBody>
+                  <Box>{item.itemCategory}</Box>
+                  <Box mb={2}>{item.itemFunction}</Box>
+                  <Box>{item.itemPrice} 포인트</Box>
+                </CardBody>
+                <CardFooter>
+                  <ButtonGroup>
+                    <Button w="70%" variant="solid" colorScheme="purple">
+                      담기
+                    </Button>
+                  </ButtonGroup>
+                </CardFooter>
+              </Card>
+            ))}
+          </>
         )}
       </SimpleGrid>
     </>

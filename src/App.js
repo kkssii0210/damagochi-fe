@@ -19,6 +19,7 @@ import ItemRegister from "./page/store/Item/ItemRegister";
 import ItemList from "./page/store/Item/ItemList";
 import ItemView from "./page/store/Item/ItemView";
 import ItemEdit from "./page/store/Item/ItemEdit";
+import { ItemPurchase } from "./page/store/Item/ItemPurchase";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +36,7 @@ const routes = createBrowserRouter(
       <Route path="store/item/list" element={<ItemList />} />
       <Route path="store/item/view/id/:storeId" element={<ItemView />} />
       <Route path="store/item/edit/id/:storeId" element={<ItemEdit />} />
+      <Route path="purchase/:storeId" element={<ItemPurchase />} />
     </Route>,
   ),
 );

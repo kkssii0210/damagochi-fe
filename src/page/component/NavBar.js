@@ -54,7 +54,7 @@ export function NavBar(props) {
           console.log("끝----");
         });
     }
-  }, [totalPoints]);
+  });
   useEffect(() => {
     if (localStorage.getItem("accessToken") !== null) {
       console.log(localStorage.getItem("accessToken"));
@@ -127,10 +127,6 @@ export function NavBar(props) {
         cursor="pointer"
       >
         <Text mb="8px">내 포인트: {totalPoints}</Text>
-        <Progress
-          value={filledPercentage}
-          colorScheme={filledPercentage > 50 ? "green" : "red"}
-        />
       </Box>
     </Box>
   );
