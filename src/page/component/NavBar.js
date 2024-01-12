@@ -60,37 +60,46 @@ export function NavBar(props) {
     }
   });
   useEffect(() => {
-    if (localStorage.getItem("accessToken") !== null) {
-      console.log(localStorage.getItem("accessToken"));
+    if (localStorage.getItem("accessToken")) {
+      console.log("----" + localStorage.getItem("accessToken"));
       axios
-        .get("/auth/accessToken", {
+        .get("/auth/isSocialMember", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
         })
         .then((response) => {
-          console.log("accessToken then 수행");
-          setLoggedIn(true);
-          console.log(response.data);
-
-          if (response.data.role === "ROLE_ADMIN") {
-            console.log("setIsAdmin(true) 동작");
-            setIsAdmin(true);
-          }
-
-          return axios.get("/auth/isSocialMember", {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("refreshToken")}`,
-            },
-          });
-        })
-        .then((response) => {
-          console.log("isSocialMember = " + response.data);
           if (response.data) {
+            console.log("isSocialMember = " + response.data);
+            // 소셜 회원일 경우의 로직
             setIsSocial(true);
+            // 소셜 토큰 검증 로직
+            setLoggedIn(true);
+          } else {
+            // 소셜 회원이 아닐 경우의 로직
+            setIsSocial(false);
+            // 기존 토큰 검증 로직
+            axios
+              .get("/auth/accessToken", {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem(
+                    "accessToken",
+                  )}`,
+                },
+              })
+              .then((response) => {
+                console.log("accessToken then 수행");
+                setLoggedIn(true);
+                console.log(response.data);
+                if (response.data.role === "ROLE_ADMIN") {
+                  console.log("setIsAdmin(true) 동작");
+                  setIsAdmin(true);
+                }
+              });
           }
         })
         .catch((error) => {
+          // 오류 처리 로직
           sendRefreshToken();
           localStorage.removeItem("accessToken");
         })
@@ -100,7 +109,49 @@ export function NavBar(props) {
         });
     }
     console.log("loggedIn: ", loggedIn);
-  }, [location]);
+  }, [location]); // 의존성 배열
+  // useEffect(() => {
+  //   if (localStorage.getItem("accessToken") !== null) {
+  //     console.log(localStorage.getItem("accessToken"));
+  //     axios
+  //       .get("/auth/accessToken", {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+  //         },
+  //       })
+  //       .then((response) => {
+  //         console.log("accessToken then 수행");
+  //         setLoggedIn(true);
+  //         console.log(response.data);
+  //
+  //         if (response.data.role === "ROLE_ADMIN") {
+  //           console.log("setIsAdmin(true) 동작");
+  //           setIsAdmin(true);
+  //         }
+  //
+  //         return axios.get("/auth/isSocialMember", {
+  //           headers: {
+  //             Authorization: `Bearer ${localStorage.getItem("refreshToken")}`,
+  //           },
+  //         });
+  //       })
+  //       .then((response) => {
+  //         console.log("isSocialMember = " + response.data);
+  //         if (response.data) {
+  //           setIsSocial(true);
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         sendRefreshToken();
+  //         localStorage.removeItem("accessToken");
+  //       })
+  //       .finally(() => {
+  //         console.log("finally loggedIn: ", loggedIn);
+  //         console.log("isSocial: " + isSocial);
+  //       });
+  //   }
+  //   console.log("loggedIn: ", loggedIn);
+  // }, [location]);
 
   const handleClick = () => {
     // 클릭 이벤트 핸들러

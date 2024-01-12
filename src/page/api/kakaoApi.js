@@ -23,10 +23,10 @@ export const getAccessToken = async (authCode) => {
     client_secret: "KcgTo4D16GgOo254GVHCba0Uhh9hv530",
   };
   const res = await axios.post(access_token_url, params, header);
-  const accessToken = res.data.access_token;
-  return accessToken;
+  return res;
 };
-export const getMemberWithAccessToken = async (accessToken) => {
-  const res = await axios.get(`/api/member/kakao?accessToken=${accessToken}`);
+export const getMemberWithAccessToken = async (response) => {
+  console.log("response :" + response);
+  const res = await axios.post(`/api/member/kakao`, response);
   return res.data;
 };
