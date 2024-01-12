@@ -16,11 +16,9 @@ const WebSocketComponent = () => {
             return new SockJS('http://localhost:8080/ws')
         });
 
-        const checkLogin = async () => {
-            const accessToken = localStorage.getItem("accessToken");
-            if (!accessToken) {
-                navigate("/login");
-            }
+
+        if (!localStorage.getItem("accessToken")) {
+            navigate("/login");
         }
 
         const onConnect = () => {
