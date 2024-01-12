@@ -1,11 +1,11 @@
 import {
-    Box,
-    Button,
-    Container,
-    Heading,
-    HStack,
-    Text,
-    VStack,
+  Box,
+  Button,
+  Container,
+  Heading,
+  HStack,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -19,11 +19,11 @@ import { useParams } from "react-router-dom";
 // response에 로그인한 멤버의 아이디, 자기포인트, itemPrice를 가져와야함
 // 멤버 아이디 가져오기
 export function ItemPurchase() {
-    const [purchaseInfo, setPurchaseInfo] = useState(null);
-    const { storeId } = useParams();
-    const [myPoint, setMyPoint] = useState(null);
-    const [itemPrice, setItemPrice] = useState(null);
-    const [remainingPoint, setRemainingPoint] = useState(null);
+  const [purchaseInfo, setPurchaseInfo] = useState(null);
+  const { storeId } = useParams();
+  const [myPoint, setMyPoint] = useState(null);
+  const [itemPrice, setItemPrice] = useState(null);
+  const [remainingPoint, setRemainingPoint] = useState(null);
 
     useEffect(() => {
         if (localStorage.getItem("accessToken") !== null) {

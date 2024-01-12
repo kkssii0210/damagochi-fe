@@ -38,29 +38,29 @@ function ItemEdit(props) {
         return <Spinner />;
     }
 
-    function handleSubmit(e) {
-        axios
-            .put("/api/store/item/edit/id/" + storeId, {
-                itemName: item.itemName,
-                itemCategory: item.itemCategory,
-                itemFunction: item.itemFunction,
-                itemPrice: item.itemPrice,
-            })
-            .then((response) => {
-                toast({
-                    description: storeId + "번 아이템이 수정되었습니다.",
-                    status: "success",
-                });
-                navigate("/store/item/list");
-            })
-            .catch((error) =>
-                toast({
-                    description: "수정 중 문제가 발생하였습니다.",
-                    status: "error",
-                }),
-            )
-            .finally();
-    }
+  function handleSubmit(e) {
+    axios
+      .put("/api/store/item/edit/id/" + storeId, {
+        itemName: item.itemName,
+        itemCategory: item.itemCategory,
+        itemFunction: item.itemFunction,
+        itemPrice: item.itemPrice,
+      })
+      .then((response) => {
+        toast({
+          description: storeId + "번 아이템이 수정되었습니다.",
+          status: "success",
+        });
+        navigate("/store/item/list");
+      })
+      .catch((error) =>
+        toast({
+          description: "수정 중 문제가 발생하였습니다.",
+          status: "error",
+        }),
+      )
+      .finally();
+  }
 
     return (
         <Container>

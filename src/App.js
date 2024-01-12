@@ -22,23 +22,23 @@ import ItemEdit from "./page/store/Item/ItemEdit";
 import { ItemPurchase } from "./page/store/Item/ItemPurchase";
 
 const routes = createBrowserRouter(
-    createRoutesFromElements(
-        <Route path="/" element={<HomeLayout />}>
-            <Route index element={<WelcomePage />} />
-            <Route path="login" element={<MemberLogin />} />
-            <Route path="MemberSignUp" element={<MemberSignUp />} />
-            <Route path="Order" element={<OrderWrite />} />
-            <Route path="payment" element={<Payment />} />
-            <Route path="success" element={<Success />} />
-            <Route path="fail" element={<Fail />} />
-            <Route path={"management"} element={<Management />} />
-            <Route path="store/item/register" element={<ItemRegister />} />
-            <Route path="store/item/list" element={<ItemList />} />
-            <Route path="store/item/view/id/:storeId" element={<ItemView />} />
-            <Route path="store/item/edit/id/:storeId" element={<ItemEdit />} />
-            <Route path="purchase/:storeId" element={<ItemPurchase />} />
-        </Route>,
-    ),
+  createRoutesFromElements(
+    <Route path="/" element={<HomeLayout />}>
+      <Route index element={<WelcomePage />} />
+      <Route path="login" element={<MemberLogin />} />
+      <Route path="MemberSignUp" element={<MemberSignUp />} />
+      <Route path="Order" element={<OrderWrite />} />
+      <Route path="payment" element={<Payment />} />
+      <Route path="success" element={<Success />} />
+      <Route path="fail" element={<Fail />} />
+      <Route path={"management"} element={<Management />} />
+      <Route path="store/item/register" element={<ItemRegister />} />
+      <Route path="store/item/list" element={<ItemList />} />
+      <Route path="store/item/view/id/:storeId" element={<ItemView />} />
+      <Route path="store/item/edit/id/:storeId" element={<ItemEdit />} />
+      <Route path="purchase/:storeId" element={<ItemPurchase />} />
+    </Route>,
+  ),
 );
 
 function App() {
