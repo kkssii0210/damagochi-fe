@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@chakra-ui/react";
 import axios from "axios";
 
-export function CountdownButton ({ buttonNumber, onButtonClick, memberId, label, setReload, reload }) {
+export function CountdownButton2 ({ buttonNumber, onButtonClick, memberId, label, setReload, reload }) {
     const [countdown, setCountdown] = useState(0);
 
     useEffect(() => {
@@ -92,5 +92,3 @@ export function CountdownButton ({ buttonNumber, onButtonClick, memberId, label,
         </Button>
     );
 }
-
-export default CountdownButton;

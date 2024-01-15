@@ -2,13 +2,10 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Button, useToast} from "@chakra-ui/react";
 import {useNavigate} from "react-router-dom";
-import * as PropTypes from "prop-types";
 import {CountdownButton} from "./CountdownButton";
+import {CountdownButton2} from "./CountdownButton2";
+import {CountdownButton3} from "./CountdownButton3";
 
-CountdownButton.propTypes = {
-    onClick: PropTypes.func,
-    label: PropTypes.string
-};
 
 export function Management({reload2}) {
 
@@ -145,7 +142,6 @@ export function Management({reload2}) {
         // 버튼 클릭 시 실행될 로직
         console.log(`Button ${buttonNumber} clicked`);
         // 각 버튼의 상태 업데이트
-        setReload(reload + 1);
     };
 
 
@@ -156,17 +152,26 @@ export function Management({reload2}) {
                 buttonNumber={1}
                 onButtonClick={handleButtonClick}
                 reload={reload}
+                setReload={setReload}
                 memberId={mong.memberId}
+                label={"먹이주기"}
             />
-            <CountdownButton
+            <CountdownButton2
                 buttonNumber={2}
                 onButtonClick={handleButtonClick}
                 reload={reload}
+                setReload={setReload}
+                memberId={mong.memberId}
+                label={"쓰다듬기"}
+
             />
-            <CountdownButton
+            <CountdownButton3
                 buttonNumber={3}
                 onButtonClick={handleButtonClick}
                 reload={reload}
+                setReload={setReload}
+                memberId={mong.memberId}
+                label={"훈련하기"}
             />
             <Button onClick={handleSleepClick}>잠자기</Button>
             {/* clean 이 false 시 활성화 */}
