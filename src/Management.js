@@ -54,7 +54,7 @@ export function Management({reload2}) {
         axios.put("/api/manage/feed", {memberId : mong.memberId})
             .then(()=> {
                 console.log("먹이주기");
-                axios.post("/api/manage/feed/feedCool")
+                axios.post("/api/manage/feed/feedCool", {memberId : mong.memberId})
                 setReload(reload + 1);
             })
             .catch((error)=> {
@@ -70,7 +70,7 @@ export function Management({reload2}) {
         axios.put("/api/manage/stroke", {memberId : mong.memberId})
             .then(()=> {
                 console.log("쓰다듬기")
-                axios.post("/api/manage/stroke/strokeCool");
+                axios.post("/api/manage/stroke/strokeCool", {memberId : mong.memberId});
                 setReload(reload + 1);
             })
             .catch((error)=> {
@@ -86,7 +86,7 @@ export function Management({reload2}) {
         axios.put("/api/manage/training", {memberId : mong.memberId})
             .then(({data})=> {
                 console.log(data);
-                axios.post("/api/manage/training/trainingCool");
+                axios.post("/api/manage/training/trainingCool", {memberId : mong.memberId});
                 setReload(reload + 1);
             })
             .catch((error)=> {

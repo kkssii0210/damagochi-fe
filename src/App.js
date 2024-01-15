@@ -24,6 +24,7 @@ import MongBattleInfo from "./page/mongInfo/MongBattleInfo";
 import MongBasicInfo from "./page/mongInfo/MongBasicInfo";
 import MongTutorial from "./page/mongInfo/MongTutorial";
 import WebSocketComponent from "./WebSocketComponent";
+import KakaoRedirectPage from "./KakaoRedirectPage";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
