@@ -91,17 +91,6 @@ export function MongTutorial(props) {
               </ModalFooter>
             </ModalContent>
           </Modal>
-        {/*  <Popover>*/}
-        {/*  <PopoverTrigger>*/}
-        {/*    <Button>Trigger</Button>*/}
-        {/*  </PopoverTrigger>*/}
-        {/*  <PopoverContent>*/}
-        {/*    <PopoverArrow />*/}
-        {/*    <PopoverCloseButton />*/}
-        {/*    <PopoverHeader>Confirmation!</PopoverHeader>*/}
-        {/*    <PopoverBody>Are you sure you want to have that milkshake?</PopoverBody>*/}
-        {/*  </PopoverContent>*/}
-        {/*</Popover>*/}
         </Card>
         <Box style={iconStyle}><FontAwesomeIcon size="5x" icon={faAngleUp} rotation={90} /></Box>
         <Card style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}>
