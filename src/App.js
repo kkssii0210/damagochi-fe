@@ -20,6 +20,10 @@ import ItemList from "./page/store/Item/ItemList";
 import ItemView from "./page/store/Item/ItemView";
 import ItemEdit from "./page/store/Item/ItemEdit";
 import { ItemPurchase } from "./page/store/Item/ItemPurchase";
+import MongStstusInfo from "./page/mongInfo/MongStatusInfo";
+import MongBattleInfo from "./page/mongInfo/MongBattleInfo";
+import MongBasicInfo from "./page/mongInfo/MongBasicInfo";
+import MongTutorial from "./page/mongInfo/MongTutorial";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -31,6 +35,10 @@ const routes = createBrowserRouter(
       <Route path="payment" element={<Payment />} />
       <Route path="success" element={<Success />} />
       <Route path="fail" element={<Fail />} />
+      <Route path="MongStatusInfo" element={<MongStstusInfo/>} />
+      <Route path="MongBattleInfo" element={<MongBattleInfo/>} />
+      <Route path="MongBasicInfo" element={<MongBasicInfo/>} />
+      <Route path="MongTutorial" element={<MongTutorial/>} />
       <Route path={"management"} element={<Management />} />
       <Route path="store/item/register" element={<ItemRegister />} />
       <Route path="store/item/list" element={<ItemList />} />
@@ -40,13 +48,12 @@ const routes = createBrowserRouter(
     </Route>,
   ),
 );
-
 function App() {
-    return (
-        <div>
-            <RouterProvider router={routes} />
-        </div>
-    );
+  return (
+    <div>
+      <RouterProvider router={routes} />
+    </div>
+  );
 }
 
 export default App;

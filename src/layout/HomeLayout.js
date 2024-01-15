@@ -19,7 +19,6 @@ export function HomeLayout() {
         color="white"
       >
         <Box mt={15}>
-          <Text mt={10} mb={2}></Text>
         </Box>
       </Box>
     </>
