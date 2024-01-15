@@ -3,8 +3,6 @@ import axios from "axios";
 import {Button, useToast} from "@chakra-ui/react";
 import {useNavigate} from "react-router-dom";
 import {CountdownButton} from "./CountdownButton";
-import {CountdownButton2} from "./CountdownButton2";
-import {CountdownButton3} from "./CountdownButton3";
 
 
 export function Management({reload2}) {
@@ -144,6 +142,14 @@ export function Management({reload2}) {
         // 각 버튼의 상태 업데이트
     };
 
+    function handleCleanClick() {
+        axios.put("/api/manage/clean", {memberId : mong.memberId})
+            .then(()=> {
+                console.log("청소하기");
+                setReload(reload+1);
+            }).catch(()=> {console.log("맵이 깨끗합니다.")})
+    }
+
 
     return <div>
         <div style={{display : "flex", justifyContent : "space-between", width : "500px"}}>
@@ -156,7 +162,7 @@ export function Management({reload2}) {
                 memberId={mong.memberId}
                 label={"먹이주기"}
             />
-            <CountdownButton2
+            <CountdownButton
                 buttonNumber={2}
                 onButtonClick={handleButtonClick}
                 reload={reload}
@@ -165,7 +171,7 @@ export function Management({reload2}) {
                 label={"쓰다듬기"}
 
             />
-            <CountdownButton3
+            <CountdownButton
                 buttonNumber={3}
                 onButtonClick={handleButtonClick}
                 reload={reload}
@@ -175,7 +181,8 @@ export function Management({reload2}) {
             />
             <Button onClick={handleSleepClick}>잠자기</Button>
             {/* clean 이 false 시 활성화 */}
-            <Button>청소하기</Button>
+            <Button onClick={handleCleanClick
+            }>청소하기</Button>
         </div>
         {mong.clean && <div>맵상태 : clean</div>}
         {mong.clean || <div>맵상태 : dirty</div>}

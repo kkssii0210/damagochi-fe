@@ -52,6 +52,7 @@ export function CountdownButton ({ buttonNumber, onButtonClick, memberId, label,
                 .then(()=> {
                     console.log("쓰다듬기")
                     axios.post("/api/manage/stroke/strokeCool", {memberId});
+                    setReload(reload+1);
 
                     onButtonClick(buttonNumber);
                     setCountdown(10);
@@ -70,6 +71,7 @@ export function CountdownButton ({ buttonNumber, onButtonClick, memberId, label,
                 .then(({data})=> {
                     console.log(data);
                     axios.post("/api/manage/training/trainingCool", {memberId});
+                    setReload(reload+1);
 
                     onButtonClick(buttonNumber);
                     setCountdown(10);
@@ -88,7 +90,7 @@ export function CountdownButton ({ buttonNumber, onButtonClick, memberId, label,
 
     return (
         <Button onClick={handleButtonClick}>
-            {`${label} (${countdown !== null ? countdown : 0}s)`}
+            {label} {countdown > 0 && `${countdown}s`}
         </Button>
     );
 }
