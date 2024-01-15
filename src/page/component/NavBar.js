@@ -1,10 +1,11 @@
-import { Box, Button, Progress, Text, useToast } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router";
+import {Box, Button, Progress, Text, useToast} from "@chakra-ui/react";
+import {useEffect, useState} from "react";
+import {useLocation, useNavigate} from "react-router";
 import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
 import KakaoLoginComponent from "../../KakaoLoginComponent";
+import {getKakaoLogoutLink} from "../api/kakaoApi";
 
 export function NavBar(props) {
   const [currentPoints, setCurrentPoints] = useState(0);
@@ -110,48 +111,6 @@ export function NavBar(props) {
     }
     console.log("loggedIn: ", loggedIn);
   }, [location]); // 의존성 배열
-  // useEffect(() => {
-  //   if (localStorage.getItem("accessToken") !== null) {
-  //     console.log(localStorage.getItem("accessToken"));
-  //     axios
-  //       .get("/auth/accessToken", {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-  //         },
-  //       })
-  //       .then((response) => {
-  //         console.log("accessToken then 수행");
-  //         setLoggedIn(true);
-  //         console.log(response.data);
-  //
-  //         if (response.data.role === "ROLE_ADMIN") {
-  //           console.log("setIsAdmin(true) 동작");
-  //           setIsAdmin(true);
-  //         }
-  //
-  //         return axios.get("/auth/isSocialMember", {
-  //           headers: {
-  //             Authorization: `Bearer ${localStorage.getItem("refreshToken")}`,
-  //           },
-  //         });
-  //       })
-  //       .then((response) => {
-  //         console.log("isSocialMember = " + response.data);
-  //         if (response.data) {
-  //           setIsSocial(true);
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         sendRefreshToken();
-  //         localStorage.removeItem("accessToken");
-  //       })
-  //       .finally(() => {
-  //         console.log("finally loggedIn: ", loggedIn);
-  //         console.log("isSocial: " + isSocial);
-  //       });
-  //   }
-  //   console.log("loggedIn: ", loggedIn);
-  // }, [location]);
 
   const handleClick = () => {
     // 클릭 이벤트 핸들러
@@ -160,6 +119,23 @@ export function NavBar(props) {
 
   function handleLogout() {
     console.log("handleLogout");
+    // 소셜 로그인 사용자인 경우 카카오 로그아웃 API 호출
+    const handleSocialLogout = () => {
+      axios
+          .post("https://kapi.kakao.com/v1/user/logout", {}, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+          })
+          .then(() => {
+            console.log("카카오 로그아웃 성공");
+            window.location.href = getKakaoLogoutLink();
+          })
+          .catch((error) => {
+            console.error("카카오 로그아웃 실패", error);
+          });
+    };
+
     axios
       .get("/auth/logout", {
         headers: {
@@ -168,12 +144,13 @@ export function NavBar(props) {
       })
       .then(() => {
         console.log("!!!!!!!!!!!!!!!!!!!");
-        const accessToken = localStorage.getItem("accessToken");
-        const refreshToken = localStorage.getItem("refreshToken");
-        console.log(accessToken, refreshToken);
+        // 소셜 로그인 사용자인 경우 카카오 로그아웃 진행
+        if (isSocial) {
+          console.log("카카오에 신호보내서 토큰만료시키기.")
+          handleSocialLogout();
+        }
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-        console.log(accessToken, refreshToken);
         if (isAdmin) {
           setIsAdmin(false);
         }
@@ -270,6 +247,7 @@ export function NavBar(props) {
           >
             log out
           </Button>
+          //   <KakaoLogoutComponent/>
         )}
       </Box>
       <Box>

@@ -19,7 +19,6 @@ import ItemRegister from "./page/store/Item/ItemRegister";
 import ItemList from "./page/store/Item/ItemList";
 import ItemView from "./page/store/Item/ItemView";
 import ItemEdit from "./page/store/Item/ItemEdit";
-import Main from "./page/component/Main";
 import MongStstusInfo from "./page/mongInfo/MongStatusInfo";
 import MongBattleInfo from "./page/mongInfo/MongBattleInfo";
 import MongBasicInfo from "./page/mongInfo/MongBasicInfo";
