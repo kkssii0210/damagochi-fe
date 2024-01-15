@@ -1,8 +1,43 @@
-import { Box, Heading, Text } from "@chakra-ui/react";
-import React from "react";
+import {
+  Box,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Heading,
+  HStack,
+  Stack,
+  StackDivider,
+  Text
+} from "@chakra-ui/react";
+import React, {useEffect} from "react";
+import {faList} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import axios from "axios";
 
 export function Cart(props) {
+
+    useEffect(() => {
+        if (localStorage.getItem("accessToken") !== null) {
+            console.log(localStorage.getItem("accessToken"));
+            axios
+                .get("/api/cart/accessToken", {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                    },
+                })
+                .then((response) => {
+                    localStorage.setItem("accessToken", response.data);
+                    console.log(response.data);
+                })
+                .catch()
+                .finally();
+        }
+    }, []);
+
+
   return (
+      <>
     <Box
       border="2px solid black"
       width="13%"
@@ -16,5 +51,10 @@ export function Cart(props) {
     >
       장바구니
     </Box>
+
+
+      </>
+
   );
 }
+
