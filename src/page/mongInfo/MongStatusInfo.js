@@ -1,65 +1,60 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
-  Button,
   Center,
   CircularProgress,
   CircularProgressLabel,
-  SimpleGrid,
+  Table,
+  Thead,
+  Tr,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faAnglesLeft,
   faDumbbell,
   faMoon,
-  faPersonRunning,
+  faPersonRunning, faPoo,
   faUtensils,
 } from "@fortawesome/free-solid-svg-icons";
-import styles from "../../WelcomePage.module.css"
+import styles from "../../WelcomePage.module.css";
 import axios from "axios";
-
-
-export function MongStatusInfo(props) {
-  const [tired, setTired] = useState();
-  const [feed, setFeed] = useState();
-  const [sleep, setSleep] = useState();
-
-  const [strength, setStrength] = useState(0);
-  const [mong_id, setMong_id] = useState([]);
-
+export function MongStatusInfo() {
+  const [mong_id, setMong_id] = useState("");
+  //Mong 갹체의 초기 상태를 미리 설정
+  const [mong, setMong] = useState({
+    level: 1,
+    tired: 100,
+    strength: 50,
+    health: 100,
+    sleep: 100,
+    feed: 100,
+    clean: 100,
+  });
+//mong id 찾는 건 백으로 -- member id
+//
   useEffect(() => {
     axios
-      .get("/MongStatus/tired")
-      .then((response) => {
-        setTired(response.data.tired);
+      .get(`/api/monginfo`,{
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
       })
-      .catch((error) => {
-        console.error("피로 상태를 적용할 수 없습니다. 다시 시도하세요", error);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get("/MongStatus/Strength")
       .then((response) => {
-        setStrength(response.data.Strength);
+        setMong(response.data);
       })
-      .catch((error) => {
-        console.error("다시 시도하세요", error);
-      });
+      .catch((error)=> console.log(error))
   }, []);
-
-  // function handleClick(e) {
-  //   axios.get("").then((response) => setStrength(response.data));
-  // }
 
   const scale = 0.1;
   return (
     <div className={styles.container}>
+      {mong && (
       <Center>
-        <Box border="1px solid white" w="500px" h="500px"  >
-          <Box border="1px solid" w="500px" h="500px" position="relative" mt={300} borderRadius="full">
-              <Box border="1px solid" position="absolute" sx={{transform: `translate(${0 * scale}px, ${-1000 * scale}px)`}} onChange={(e) => setTired(e.target.value)}>
-                <CircularProgress value={tired} color="red" max={100}>
+        <Box display="flex" color="white">
+          {/*<FontAwesomeIcon icon={faAnglesLeft} size="lg" style={{color: "#ffffff",}} />*/}
+        <Box w="500px" h="500px" position="relative" mt={200} mr={100} >
+              <Box sixe="xl"  position="absolute" sx={{transform: `translate(${0 * scale}px, ${-1000 * scale}px)`}} >
+                <CircularProgress value={mong.tired} color="red" max={100}>
                   <CircularProgressLabel>
                     <FontAwesomeIcon
                       icon={faPersonRunning}
@@ -68,11 +63,43 @@ export function MongStatusInfo(props) {
                     />
                   </CircularProgressLabel>
                 </CircularProgress>
-                {tired}
                 {/*<Button onClick={handleClick}>업데이트</Button>*/}
               </Box>
-              <Box position="absolute" sx={{transform: `translate(${-951 * scale}px, ${-309 * scale}px)`}} onChange={(e) => setStrength(e.target.value)}>
-                <CircularProgress value={strength} color="#00b303">
+              <Box position="absolute" sx={{transform: `translate(${-951 * scale}px, ${-309 * scale}px)`}} >
+
+                <CircularProgress value={mong.feed} color="#9933ff">
+                  <CircularProgressLabel>
+                    <FontAwesomeIcon
+                      icon={faUtensils}
+                      size="2xl"
+                      style={{ color: "#9933ff" }}
+                    />
+                  </CircularProgressLabel>
+                </CircularProgress>
+                {/*{mong.feed}%*/}
+              </Box>
+              <Box position="absolute" sx={{transform: `translate(${-588 * scale}px, ${809 * scale}px)`}} >
+                <CircularProgress value={mong.sleep} color="#FFB300">
+                  <CircularProgressLabel>
+                    <FontAwesomeIcon
+                      icon={faMoon}
+                      size="2xl"
+                      style={{ color: "#FFB300" }}
+                    />
+                  </CircularProgressLabel>
+                </CircularProgress>
+                {/*{mong.sleep}%*/}
+              </Box>
+              <Box position="absolute" sx={{transform: `translate(${588 * scale}px, ${809 * scale}px)`}} >
+                <CircularProgress value={mong.clean} color="pink">
+                  <CircularProgressLabel>
+                    <FontAwesomeIcon icon={faPoo} size="2xl" style={{color: "pink",}} />
+                  </CircularProgressLabel>
+                </CircularProgress>
+                {/*{mong.clean}%*/}
+              </Box>
+              <Box position="absolute" sx={{transform: `translate(${951 * scale}px, ${-309 * scale}px)`}} >
+                <CircularProgress value={mong.strength} color="#00b303">
                   <CircularProgressLabel>
                     <FontAwesomeIcon
                       icon={faDumbbell}
@@ -81,43 +108,25 @@ export function MongStatusInfo(props) {
                     />
                   </CircularProgressLabel>
                 </CircularProgress>
+                {/*{mong.strength}%*/}
               </Box>
-              <Box position="absolute" sx={{transform: `translate(${-588 * scale}px, ${809 * scale}px)`}} onChange={(e) => setSleep(e.target.value)}>
-                <CircularProgress value={sleep} color="#FFB300">
-                  <CircularProgressLabel>
-                    <FontAwesomeIcon
-                      icon={faMoon}
-                      size="2xl"
-                      style={{ color: "#FFB300" }}
-                    />
-                  </CircularProgressLabel>
-                </CircularProgress>
-              </Box>
-              <Box position="absolute" sx={{transform: `translate(${588 * scale}px, ${809 * scale}px)`}} onChange={(e) => setStrength(e.target.value)}>
-                <CircularProgress value={80} color="#FFB300">
-                  <CircularProgressLabel>
-                    <FontAwesomeIcon
-                      icon={faMoon}
-                      size="2xl"
-                      style={{ color: "#FFB300" }}
-                    />
-                  </CircularProgressLabel>
-                </CircularProgress>
-              </Box>
-              <Box position="absolute" sx={{transform: `translate(${951 * scale}px, ${-309 * scale}px)`}} onChange={(e) => setFeed(e.target.value)}>
-                <CircularProgress value={feed} color="#9933ff">
-                  <CircularProgressLabel>
-                    <FontAwesomeIcon
-                      icon={faUtensils}
-                      size="2xl"
-                      style={{ color: "#9933ff" }}
-                    />
-                  </CircularProgressLabel>
-                </CircularProgress> gmldus
-              </Box>
-          </Box>
         </Box>
+        </Box>
+          <Box mb={300} fontSize="1.5rem">
+            <Box border="1px solid"color="white" >
+              <Box>
+                <p>Level:{mong.level}</p>
+                <p>tired:{mong.tired}</p>
+                <p>strength:{mong.strength}</p>
+                <p>health:{mong.health}</p>
+                <p>sleep: {mong.sleep}</p>
+                <p>feed:{mong.feed}</p>
+                <p>clean:{mong.clean}</p>
+              </Box>
+            </Box>
+          </Box>
       </Center>
+      )}
     </div>
   );
 }
