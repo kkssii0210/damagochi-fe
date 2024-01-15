@@ -31,7 +31,8 @@ export function MongStatusInfo() {
     clean: 100,
   });
 //mong id 찾는 건 백으로 -- member id
-//
+//240115 멤버 아이디로 몽의 정보 가져오기
+
   useEffect(() => {
     axios
       .get(`/api/monginfo`,{

@@ -8,7 +8,25 @@ import {
   CardFooter,
   CardHeader,
   Heading,
-  SimpleGrid, Box, Image, Grid, Flex
+  SimpleGrid,
+  Box,
+  Image,
+  Grid,
+  Flex,
+  Popover,
+  PopoverHeader,
+  PopoverContent,
+  PopoverTrigger,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverBody,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Modal, useDisclosure
 } from "@chakra-ui/react";
 import React, {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -33,17 +51,21 @@ const iconStyle = {
 const cardStyleInHeader={
   textAlign:"center"};
 export function MongTutorial(props) {
-  // const [evolutionLevel, setEvolutionLevel] = useState(0);
-  {/*useEffect(() => {
-   axios.get("/MongTutorial/evolutionLevel")
-   .then((response) => {
-   setEvolutionLevel(response.data.evolutionLevel);
-   })
-   .catch((error) => {
-   console.log("error....try again", error);
-   });
-   }, []);
-   */}
+  const [popoverOpen, setPopoverOpen] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [stepInfo, setStepInfo] = useState({
+    step: 1,
+    info: "알 정보를 입력해주세요"
+  });
+  const handlePopoverOpen = (step) => {
+    setPopoverOpen(true);
+    setStepInfo({step, info: `Step ${step} 정보입니다.`});
+  };
+
+  const handlePopoverClose = () => {
+      setPopoverOpen(false);
+  };
   return (
     <div className={styles.container}>
       <SimpleGrid spacing={1} columns={7} style={sg2Style} >
@@ -55,6 +77,31 @@ export function MongTutorial(props) {
           <img src={Step1Damagochi} alt="step1" className={styles.step} />
           </CardBody>
           <CardFooter><Text>"알 정보를 입력해주세요 "</Text></CardFooter>
+          <Button onClick={onOpen}>About Baby Mong</Button>
+          <Modal onClose={onClose} isOpen={isOpen} isCentered>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Modal Title</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                WKS
+              </ModalBody>
+              <ModalFooter>
+                <Button onClick={onClose}>Close</Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        {/*  <Popover>*/}
+        {/*  <PopoverTrigger>*/}
+        {/*    <Button>Trigger</Button>*/}
+        {/*  </PopoverTrigger>*/}
+        {/*  <PopoverContent>*/}
+        {/*    <PopoverArrow />*/}
+        {/*    <PopoverCloseButton />*/}
+        {/*    <PopoverHeader>Confirmation!</PopoverHeader>*/}
+        {/*    <PopoverBody>Are you sure you want to have that milkshake?</PopoverBody>*/}
+        {/*  </PopoverContent>*/}
+        {/*</Popover>*/}
         </Card>
         <Box style={iconStyle}><FontAwesomeIcon size="5x" icon={faAngleUp} rotation={90} /></Box>
         <Card style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}>
@@ -65,6 +112,20 @@ export function MongTutorial(props) {
             <img src={Step2Damagochi} alt="step1" className={styles.step} />
           </CardBody>
           <CardFooter><Text>알 정보를 입력해주세요</Text></CardFooter>
+          <Button onClick={onOpen}>About Baby Mong</Button>
+          <Modal onClose={onClose} isOpen={isOpen} isCentered>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Modal Title</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                WKS
+              </ModalBody>
+              <ModalFooter>
+                <Button onClick={onClose}>Close</Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
         </Card>
         <Box style={iconStyle}><FontAwesomeIcon size="5x" icon={faAngleUp} rotation={90} /></Box>
         <Card style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}>
@@ -76,6 +137,20 @@ export function MongTutorial(props) {
           </CardBody>
           <CardFooter>
             <Text>알 정보를 입력해주세요</Text></CardFooter>
+          <Button onClick={onOpen}>About Baby Mong</Button>
+          <Modal onClose={onClose} isOpen={isOpen} isCentered>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Modal Title</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                WKS
+              </ModalBody>
+              <ModalFooter>
+                <Button onClick={onClose}>Close</Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
         </Card>
         <Box style={iconStyle}><FontAwesomeIcon size="5x" icon={faAngleUp} rotation={90}/></Box>
         <Card style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}>
@@ -86,6 +161,20 @@ export function MongTutorial(props) {
             <img src={Step4Damagochi} alt="step1" className={styles.step} />
           </CardBody>
           <CardFooter><Text>알 정보를 입력해주세요</Text></CardFooter>
+          <Button onClick={onOpen}>About Baby Mong</Button>
+          <Modal onClose={onClose} isOpen={isOpen} isCentered>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Modal Title</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                WKS
+              </ModalBody>
+              <ModalFooter>
+                <Button onClick={onClose}>Close</Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
         </Card>
       </SimpleGrid>
     </div>
