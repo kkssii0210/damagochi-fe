@@ -75,6 +75,10 @@ function ItemView(props) {
             .finally(() => onClose());
     }
 
+    function handleAddCart() {
+
+    }
+
     return (
         <>
             <Cart />
@@ -116,7 +120,7 @@ function ItemView(props) {
                     </CardBody>
                     <CardFooter>
                         <ButtonGroup>
-                            <Button w="70%" variant="solid" colorScheme="purple">
+                            <Button w="70%" variant="solid" colorScheme="purple" onClick={handleAddCart}>
                                 담기
                             </Button>
                             <Button

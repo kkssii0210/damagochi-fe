@@ -58,15 +58,16 @@ function ItemList(props) {
                     <>
                         <Cart />
 
-                        {itemList.map((item) => (
+                        {itemList.map((item, index) => (
                             <Card
+                                key={index}
                                 border="0px solid black"
                                 // key={item.fileUrl}
                                 width="100%"
                                 onClick={() => navigate(`/store/item/view/id/${item.storeId}`)}
                             >
                                 <CardHeader>
-                                    <Heading size="sm">{item.storeId}.</Heading>
+                                    <Heading size="sm">{index + 1}.</Heading>
                                     <Heading size="m">{item.itemName}</Heading>
                                 </CardHeader>
                                 <CardBody>

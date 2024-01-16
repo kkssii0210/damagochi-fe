@@ -13,6 +13,7 @@ import {
 import React, {useEffect} from "react";
 import {faList} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+
 import axios from "axios";
 
 export function Cart(props) {
