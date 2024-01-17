@@ -22,42 +22,42 @@ export function NavBar(props) {
     console.log("리프레시 토큰: ", refreshToken);
 
     axios
-      .get("/auth/reissue", {
-        headers: { Authorization: `Bearer ${refreshToken}` },
-      })
-      .then((response) => {
-        console.log("sendRefreshToken()의 then 실행");
+        .get("/auth/reissue", {
+          headers: { Authorization: `Bearer ${refreshToken}` },
+        })
+        .then((response) => {
+          console.log("sendRefreshToken()의 then 실행");
 
-        localStorage.setItem("accessToken", response.data.accessToken);
-        localStorage.setItem("refreshToken", response.data.refreshToken);
+          localStorage.setItem("accessToken", response.data.accessToken);
+          localStorage.setItem("refreshToken", response.data.refreshToken);
 
-        console.log("토큰들 업데이트 리프레시 토큰: ");
-        console.log(response.data.refreshToken);
-        setLoggedIn(true);
-      })
-      .catch((error) => {
-        console.log("sendRefreshToken()의 catch 실행");
-        localStorage.removeItem("refreshToken");
+          console.log("토큰들 업데이트 리프레시 토큰: ");
+          console.log(response.data.refreshToken);
+          setLoggedIn(true);
+        })
+        .catch((error) => {
+          console.log("sendRefreshToken()의 catch 실행");
+          localStorage.removeItem("refreshToken");
 
-        setLoggedIn(false);
-      });
+          setLoggedIn(false);
+        });
   }
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken !== null) {
       axios
-        .get("/member/info", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        })
-        .then((response) => {
-          console.log(response.data);
-          setTotalPoints(response.data.point);
-        })
-        .finally(() => {
-          console.log("끝----");
-        });
+          .get("/member/info", {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+          })
+          .then((response) => {
+            console.log(response.data);
+            setTotalPoints(response.data.point);
+          })
+          .finally(() => {
+            console.log("끝----");
+          });
     }
   });
   useEffect(() => {

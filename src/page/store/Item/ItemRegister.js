@@ -16,14 +16,16 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import response from "sockjs-client/lib/event/trans-message";
 function ItemRegister(props) {
+
   const [imageFile, setImageFile] = useState();
+  const [storeId, setStoreId] = useState();
+  const [itemCategory, setItemCategory] = useState();
   const [itemName, setItemName] = useState();
   const [itemFunction, setItemFunction] = useState();
   const [itemPrice, setItemPrice] = useState();
 
-  const [itemCategory, setItemCategory] = useState();
   const [food, setFood] = useState();
   const [liquidMedicine, setLiquidMedicine] = useState();
   const [map, setMap] = useState();
@@ -38,17 +40,24 @@ function ItemRegister(props) {
 
   const storeData = {
     // imageFile
+    storeId,
     itemCategory,
     itemName,
     itemFunction,
     itemPrice,
   };
 
+
   function handleSubmit() {
     setIsSubmitting(true);
 
     axios
-      .post("/api/store/item/register", storeData)
+      .post("/api/store/item/register")
+        .then((response) => {
+          const index = response.data.map( (item, index) => (
+              {...item, storeId: index + 1}));
+          return axios.post("api/store/item/register", index )
+        })
       .then(() => {
         toast({
           description: "새 아이템이 저장되었습니다",
@@ -57,7 +66,8 @@ function ItemRegister(props) {
         navigate("/store/item/list");
       })
       .catch((error) => {
-        console.log(error.response.status);
+        console.log(error.message);
+
         if (error.response.status === 400) {
           toast({
             description: "작성한 내용을 확인 해주세요",
@@ -94,27 +104,28 @@ function ItemRegister(props) {
             ></Input>
           </FormControl>
 
+
           <FormControl mb={5}>
             <FormLabel>아이템 분류</FormLabel>
             <ButtonGroup>
               <HStack mr={3}>
                 <Button
                   isActive={itemCategory === "food"}
-                  value={food}
+                  // value={food}
                   onClick={() => handleCategoryChange("food")}
                 >
                   음식
                 </Button>
                 <Button
                   isActive={itemCategory === "liquidMedicine"}
-                  value={liquidMedicine}
+                  // value={liquidMedicine}
                   onClick={() => handleCategoryChange("liquidMedicine")}
                 >
                   물약
                 </Button>
                 <Button
                   isActive={itemCategory === "map"}
-                  value={map}
+                  // value={map}
                   onClick={() => handleCategoryChange("map")}
                 >
                   맵
