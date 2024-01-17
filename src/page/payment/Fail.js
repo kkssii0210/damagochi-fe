@@ -11,7 +11,7 @@ export function Fail() {
           <img
             width="30px"
             src="https://static.toss.im/3d-emojis/u1F6A8-apng.png"
-          />
+           />
           결제 실패
         </h2>
         <p>{`code = ${searchParams.get("code")}`}</p>

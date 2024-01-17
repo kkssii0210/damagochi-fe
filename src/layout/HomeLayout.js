@@ -1,4 +1,4 @@
-import { Box, Spacer, Text } from "@chakra-ui/react";
+import { Box, Spacer } from "@chakra-ui/react";
 import NavBar from "../page/component/NavBar";
 import { Outlet } from "react-router";
 
