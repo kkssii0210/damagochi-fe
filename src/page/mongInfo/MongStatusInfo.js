@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
-  Box,
+  Box, Button,
   Center,
   CircularProgress,
   CircularProgressLabel,
@@ -18,7 +18,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "../../WelcomePage.module.css";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 export function MongStatusInfo() {
+  const navigate=useNavigate();
   const [mong_id, setMong_id] = useState("");
   //Mong 갹체의 초기 상태를 미리 설정
   const [mong, setMong] = useState({
@@ -35,7 +37,7 @@ export function MongStatusInfo() {
 
   useEffect(() => {
     axios
-      .get(`/api/monginfo`,{
+      .get(`/api/monginfo/id`,{
         headers:{
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -126,6 +128,7 @@ export function MongStatusInfo() {
               </Box>
             </Box>
           </Box>
+        <Button onClick={()=> navigate("/MongBattleInfo")}></Button>
       </Center>
       )}
     </div>
