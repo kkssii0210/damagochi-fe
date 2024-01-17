@@ -51,82 +51,7 @@ export function Management({reload2}) {
 
 
 
-    function handleFeedClick() {
-        axios.put("/api/manage/feed", {memberId : mong.memberId})
-            .then(()=> {
-                console.log("먹이주기");
-                axios.post("/api/manage/feed/feedCool", {memberId : mong.memberId})
-                    // .then(()=> console.log("쿨타임끝"))
-                setReload(reload+1);
-            })
-            .catch((error)=> {
-                if (error.response.status === 400) {
-                    console.log("포만감이 가득 찼습니다.")
-                } else if (error.response.status === 404) {
-                    console.log("쿨타임 중")
-                }
-            })
 
-
-    }
-
-    function handleStrokeClick() {
-        axios.put("/api/manage/stroke", {memberId : mong.memberId})
-            .then(()=> {
-                console.log("쓰다듬기")
-                axios.post("/api/manage/stroke/strokeCool", {memberId : mong.memberId});
-                setReload(reload + 1);
-                setCountdown(10);
-
-                const countdownInterval = setInterval(() => {
-                    setCountdown((prevCountdown) => {
-                        if (prevCountdown <= 1) {
-                            clearInterval(countdownInterval);
-                            return null;
-                        }
-                        return prevCountdown - 1;
-                    });
-                }, 1000);
-            })
-            .catch((error)=> {
-                if (error.response.status === 400) {
-                    console.log("피로도가 가득 찼습니다.")
-                } else if (error.response.status === 404) {
-                    console.log("쿨타임 중")
-                }
-            })
-
-
-    }
-
-    function handleTrainigClick() {
-        axios.put("/api/manage/training", {memberId : mong.memberId})
-            .then(({data})=> {
-                console.log(data);
-                axios.post("/api/manage/training/trainingCool", {memberId : mong.memberId});
-                setReload(reload + 1);
-                setCountdown(10);
-
-                const countdownInterval = setInterval(() => {
-                    setCountdown((prevCountdown) => {
-                        if (prevCountdown <= 1) {
-                            clearInterval(countdownInterval);
-                            return null;
-                        }
-                        return prevCountdown - 1;
-                    });
-                }, 1000);
-            })
-            .catch((error)=> {
-                if (error.response.status === 400) {
-                    console.log("피로도가 없습니다.")
-                } else if (error.response.status === 404) {
-                    console.log("쿨타임 중")
-                }
-            })
-
-
-    }
 
     function handleSleepClick() {
         axios.put("/api/manage/sleep", {memberId : mong.memberId})
@@ -148,6 +73,15 @@ export function Management({reload2}) {
                 console.log("청소하기");
                 setReload(reload+1);
             }).catch(()=> {console.log("맵이 깨끗합니다.")})
+    }
+
+    function handleEvolClick() {
+        axios.put("/api/manage/mong/evo", {memberId : mong.memberId})
+            .then(()=> {
+                console.log("진화성공!!");
+                setReload(reload+1);
+            })
+            .catch(()=> console.log("진화실패"))
     }
 
 
@@ -180,9 +114,12 @@ export function Management({reload2}) {
                 label={"훈련하기"}
             />
             <Button onClick={handleSleepClick}>잠자기</Button>
-            {/* clean 이 false 시 활성화 */}
-            <Button onClick={handleCleanClick
-            }>청소하기</Button>
+            {!mong.clean &&
+                <Button onClick={handleCleanClick}>청소하기</Button>
+                }
+            {(mong.level >= 1 && mong.evolutionLevel === 1) && <Button onClick={handleEvolClick}>진화</Button>}
+            {(mong.level >= 4 && mong.evolutionLevel === 2) && <Button onClick={handleEvolClick}>진화</Button>}
+            {(mong.level >= 8 && mong.evolutionLevel === 3) && <Button onClick={handleEvolClick}>진화</Button>}
         </div>
         {mong.clean && <div>맵상태 : clean</div>}
         {mong.clean || <div>맵상태 : dirty</div>}
@@ -190,6 +127,7 @@ export function Management({reload2}) {
             <div>이름 : {mong.name}</div>
             <div>속성 : {mong.attribute}</div>
             <div>레벨 : {mong.level}</div>
+            <div>진화레벨 : {mong.evolutionLevel }</div>
             <div>경험치 : {mong.exp}</div>
             {/* 아픔 디버프가 있다면 상태에 같이 표시 */}
             <div>상태 : {condition}</div>
