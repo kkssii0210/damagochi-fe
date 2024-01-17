@@ -9,18 +9,6 @@ export function HomeLayout() {
         <NavBar />
         <Outlet />
       </Box>
-      <Spacer h={100} />
-      <Box
-        w="100%"
-        h="150px"
-        mt={5}
-        textAlign="center"
-        backgroundColor="grey"
-        color="white"
-      >
-        <Box mt={15}>diq
-        </Box>
-      </Box>
     </>
   );
 }

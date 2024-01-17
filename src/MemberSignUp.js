@@ -96,6 +96,7 @@ export function MemberSignUp() {
             <FormLabel>아이디</FormLabel>
             <Flex>
               <Input
+                placeholder="이메일을 입력해주세요"
                 maxWidth={200}
                 value={playerId}
                 onChange={(e) => {

@@ -222,6 +222,15 @@ export function NavBar(props) {
       <Button variant="ghost" size="lg" onClick={() => navigate("/")}>
         Home
       </Button>
+      <Button variant="ghost" size="lg" onClick={() => navigate("/MongTutorial")}>
+        Tutorial
+      </Button>
+      <Button variant="ghost" size="lg" onClick={() => navigate("/MongStatusInfo")}>
+        Status
+      </Button>
+      <Button variant="ghost" size="lg" onClick={() => navigate("/MongBattleInfo")}>
+        Battle
+      </Button>
       <Box
         padding="4"
         borderWidth="1px"
