@@ -58,7 +58,12 @@ function ItemView(props) {
 
     function handleDelete() {
         axios
-            .delete("/api/store/item/delete/" + storeId)
+            .delete("/api/store/item/delete", {
+                data: {
+                storeId: storeId,
+                    category : item.itemCategory,
+            }
+            })
             .then((response) => {
                 toast({
                     description: storeId + "번 아이템이 삭제되었습니다.",

@@ -68,6 +68,7 @@ function ItemList(props) {
                             >
                                 <CardHeader>
                                     <Heading size="sm">{index + 1}.</Heading>
+                                    <Heading size="sm">storeId.{item.storeId}</Heading>
                                     <Heading size="m">{item.itemName}</Heading>
                                 </CardHeader>
                                 <CardBody>
