@@ -139,7 +139,7 @@ export function NavBar(props) {
     axios
       .get("/auth/logout", {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("refreshToken")}`,
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       })
       .then(() => {
