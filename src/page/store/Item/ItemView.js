@@ -60,7 +60,7 @@ function ItemView(props) {
         axios
             .delete("/api/store/item/delete", {
                 data: {
-                storeId: storeId,
+                storeId: item.storeId,
                     category : item.itemCategory,
             }
             })

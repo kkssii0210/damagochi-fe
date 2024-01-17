@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
   Button,
   ButtonGroup,
@@ -20,15 +20,10 @@ import response from "sockjs-client/lib/event/trans-message";
 function ItemRegister(props) {
 
   const [imageFile, setImageFile] = useState();
-  const [storeId, setStoreId] = useState();
   const [itemCategory, setItemCategory] = useState();
   const [itemName, setItemName] = useState();
   const [itemFunction, setItemFunction] = useState();
   const [itemPrice, setItemPrice] = useState();
-
-  const [food, setFood] = useState();
-  const [liquidMedicine, setLiquidMedicine] = useState();
-  const [map, setMap] = useState();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
@@ -38,26 +33,17 @@ function ItemRegister(props) {
     setItemCategory(selectedCategory);
   };
 
-  const storeData = {
-    // imageFile
-    storeId,
-    itemCategory,
-    itemName,
-    itemFunction,
-    itemPrice,
-  };
-
-
   function handleSubmit() {
     setIsSubmitting(true);
 
     axios
-      .post("/api/store/item/register")
-        .then((response) => {
-          const index = response.data.map( (item, index) => (
-              {...item, storeId: index + 1}));
-          return axios.post("api/store/item/register", index )
-        })
+      .post("/api/store/item/register", {
+        // imageFile
+        itemCategory,
+        itemName,
+        itemFunction,
+        itemPrice,
+      })
       .then(() => {
         toast({
           description: "새 아이템이 저장되었습니다",
@@ -84,6 +70,7 @@ function ItemRegister(props) {
         setIsSubmitting(false);
       });
   }
+
 
   return (
     <Center>
