@@ -14,7 +14,7 @@ import OrderWrite from "./page/payment/OrderWrite";
 import Payment from "./page/payment/Payment";
 import { Success } from "./page/payment/Success";
 import { Fail } from "./page/payment/Fail";
-import { Management } from "./Management";
+import { Management } from "./page/management/Management";
 import ItemRegister from "./page/store/Item/ItemRegister";
 import ItemList from "./page/store/Item/ItemList";
 import ItemView from "./page/store/Item/ItemView";
@@ -24,7 +24,7 @@ import MongStstusInfo from "./page/mongInfo/MongStatusInfo";
 import MongBattleInfo from "./page/mongInfo/MongBattleInfo";
 import MongBasicInfo from "./page/mongInfo/MongBasicInfo";
 import MongTutorial from "./page/mongInfo/MongTutorial";
-import WebSocketComponent from "./WebSocketComponent";
+import WebSocketComponent from "./page/management/WebSocketComponent";
 import KakaoRedirectPage from "./KakaoRedirectPage";
 
 const routes = createBrowserRouter(

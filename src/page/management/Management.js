@@ -1,11 +1,28 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {Button, useToast} from "@chakra-ui/react";
+import {
+    Button, Drawer, DrawerBody,
+    DrawerCloseButton,
+    DrawerContent, DrawerFooter,
+    DrawerHeader,
+    DrawerOverlay,
+    Input,
+    useDisclosure,
+    useToast
+} from "@chakra-ui/react";
 import {useNavigate} from "react-router-dom";
 import {CountdownButton} from "./CountdownButton";
-
+import Step1Damagochi from "../../알.gif";
+import Step2Damagochi from "../../자아생성시기.gif";
+import Step3Damagochi from "../../사춘기.gif";
+import Step4Damagochi from "../../다큼.gif";
+import {Inventory} from "./Inventory";
 
 export function Management({reload2}) {
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const btnRef = React.useRef()
+
+    const [showInventory, setShowInventory] = useState(false)
 
     const [mong, setMong] = useState(null);
     const [reload, setReload] = useState(0);
@@ -85,6 +102,10 @@ export function Management({reload2}) {
     }
 
 
+    function handleInvenButtonClick() {
+        setShowInventory(!showInventory)
+    }
+
     return <div>
         <div style={{display : "flex", justifyContent : "space-between", width : "500px"}}>
             {/* setTimeout을 이용해서 먹이를 준후 랜덤시간 똥싸기 clean false */}
@@ -120,9 +141,21 @@ export function Management({reload2}) {
             {(mong.level >= 1 && mong.evolutionLevel === 1) && <Button onClick={handleEvolClick}>진화</Button>}
             {(mong.level >= 4 && mong.evolutionLevel === 2) && <Button onClick={handleEvolClick}>진화</Button>}
             {(mong.level >= 8 && mong.evolutionLevel === 3) && <Button onClick={handleEvolClick}>진화</Button>}
+            <div>
+                <Button onClick={handleInvenButtonClick}>
+                    인벤토리
+                </Button>
+                {showInventory && <Inventory memberId={mong.memberId} />}
+            </div>
         </div>
         {mong.clean && <div>맵상태 : clean</div>}
         {mong.clean || <div>맵상태 : dirty</div>}
+        <div style={{width : "300px", height : "300px"}}>
+        {mong.evolutionLevel === 1 && <img src={Step1Damagochi} alt="step1"/>}
+        {mong.evolutionLevel === 2 && <img src={Step2Damagochi} alt="step2"/>}
+        {mong.evolutionLevel === 3 && <img src={Step3Damagochi} alt="step3"/>}
+        {mong.evolutionLevel === 4 && <img src={Step4Damagochi} alt="step4"/>}
+        </div>
         <div style={{marginTop : "50px"}}>
             <div>이름 : {mong.name}</div>
             <div>속성 : {mong.attribute}</div>
