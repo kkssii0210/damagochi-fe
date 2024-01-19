@@ -68,13 +68,15 @@ export function Cart(props) {
           {cartItem.map((cartItem, index) => (
             <Flex key={index} alignItems="center">
               <Text mr={2}>{cartItem.cartItemName}</Text>
-              <Text mr={2} color="gray.500">
+              <Text mr={2} color="gray.500" fontSize="sm">
                 {cartItem.cartItemPrice}포인트
               </Text>
+              <Text fontSize="sm">수량: {cartItem.cartItemCount}</Text>
               <Text>
                 <FontAwesomeIcon
                   icon={faRectangleXmark}
                   onClick={handleDeleteItem}
+                  color="purple"
                 />
               </Text>
             </Flex>
