@@ -41,7 +41,7 @@ export function Cart(props) {
         })
         .finally();
     }
-  }, [cartItem]);
+  }, []);
 
   const playerIdWithoutAt = member.playerId.split("@")[0];
 
