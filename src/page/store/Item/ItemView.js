@@ -31,10 +31,28 @@ function ItemView(props) {
     const { storeId } = useParams(); //URL에서 동적인 값을 컴포넌트 내에서 쓸때 사용. <Route>컴포넌트 내에서 렌더링되는 컴포넌트에서만 사용가능
     const [item, setItem] = useState(null);
     const [fileURL, setFileURL] = useState([]);
+    const [memberInfo, setMemberInfo] = useState(null);
 
     const toast = useToast();
     const navigate = useNavigate();
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    useEffect(() => {
+        if (localStorage.getItem("accessToken") !== null) {
+            console.log(localStorage.getItem("accessToken"));
+            axios
+                .get("/api/store/accessToken", {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                    },
+                })
+                .then((response) => {
+                    setMemberInfo(response.data)
+                })
+                .catch()
+                .finally();
+        }
+    }, []);
 
     useEffect(() => {
         axios
@@ -51,6 +69,7 @@ function ItemView(props) {
     //     .catch((e) => console.log(e))
     //     .finally(() => console.log("끝"));
     // }, []);
+
 
     if (item === null) {
         return <Spinner />;
@@ -81,6 +100,22 @@ function ItemView(props) {
     }
 
     function handleAddCart() {
+        axios.post("/api/cart/add", {
+            storeId: item.storeId,
+            category: item.itemCategory,
+            playerId: memberInfo.playerId
+        })
+            .then((response) => {
+                toast( {
+                    description: item.itemName + " 아이템이 장바구니에 추가되었습니다",
+                    status: "success"
+                })
+            }).catch((error) => {
+                toast( {
+                    description : "로그인이 필요합니다",
+                    status: "error"
+                })
+        })
 
     }
 

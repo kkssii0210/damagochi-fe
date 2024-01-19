@@ -26,11 +26,10 @@
     "immer": "^10.0.3",
     "lodash": "^4.17.21",
     "nanoid": "^5.0.3",
-    "prettier": "^3.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router": "^6.20.1",
-    "react-router-dom": "^6.21.1",
+    "react-router-dom": "^6.21.3",
     "react-scripts": "5.0.1",
     "react-youtube": "^10.1.0",
     "sockjs-client": "^1.6.1",
@@ -64,7 +63,7 @@
   },
   "proxy": "http://localhost:8080",
   "devDependencies": {
-    "prettier": "^3.1.1"
+    "prettier": "^3.2.4"
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",

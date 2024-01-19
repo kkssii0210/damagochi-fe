@@ -48,6 +48,7 @@ function ItemEdit(props) {
       })
       .then((response) => {
         toast({
+
           description: storeId + "번 아이템이 수정되었습니다.",
           status: "success",
         });
@@ -65,7 +66,7 @@ function ItemEdit(props) {
     return (
         <Container>
             <Heading mt={7} mb={5}>
-                {storeId}번 아이템 수정
+                {item.storeId}. {item.itemName} 아이템 수정
             </Heading>
 
             {/*TODO: item image 넣기*/}
