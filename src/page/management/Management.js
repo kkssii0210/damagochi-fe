@@ -27,11 +27,15 @@ export function Management({reload2}) {
     const [mong, setMong] = useState(null);
     const [reload, setReload] = useState(0);
     const [condition, setCondition] = useState("");
+    const [inputValue, setInputValue] = useState("");
+    const [warningMessage, setWarningMessage] = useState("")
 
     const toast = useToast();
     const navigate = useNavigate();
 
     const [countdown, setCountdown] = useState(null);
+    const [imageModule, setImageModule] = useState(null);
+
 
 
     useEffect(() => {
@@ -52,18 +56,54 @@ export function Management({reload2}) {
                 } else {
                     setCondition("보통")
                 }
+
+                const loadImageModule = async () => {
+                    if (data.evolutionLevel >= 2) {
+                        const imageModule = await import(`../../img/${data.mongCode}-${data.evolutionLevel-1}.png`);
+                        setImageModule(imageModule.default);
+                    }
+                };
+
+                loadImageModule();
             })
 
 
     }, [reload,reload2]);
 
 
+
+
     if (mong === null) {
 
         return <div>로딩중</div>;
     }
+
+    function handleAddMongClick() {
+        if (inputValue.trim() === '') {
+            // 인풋 값이 공백인 경우 경고 메시지 설정
+            setWarningMessage('인풋 값을 입력하세요.');
+        } else {
+            // 공백이 아니면 경고 메시지 초기화하고 Axios 요청 보내기
+            setWarningMessage('');
+            axios.postForm("/api/mongList", { mongName: inputValue }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                }
+            })
+                .then(() => setReload(reload + 1));
+        }
+    };
     if (!mong.name) {
-        return <div>몽이 없습니다</div>;
+        return <div>
+            몽이 없습니다
+            <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+            />
+            <button onClick={handleAddMongClick}>몽 획득하기</button>
+            {warningMessage && <p style={{ color: 'red' }}>{warningMessage}</p>}
+        </div>;
     }
 
 
@@ -150,11 +190,14 @@ export function Management({reload2}) {
         </div>
         {mong.clean && <div>맵상태 : clean</div>}
         {mong.clean || <div>맵상태 : dirty</div>}
-        <div style={{width : "300px", height : "300px"}}>
-        {mong.evolutionLevel === 1 && <img src={Step1Damagochi} alt="step1"/>}
-        {mong.evolutionLevel === 2 && <img src={Step2Damagochi} alt="step2"/>}
-        {mong.evolutionLevel === 3 && <img src={Step3Damagochi} alt="step3"/>}
-        {mong.evolutionLevel === 4 && <img src={Step4Damagochi} alt="step4"/>}
+        <div style={{ width: "300px", height: "300px" }}>
+            {mong.evolutionLevel === 1 && <img src={Step1Damagochi} alt={"Step1"} />}
+            {mong.evolutionLevel !== 1 && imageModule && (
+                <img
+                    src={imageModule}
+                    alt={`step${mong.evolutionLevel}`}
+                />
+            )}
         </div>
         <div style={{marginTop : "50px"}}>
             <div>이름 : {mong.name}</div>
