@@ -193,7 +193,7 @@ export function Management({reload2}) {
         <div style={{ width: "300px", height: "300px" }}>
             {mong.evolutionLevel === 1 && <img src={Step1Damagochi} alt={"Step1"} />}
             {mong.evolutionLevel !== 1 && imageModule && (
-                <img
+                <img style={{height : "100%", width : "100%"}}
                     src={imageModule}
                     alt={`step${mong.evolutionLevel}`}
                 />
