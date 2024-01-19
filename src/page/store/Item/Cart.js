@@ -1,16 +1,15 @@
-import { Box, Flex, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, Text, useToast, VStack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 import { useNavigate } from "react-router";
-import {
-  faFontAwesome,
-  faRectangleXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { faRectangleXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import toast from "bootstrap/js/src/toast";
 
 export function Cart(props) {
   const navigate = useNavigate();
+  const toast = useToast();
   const [member, setMember] = useState({ playerId: "" });
   const [cartItem, setCartItem] = useState([]);
 
@@ -45,7 +44,31 @@ export function Cart(props) {
 
   const playerIdWithoutAt = member.playerId.split("@")[0];
 
-  function handleDeleteItem() {}
+  function handleDeleteItem(index) {
+    // cartItem이 배열이라 삭제 시 index 줌
+    const deleteItem = cartItem[index];
+
+    axios
+      .delete("/api/cart/delete", {
+        data: {
+          playerId: deleteItem.playerId,
+          itemName: deleteItem.cartItemName,
+        },
+      })
+      .then(() =>
+        toast({
+          description:
+            deleteItem.cartItemName + " 아이템이 장바구니에서 삭제되었습니다",
+          status: "success",
+        }),
+      )
+      .catch(() =>
+        toast({
+          description: "삭제 중 문제가 발생하였습니다",
+          status: "error",
+        }),
+      );
+  }
 
   return (
     <>
@@ -71,11 +94,13 @@ export function Cart(props) {
               <Text mr={2} color="gray.500" fontSize="sm">
                 {cartItem.cartItemPrice}포인트
               </Text>
-              <Text fontSize="sm">수량: {cartItem.cartItemCount}</Text>
+              <Text fontSize="sm" mr={4}>
+                수량: {cartItem.cartItemCount}
+              </Text>
               <Text>
                 <FontAwesomeIcon
                   icon={faRectangleXmark}
-                  onClick={handleDeleteItem}
+                  onClick={() => handleDeleteItem(index)}
                   color="purple"
                 />
               </Text>

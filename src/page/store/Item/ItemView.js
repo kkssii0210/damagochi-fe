@@ -108,6 +108,7 @@ function ItemView(props) {
         storeId: item.storeId,
         category: item.itemCategory,
         playerId: memberInfo.playerId,
+        itemName: item.itemName,
         itemCount: itemCount,
       })
       .then((response) => {
