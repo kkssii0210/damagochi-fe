@@ -1,4 +1,4 @@
-import { Box, Flex, Text, useToast, VStack } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, useToast, VStack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
 import axios from "axios";
@@ -86,7 +86,7 @@ export function Cart(props) {
       >
         <VStack spacing={2}>
           <Text fontSize="lg" fontWeight="bold" mb={5}>
-            {playerIdWithoutAt} 님의 장바구니
+            {playerIdWithoutAt}님의 장바구니
           </Text>
           {cartItem.map((cartItem, index) => (
             <Flex key={index} alignItems="center">
@@ -106,6 +106,11 @@ export function Cart(props) {
               </Text>
             </Flex>
           ))}
+          {cartItem.length > 0 && (
+            <Button mt={5} colorScheme="purple">
+              아이템 구매
+            </Button>
+          )}
         </VStack>
       </Box>
     </>
