@@ -7,7 +7,7 @@ import { faRectangleXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import toast from "bootstrap/js/src/toast";
 
-export function Cart(props) {
+export function Cart({cartItems}) {
   const navigate = useNavigate();
   const toast = useToast();
   const [member, setMember] = useState({ playerId: "" });
@@ -32,7 +32,7 @@ export function Cart(props) {
         })
         .finally();
     }
-  }, []);
+  }, [cartItems]);
 
   function handleGetCartItem(playerId) {
     axios

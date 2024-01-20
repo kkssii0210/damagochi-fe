@@ -7,7 +7,6 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  Center,
   Container,
   Flex,
   Heading,
@@ -68,14 +67,6 @@ function ItemView(props) {
       .finally(() => console.log("끝"));
   }, []);
 
-  // useEffect(() => {
-  //   axios
-  //     .get("/api/board/file/id/" + id)
-  //     .then((response) => setFileURL(response.data))
-  //     .catch((e) => console.log(e))
-  //     .finally(() => console.log("끝"));
-  // }, []);
-
   if (item === null) {
     return <Spinner />;
   }
@@ -117,9 +108,28 @@ function ItemView(props) {
       .finally();
   }
 
-  function handleAddCart(index) {
-    const addItem = cartItem[index];
+  function handleAddCart() {
+    // cartItem 배열에서 현재 사용자의 아이템을 찾기
+    const addItem = cartItem.find(item => item.playerId === memberInfo.playerId);
+    // addItem이 존재하지 않으면, 에러 처리
+    if (!addItem) {
+      toast({
+        description: "장바구니 아이템을 찾을 수 없습니다.",
+        status: "error",
+      });
+      return;
+    }
+    // 새로 추가될 아이템 정보
+    const newCartItem = {
+      storeId: item.storeId,
+      category: item.itemCategory,
+      playerId: memberInfo.playerId,
+      itemName: item.itemName,
+      itemCount: itemCount,
+    };
 
+    const updatedCartItems = [...cartItem, newCartItem];
+    setCartItem(updatedCartItems);
     axios
       .post("/api/cart/add", {
         storeId: item.storeId,
@@ -128,7 +138,10 @@ function ItemView(props) {
         itemName: item.itemName,
         itemCount: itemCount,
       })
-      .then((response) => {
+      .then(async (response) => {
+        console.log(response.data);
+        // 성공적인 응답 후, 장바구니 상태 업데이트
+        // updateCartState(response.data.newItem);
         toast({
           description: item.itemName + " 아이템이 장바구니에 추가되었습니다",
           status: "success",
@@ -137,6 +150,8 @@ function ItemView(props) {
         handleGetCart(addItem.playerId);
       })
       .catch((error) => {
+        // 요청 실패 시, 장바구니 상태를 이전 상태로 되돌림
+        setCartItem(cartItem);
         toast({
           description: "로그인이 필요합니다",
           status: "error",
@@ -146,7 +161,7 @@ function ItemView(props) {
 
   return (
     <>
-      <Cart />
+      <Cart cartItems={cartItem}/>
       <Container border="0px solid black" w="40%" h="70%" mt="10%" mb="5%">
         {/*<Box>*/}
         {/*{fileURL.map((url) => (*/}
