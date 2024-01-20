@@ -25,15 +25,7 @@ export function Cart(props) {
         })
         .then((response) => {
           setMember(response.data);
-          axios
-            .get("/api/cart/itemInfo", {
-              params: { playerId: response.data.playerId },
-            })
-            .then((response) => setCartItem(response.data))
-            .catch((error) => {
-              console.log("카트 아이템의 정보를 가져오는데 실패하였습니다.");
-            })
-            .finally();
+          handleGetCartItem(response.data.playerId); // playerId를 함수에 넘겨줘야함
         })
         .catch((reason) => (error) => {
           navigate("/"); //혹은 토스트 메시지 날리기
@@ -41,6 +33,18 @@ export function Cart(props) {
         .finally();
     }
   }, []);
+
+  function handleGetCartItem(playerId) {
+    axios
+      .get("/api/cart/itemInfo", {
+        params: { playerId: playerId },
+      })
+      .then((response) => setCartItem(response.data))
+      .catch((error) => {
+        console.log("카트 아이템의 정보를 가져오는데 실패하였습니다.");
+      })
+      .finally();
+  }
 
   const playerIdWithoutAt = member.playerId.split("@")[0];
 
@@ -55,19 +59,21 @@ export function Cart(props) {
           itemName: deleteItem.cartItemName,
         },
       })
-      .then(() =>
+      .then(() => {
         toast({
           description:
             deleteItem.cartItemName + " 아이템이 장바구니에서 삭제되었습니다",
           status: "success",
-        }),
-      )
+        });
+        handleGetCartItem(deleteItem.playerId); // 업데이트 위해 삭제 후 다시 카트정보 호출
+      })
       .catch(() =>
         toast({
           description: "삭제 중 문제가 발생하였습니다",
           status: "error",
         }),
-      );
+      )
+      .finally();
   }
 
   return (

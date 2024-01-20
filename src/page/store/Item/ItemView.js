@@ -34,8 +34,9 @@ function ItemView(props) {
   const { storeId } = useParams(); //URL에서 동적인 값을 컴포넌트 내에서 쓸때 사용. <Route>컴포넌트 내에서 렌더링되는 컴포넌트에서만 사용가능
   const [item, setItem] = useState(null);
   const [fileURL, setFileURL] = useState([]);
-  const [memberInfo, setMemberInfo] = useState(null);
+  const [memberInfo, setMemberInfo] = useState({ playerId: "" });
   const [itemCount, setItemCount] = useState(1);
+  const [cartItem, setCartItem] = useState([]);
 
   const toast = useToast();
   const navigate = useNavigate();
@@ -52,6 +53,7 @@ function ItemView(props) {
         })
         .then((response) => {
           setMemberInfo(response.data);
+          handleGetCart(response.data.playerId);
         })
         .catch()
         .finally();
@@ -102,12 +104,27 @@ function ItemView(props) {
       .finally(() => onClose());
   }
 
-  function handleAddCart() {
+  // 카트 아이템을 다시 불러와서 밑에 함수에서 카트를 추가하면 다시 새로운 정보를 불러오는 방식으로 해결하기
+  function handleGetCart(playerId) {
+    axios
+      .get("/api/cart/itemInfo", {
+        params: { playerId: playerId },
+      })
+      .then((response) => setCartItem(response.data))
+      .catch((error) => {
+        console.log("카트 아이템의 정보를 가져오는데 실패하였습니다.");
+      })
+      .finally();
+  }
+
+  function handleAddCart(index) {
+    const addItem = cartItem[index];
+
     axios
       .post("/api/cart/add", {
         storeId: item.storeId,
         category: item.itemCategory,
-        playerId: memberInfo.playerId,
+        playerId: addItem.playerId,
         itemName: item.itemName,
         itemCount: itemCount,
       })
@@ -116,6 +133,8 @@ function ItemView(props) {
           description: item.itemName + " 아이템이 장바구니에 추가되었습니다",
           status: "success",
         });
+        //여기에 아이템 정보 업데이트 하는 함수 추가
+        handleGetCart(addItem.playerId);
       })
       .catch((error) => {
         toast({
@@ -186,11 +205,13 @@ function ItemView(props) {
               >
                 <FontAwesomeIcon icon={faPlus} />
               </Button>
+
+              {/*{cartItem.map((cartItem, index) => (*/}
               <Button
                 w="70%"
                 variant="solid"
                 colorScheme="purple"
-                onClick={handleAddCart}
+                onClick={() => handleAddCart()}
               >
                 담기
               </Button>
