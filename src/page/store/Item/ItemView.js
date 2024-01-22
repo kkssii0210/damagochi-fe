@@ -110,15 +110,17 @@ function ItemView(props) {
 
   function handleAddCart() {
     // cartItem 배열에서 현재 사용자의 아이템을 찾기
-    const addItem = cartItem.find(item => item.playerId === memberInfo.playerId);
+    const addItem = cartItem.find(
+      (item) => item.playerId === memberInfo.playerId,
+    );
     // addItem이 존재하지 않으면, 에러 처리
-    if (!addItem) {
-      toast({
-        description: "장바구니 아이템을 찾을 수 없습니다.",
-        status: "error",
-      });
-      return;
-    }
+    // if (!addItem) {
+    //   toast({
+    //     description: "장바구니 아이템을 찾을 수 없습니다.",
+    //     status: "error",
+    //   });
+    //   return;
+    // }
     // 새로 추가될 아이템 정보
     const newCartItem = {
       storeId: item.storeId,
@@ -134,7 +136,7 @@ function ItemView(props) {
       .post("/api/cart/add", {
         storeId: item.storeId,
         category: item.itemCategory,
-        playerId: addItem.playerId,
+        playerId: memberInfo.playerId,
         itemName: item.itemName,
         itemCount: itemCount,
       })
@@ -147,7 +149,7 @@ function ItemView(props) {
           status: "success",
         });
         //여기에 아이템 정보 업데이트 하는 함수 추가
-        handleGetCart(addItem.playerId);
+        handleGetCart(memberInfo.playerId);
       })
       .catch((error) => {
         // 요청 실패 시, 장바구니 상태를 이전 상태로 되돌림
@@ -161,7 +163,7 @@ function ItemView(props) {
 
   return (
     <>
-      <Cart cartItems={cartItem}/>
+      <Cart cartItems={cartItem} />
       <Container border="0px solid black" w="40%" h="70%" mt="10%" mb="5%">
         {/*<Box>*/}
         {/*{fileURL.map((url) => (*/}
