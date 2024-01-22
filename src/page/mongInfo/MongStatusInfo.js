@@ -53,12 +53,11 @@ export function MongStatusInfo() {
     <div className={styles.container}>
       {mong && (
       <Center>
-        <Box display="flex" color="white">
           {/*<FontAwesomeIcon icon={faAnglesLeft} size="lg" style={{color: "#ffffff",}} />*/}
-        <Box w="500px" h="500px" position="relative" mt={200} mr={100} >
-              <Box sixe="xl"  position="absolute" sx={{transform: `translate(${0 * scale}px, ${-1000 * scale}px)`}} >
+        <Box size="3rem" w="600px" h="500px"  position="relative" mt={300} mr={100} border="1px solid white">
+              <Box size="xl" position="absolute" sx={{transform: `translate(${0 * scale}px, ${-1000 * scale}px)`}} >
                 <CircularProgress value={mong.tired} color="red" max={100}>
-                  <CircularProgressLabel>
+                  <CircularProgressLabel >
                     <FontAwesomeIcon
                       icon={faPersonRunning}
                       size="2xl"
@@ -79,7 +78,6 @@ export function MongStatusInfo() {
                     />
                   </CircularProgressLabel>
                 </CircularProgress>
-                {/*{mong.feed}%*/}
               </Box>
               <Box position="absolute" sx={{transform: `translate(${-588 * scale}px, ${809 * scale}px)`}} >
                 <CircularProgress value={mong.sleep} color="#FFB300">
@@ -114,8 +112,7 @@ export function MongStatusInfo() {
                 {/*{mong.strength}%*/}
               </Box>
         </Box>
-        </Box>
-          <Box mb={300} fontSize="1.5rem">
+          <Box mb={2} fontSize="2rem">
             <Box border="1px solid"color="white" >
               <Box>
                 <p>Level:{mong.level}</p>
