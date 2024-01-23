@@ -213,75 +213,9 @@ export function NavBar(props) {
   }
 
   return (
-    <Box
-      margin="8"
-      border="1px solid black"
-      style={{
-        marginTop: "60px",
-        display: "flex",
-        border: "0px solid navy",
-        width: "100%",
-        height: "auto",
-        justifyContent: "space-evenly",
-        alignItems: "center", // Align items vertically in the center
-      }}
-    >
-      <Button variant="ghost" size="lg" onClick={() => navigate("/")}>
-        Home
-      </Button>
-      <Button
-        variant="ghost"
-        size="lg"
-        onClick={() => navigate("/MongTutorial")}
-      >
-        Tutorial
-      </Button>
-      <Button
-        variant="ghost"
-        size="lg"
-        onClick={() => navigate("/MongStatusInfo")}
-      >
-        Status
-      </Button>
-      <Button
-        variant="ghost"
-        size="lg"
-        onClick={() => navigate("/MongBasicInfo")}
-      >
-        Basic
-      </Button>
-      <Box
-        padding="4"
-        borderWidth="1px"
-        borderRadius="lg"
-        onClick={handleClick}
-        cursor="pointer"
-      >
-        <Text mb="8px">내 포인트: {totalPoints}</Text>
-        <Progress
-          value={filledPercentage}
-          colorScheme={filledPercentage > 50 ? "green" : "red"}
-        />
+  <div>
 
-        {loggedIn && (
-          <Button
-            variant="ghost"
-            size="lg"
-            fontFamily="Constantia"
-            border="0px solid red"
-            _hover={{ bg: "none" }}
-            onClick={handleLogout}
-            leftIcon={<FontAwesomeIcon icon={faRightFromBracket} />}
-          >
-            log out
-          </Button>
-          //   <KakaoLogoutComponent/>
-        )}
-      </Box>
-      <Box>
-        <KakaoLoginComponent />
-      </Box>
-    </Box>
+  </div>
   );
 }
 

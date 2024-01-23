@@ -1,10 +1,10 @@
 import React from "react";
 
 import {
-    createBrowserRouter,
-    createRoutesFromElements,
-    Route,
-    RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
 } from "react-router-dom";
 import { WelcomePage } from "./WelcomePage";
 import { MemberLogin } from "./MemberLogin";
@@ -14,15 +14,12 @@ import OrderWrite from "./page/payment/OrderWrite";
 import Payment from "./page/payment/Payment";
 import { Success } from "./page/payment/Success";
 import { Fail } from "./page/payment/Fail";
-import { Management } from "./Management";
 import ItemRegister from "./page/store/Item/ItemRegister";
 import ItemList from "./page/store/Item/ItemList";
 import ItemView from "./page/store/Item/ItemView";
 import ItemEdit from "./page/store/Item/ItemEdit";
 import { ItemPurchase } from "./page/store/Item/ItemPurchase";
 import MongStstusInfo from "./page/mongInfo/MongStatusInfo";
-import MongBattleInfo from "./page/mongInfo/MongBattleInfo";
-import MongBasicInfo from "./page/mongInfo/MongBasicInfo";
 import MongTutorial from "./page/mongInfo/MongTutorial";
 import WebSocketComponent from "./WebSocketComponent";
 import KakaoRedirectPage from "./KakaoRedirectPage";
@@ -42,8 +39,6 @@ const routes = createBrowserRouter(
       <Route path="success" element={<Success />} />
       <Route path="fail" element={<Fail />} />
       <Route path="MongStatusInfo" element={<MongStstusInfo/>} />
-      <Route path="MongBattleInfo" element={<MongBattleInfo/>} />
-      <Route path="MongBasicInfo" element={<MongBasicInfo/>} />
       <Route path="MongTutorial" element={<MongTutorial/>} />
       <Route path={"management"} element={<WebSocketComponent />} />
       <Route path="store/item/register" element={<ItemRegister />} />

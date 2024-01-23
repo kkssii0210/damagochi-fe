@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import styles from "./WelcomePage.module.css";
 
 export function MemberLogin() {
   const [id, setId] = useState("");
@@ -46,7 +47,8 @@ export function MemberLogin() {
   }
 
   return (
-    <Box p={10} borderRadius={10} mt={5} w="60%" ml="20%">
+    <div className={styles.container}>
+    <Box bg="white" position="center" m={0} p={10} borderRadius={10} mt={100} w="60%" >
       <Heading textAlign="center" mb={10}>
         Login
       </Heading>
@@ -76,5 +78,6 @@ export function MemberLogin() {
       </Button>
       <Spacer h={20} />
     </Box>
+    </div>
   );
 }
