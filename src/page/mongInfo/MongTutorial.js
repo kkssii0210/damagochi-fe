@@ -26,7 +26,7 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
-  Modal, useDisclosure, Link
+  Modal, useDisclosure, Link, ButtonGroup
 } from "@chakra-ui/react";
 import React, {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -38,8 +38,7 @@ import Step4Damagochi from "../../다큼.gif";
 import styles from "../../WelcomePage.module.css";
 import {useNavigate} from "react-router";
 
-
-const sg2Style ={justifyContent:"space-arround", marginTop:"2rem"};
+const sg2Style ={ justifyContent:"space-arround", marginTop:"2rem"};
 const iconStyle = {
   display: "flex",
   alignItems: "center",
@@ -47,9 +46,7 @@ const iconStyle = {
   color: "yellow"
 };
 const cardStyleInHeader={
-  textAlign:"center",
-  textStyle:"bold",
-  h:"150px"};
+  textAlign:"center", textDecoration:"underline"};
 export function MongTutorial(props) {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -71,22 +68,23 @@ export function MongTutorial(props) {
   };
   return (
     <div className={styles.container}>
-      <Button mt={20}
-        onClick={() => navigate("/MongStatusInfo")}
-      >
+      <ButtonGroup colorScheme='green' w="85%" mt={20} justifyContent="space-between" >
+      <Button borderRadius="30px" onClick={() => navigate("/MongStatusInfo")}>
+        My
+      </Button>
+      <Button  borderRadius="30px" onClick={() => navigate("/MongStatusInfo")}>
         My Mong Info
       </Button>
-      <SimpleGrid borderRadius="50%" mb={500} w="85%" spacing={1} columns={7} style={sg2Style} >
-        <Card style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}>
+      </ButtonGroup>
+      <SimpleGrid mb={500} w="85%" columns={7} style={sg2Style} >
+        <Card h="80"style={{ backgroundColor: "rgba(255, 255, 255, 0.3)", borderRadius:"20px" }}>
           <CardHeader>
             <Text style={cardStyleInHeader}>Baby Mong</Text>
           </CardHeader>
           <CardBody>
             <img src={Step1Damagochi} className="pictureSize"/>
           </CardBody>
-          <CardFooter><Text>알 정보를 입력해주세요</Text></CardFooter>
-
-          <Button onClick={onOpen}>About Baby Mong</Button>
+            <Button borderRadius="20px" mb={3} m={3} onClick={onOpen}>About Baby Mong</Button>
           <Modal onClose={onClose} isOpen={isOpen} isCentered>
             <ModalOverlay />
             <ModalContent>
@@ -96,21 +94,20 @@ export function MongTutorial(props) {
                 WKS
               </ModalBody>
               <ModalFooter>
-                <Button onClick={onClose}>Close</Button>
+                <Button borderRadius="20px" mb={3} m={3} onClick={onClose}>Close</Button>
               </ModalFooter>
             </ModalContent>
           </Modal>
         </Card>
         <Box style={iconStyle}><FontAwesomeIcon size="5x" icon={faAngleUp} rotation={90} /></Box>
-        <Card style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}>
+        <Card h="80" style={{ backgroundColor: "rgba(255, 255, 255, 0.3)", borderRadius:"20px" }}>
           <CardHeader>
             <Text style={cardStyleInHeader}>Step 2</Text>
           </CardHeader>
           <CardBody>
             <img src={Step2Damagochi}/>
           </CardBody>
-          <CardFooter><Text>알 정보를 입력해주세요</Text></CardFooter>
-          <Button onClick={onOpen}>About Baby Mong</Button>
+          <Button borderRadius="20px" mb={3} m={3} onClick={onOpen}>About Baby Mong</Button>
           <Modal onClose={onClose} isOpen={isOpen} isCentered>
             <ModalOverlay />
             <ModalContent>
@@ -126,16 +123,14 @@ export function MongTutorial(props) {
           </Modal>
         </Card>
         <Box style={iconStyle}><FontAwesomeIcon size="5x" icon={faAngleUp} rotation={90} /></Box>
-        <Card style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}>
+        <Card h="80" style={{ backgroundColor: "rgba(255, 255, 255, 0.3)", borderRadius:"20px" }}>
           <CardHeader>
           <Text style={cardStyleInHeader}>Step 3</Text>
           </CardHeader>
           <CardBody>
             <img src={Step3Damagochi} />
           </CardBody>
-          <CardFooter>
-            <Text>알 정보를 입력해주세요</Text></CardFooter>
-          <Button onClick={onOpen}>About Baby Mong</Button>
+          <Button borderRadius="20px" mb={3} m={3} onClick={onOpen}>About Baby Mong</Button>
           <Modal onClose={onClose} isOpen={isOpen} isCentered>
             <ModalOverlay />
             <ModalContent>
@@ -151,15 +146,14 @@ export function MongTutorial(props) {
           </Modal>
         </Card>
         <Box style={iconStyle}><FontAwesomeIcon size="5x" icon={faAngleUp} rotation={90}/></Box>
-        <Card style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}>
-          <CardHeader>
+        <Card h="80" style={{ backgroundColor: "rgba(255, 255, 255, 0.3)", borderRadius:"20px" }}>
+            <CardHeader>
             <Text style={cardStyleInHeader}>Step 4</Text>
           </CardHeader>
           <CardBody>
             <img src={Step4Damagochi}/>
           </CardBody>
-          <CardFooter><Text>알 정보를 입력해주세요</Text></CardFooter>
-          <Button onClick={onOpen}>About Baby Mong</Button>
+          <Button borderRadius="20px" mb={3} m={3} onClick={onOpen}>About Baby Mong</Button>
           <Modal onClose={onClose} isOpen={isOpen} isCentered>
             <ModalOverlay />
             <ModalContent>

@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from "react";
 import {
-  Box, Button,
-  Center,
-  CircularProgress,
-  CircularProgressLabel,
-  Table,
-  Thead,
-  Tr,
+    Card,
+    Box,
+    Button,
+    Center,
+    CircularProgress,
+    CircularProgressLabel, ButtonGroup,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faAnglesLeft,
-  faDumbbell,
-  faMoon,
-  faPersonRunning, faPoo,
-  faUtensils,
+    faAngleUp,
+    faDumbbell,
+    faMoon,
+    faPersonRunning,
+    faPoo,
+    faUtensils,
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "../../WelcomePage.module.css";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 export function MongStatusInfo() {
   const navigate=useNavigate();
   const [mong_id, setMong_id] = useState("");
@@ -37,7 +38,7 @@ export function MongStatusInfo() {
 
   useEffect(() => {
     axios
-      .get(`/api/monginfo/id`,{
+      .get(`/api/monginfo/${mong_id}`,{
         headers:{
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -46,88 +47,80 @@ export function MongStatusInfo() {
         setMong(response.data);
       })
       .catch((error)=> console.log(error))
-  }, []);
+  }, [mong_id]);
 
   const scale = 0.1;
   return (
     <div className={styles.container}>
-      {mong && (
-      <Center>
-          {/*<FontAwesomeIcon icon={faAnglesLeft} size="lg" style={{color: "#ffffff",}} />*/}
-        <Box size="3rem" w="600px" h="500px"  position="relative" mt={300} mr={100} border="1px solid white">
-              <Box size="xl" position="absolute" sx={{transform: `translate(${0 * scale}px, ${-1000 * scale}px)`}} >
-                <CircularProgress value={mong.tired} color="red" max={100}>
-                  <CircularProgressLabel >
-                    <FontAwesomeIcon
-                      icon={faPersonRunning}
-                      size="2xl"
-                      style={{ color: "red" }}
-                    />
-                  </CircularProgressLabel>
-                </CircularProgress>
-                {/*<Button onClick={handleClick}>업데이트</Button>*/}
-              </Box>
-              <Box position="absolute" sx={{transform: `translate(${-951 * scale}px, ${-309 * scale}px)`}} >
+        <ButtonGroup colorScheme='green' w="85%" mt={20} justifyContent="space-between" >
+            <Button borderRadius="30px" onClick={() => navigate("/MongStatusInfo")}>
+                My
+            </Button>
+            <Button borderRadius="30px" onClick={() => navigate("/")}>
+                My Mong Info
+            </Button>
+        </ButtonGroup>
 
-                <CircularProgress value={mong.feed} color="#9933ff">
-                  <CircularProgressLabel>
-                    <FontAwesomeIcon
-                      icon={faUtensils}
-                      size="2xl"
-                      style={{ color: "#9933ff" }}
-                    />
-                  </CircularProgressLabel>
-                </CircularProgress>
-              </Box>
-              <Box position="absolute" sx={{transform: `translate(${-588 * scale}px, ${809 * scale}px)`}} >
-                <CircularProgress value={mong.sleep} color="#FFB300">
-                  <CircularProgressLabel>
-                    <FontAwesomeIcon
-                      icon={faMoon}
-                      size="2xl"
-                      style={{ color: "#FFB300" }}
-                    />
-                  </CircularProgressLabel>
-                </CircularProgress>
-                {/*{mong.sleep}%*/}
-              </Box>
-              <Box position="absolute" sx={{transform: `translate(${588 * scale}px, ${809 * scale}px)`}} >
-                <CircularProgress value={mong.clean} color="pink">
-                  <CircularProgressLabel>
-                    <FontAwesomeIcon icon={faPoo} size="2xl" style={{color: "pink",}} />
-                  </CircularProgressLabel>
-                </CircularProgress>
-                {/*{mong.clean}%*/}
-              </Box>
-              <Box position="absolute" sx={{transform: `translate(${951 * scale}px, ${-309 * scale}px)`}} >
-                <CircularProgress value={mong.strength} color="#00b303">
-                  <CircularProgressLabel>
-                    <FontAwesomeIcon
-                      icon={faDumbbell}
-                      size="2xl"
-                      style={{ color: "#00b303" }}
-                    />
-                  </CircularProgressLabel>
-                </CircularProgress>
-                {/*{mong.strength}%*/}
-              </Box>
-        </Box>
-          <Box mb={2} fontSize="2rem">
-            <Box border="1px solid"color="white" >
-              <Box>
-                <p>Level:{mong.level}</p>
-                <p>tired:{mong.tired}</p>
-                <p>strength:{mong.strength}</p>
-                <p>health:{mong.health}</p>
-                <p>sleep: {mong.sleep}</p>
-                <p>feed:{mong.feed}</p>
-                <p>clean:{mong.clean}</p>
-              </Box>
+        <Box display="flex" mb={500} w="85%" h="300px" justifyContent="space-evenly" position="center">
+                    <Box position="relative" mt={150} mr={300}>
+                    <Box size="xl" position="absolute" sx={{transform: `translate(${0 * scale}px, ${-1000 * scale}px)`}} >
+                        <CircularProgress value={mong.tired} color="red" max={100}>
+                            <CircularProgressLabel >
+                                <FontAwesomeIcon
+                                    icon={faPersonRunning}
+                                    size="2xl"
+                                    style={{ color: "red" }}
+                                />
+                            </CircularProgressLabel>
+                        </CircularProgress>
+                        {/*<Button onClick={handleClick}>업데이트</Button>*/}
+                    </Box>
+                    <Box position="absolute" sx={{transform: `translate(${-951 * scale}px, ${-309 * scale}px)`}} >
+                        <CircularProgress value={mong.feed} color="#9933ff">
+                            <CircularProgressLabel>
+                                <FontAwesomeIcon
+                                    icon={faUtensils}
+                                    size="2xl"
+                                    style={{ color: "#9933ff" }}
+                                />
+                            </CircularProgressLabel>
+                        </CircularProgress>
+                    </Box>
+                    <Box position="absolute" sx={{transform: `translate(${-588 * scale}px, ${809 * scale}px)`}} >
+                        <CircularProgress value={mong.sleep} color="#FFB300">
+                            <CircularProgressLabel>
+                                <FontAwesomeIcon
+                                    icon={faMoon}
+                                    size="2xl"
+                                    style={{ color: "#FFB300" }}
+                                />
+                            </CircularProgressLabel>
+                        </CircularProgress>
+                        {/*{mong.sleep}%*/}
+                    </Box>
+                    <Box position="absolute" sx={{transform: `translate(${588 * scale}px, ${809 * scale}px)`}} >
+                        <CircularProgress value={mong.clean} color="pink">
+                            <CircularProgressLabel>
+                                <FontAwesomeIcon icon={faPoo} size="2xl" style={{color: "pink",}} />
+                            </CircularProgressLabel>
+                        </CircularProgress>
+                        {/*{mong.clean}%*/}
+                    </Box>
+                    <Box position="absolute" sx={{transform: `translate(${951 * scale}px, ${-309 * scale}px)`}} >
+                        <CircularProgress value={mong.strength} color="#00b303">
+                            <CircularProgressLabel>
+                                <FontAwesomeIcon
+                                    icon={faDumbbell}
+                                    size="2xl"
+                                    style={{ color: "#00b303" }}
+                                />
+                            </CircularProgressLabel>
+                        </CircularProgress>
+                        {/*{mong.strength}%*/}
+                    </Box>
             </Box>
-          </Box>
-        <Button onClick={()=> navigate("/MongBattleInfo")}></Button>
-      </Center>
-      )}
+            <Box></Box>
+        </Box>
     </div>
   );
 }
