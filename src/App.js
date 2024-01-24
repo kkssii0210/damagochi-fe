@@ -1,28 +1,26 @@
 import React from "react";
 
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-  RouterProvider,
-} from "react-router-dom";
-import { WelcomePage } from "./WelcomePage";
-import { MemberLogin } from "./MemberLogin";
-import { MemberSignUp } from "./MemberSignUp";
-import { HomeLayout } from "./layout/HomeLayout";
+import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider,} from "react-router-dom";
+import {WelcomePage} from "./WelcomePage";
+import {MemberLogin} from "./MemberLogin";
+import {MemberSignUp} from "./MemberSignUp";
+import {HomeLayout} from "./layout/HomeLayout";
 import OrderWrite from "./page/payment/OrderWrite";
 import Payment from "./page/payment/Payment";
-import { Success } from "./page/payment/Success";
-import { Fail } from "./page/payment/Fail";
+import {Success} from "./page/payment/Success";
+import {Fail} from "./page/payment/Fail";
 import ItemRegister from "./page/store/Item/ItemRegister";
 import ItemList from "./page/store/Item/ItemList";
 import ItemView from "./page/store/Item/ItemView";
 import ItemEdit from "./page/store/Item/ItemEdit";
-import { ItemPurchase } from "./page/store/Item/ItemPurchase";
+import {ItemPurchase} from "./page/store/Item/ItemPurchase";
 import MongStstusInfo from "./page/mongInfo/MongStatusInfo";
+import MongBattleInfo from "./page/mongInfo/MongBattleInfo";
+import MongBasicInfo from "./page/mongInfo/MongBasicInfo";
 import MongTutorial from "./page/mongInfo/MongTutorial";
-import WebSocketComponent from "./WebSocketComponent";
+import WebSocketComponent from "./page/management/WebSocketComponent";
 import KakaoRedirectPage from "./KakaoRedirectPage";
+import {Ba} from "./Ba";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -46,6 +44,7 @@ const routes = createBrowserRouter(
       <Route path="store/item/view/id/:storeId" element={<ItemView />} />
       <Route path="store/item/edit/id/:storeId" element={<ItemEdit />} />
       <Route path="purchase/:storeId" element={<ItemPurchase />} />
+      <Route path={"ba"} element={<Ba />}/>
     </Route>,
   ),
 );
