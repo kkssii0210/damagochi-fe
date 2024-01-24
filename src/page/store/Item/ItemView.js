@@ -113,14 +113,7 @@ function ItemView(props) {
     const addItem = cartItem.find(
       (item) => item.playerId === memberInfo.playerId,
     );
-    // addItem이 존재하지 않으면, 에러 처리
-    // if (!addItem) {
-    //   toast({
-    //     description: "장바구니 아이템을 찾을 수 없습니다.",
-    //     status: "error",
-    //   });
-    //   return;
-    // }
+
     // 새로 추가될 아이템 정보
     const newCartItem = {
       storeId: item.storeId,

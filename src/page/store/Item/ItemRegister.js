@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useState } from "react";
 import {
   Button,
   ButtonGroup,
@@ -16,10 +16,9 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import response from "sockjs-client/lib/event/trans-message";
-function ItemRegister(props) {
 
-  const [imageFile, setImageFile] = useState();
+function ItemRegister(props) {
+  const [files, setFiles] = useState(null);
   const [itemCategory, setItemCategory] = useState();
   const [itemName, setItemName] = useState();
   const [itemFunction, setItemFunction] = useState();
@@ -37,8 +36,8 @@ function ItemRegister(props) {
     setIsSubmitting(true);
 
     axios
-      .post("/api/store/item/register", {
-        // imageFile
+      .postForm("/api/store/item/register", {
+        files,
         itemCategory,
         itemName,
         itemFunction,
@@ -71,7 +70,6 @@ function ItemRegister(props) {
       });
   }
 
-
   return (
     <Center>
       <Card w={"lg"}>
@@ -86,11 +84,10 @@ function ItemRegister(props) {
               type="file"
               accept="image/*"
               multiple
-              onChange={(e) => setImageFile(e.target.files)}
+              onChange={(e) => setFiles(e.target.files)}
               placeholder="이미지 url을 입력하세요"
             ></Input>
           </FormControl>
-
 
           <FormControl mb={5}>
             <FormLabel>아이템 분류</FormLabel>
