@@ -211,7 +211,6 @@ export function NavBar(props) {
 
   return (
     <Box
-      margin="8"
       border="1px solid black"
       style={{
         marginTop: "60px",
