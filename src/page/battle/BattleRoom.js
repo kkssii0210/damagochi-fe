@@ -63,12 +63,16 @@ const BattleRoom = () => {
         accessToken: localStorage.getItem("accessToken"),
       },
       onConnect: () => {
+        console.log("WebSocket Connected");
         client.subscribe("/topic/battleRooms", (message) => {
           console.log(message.body);
           // 서버로부터 받은 배틀룸 목록 데이터 처리
           const updatedRooms = JSON.parse(message.body);
           setBattleRooms(updatedRooms);
         });
+      },
+      onDisconnect: () => {
+        console.log("WebSocket Disconnected");
       },
       onStompError: (error) => {
         console.error("STOMP Error:", error);
