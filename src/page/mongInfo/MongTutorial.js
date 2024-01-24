@@ -46,7 +46,8 @@ const iconStyle = {
   color: "yellow"
 };
 const cardStyleInHeader={
-  textAlign:"center", textDecoration:"underline"};
+  color: "white", fontSize:"1.5rem",
+  textAlign:"center"};
 export function MongTutorial(props) {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -68,10 +69,17 @@ export function MongTutorial(props) {
   // };
   return (
     <div className={styles.container}>
-      <ButtonGroup colorScheme='green' w="85%" mt={20} justifyContent="space-between" >
+      <ButtonGroup
+        colorScheme='green'
+        w="85%"
+        mt={20}
+        justifyContent="space-between" >
       <Button borderRadius="30px" onClick={() => navigate("/MongStatusInfo")}>
         My
       </Button>
+        <Text color="white" fontSize="3xl">
+          Mong's Evolution
+        </Text>
       <Button  borderRadius="30px" onClick={() => navigate("/MongStatusInfo")}>
         My Mong Info
       </Button>
@@ -84,7 +92,7 @@ export function MongTutorial(props) {
           <CardBody>
             <img src={Step1Damagochi} />
           </CardBody>
-            <Button borderRadius="20px" mb={3} m={3} onClick={onOpen}>About Baby Mong</Button>
+          <Button borderRadius="20px" mb={2} mr={10} ml={10} onClick={onOpen}>Click me!</Button>
           <Modal onClose={onClose} isOpen={isOpen} isCentered>
             <ModalOverlay />
             <ModalContent>
@@ -107,7 +115,8 @@ export function MongTutorial(props) {
           <CardBody>
             <img src={Step2Damagochi}/>
           </CardBody>
-          <Button borderRadius="20px" mb={2} mr={10} ml={10} onClick={onOpen}>About Baby Mong</Button>
+
+          <Button borderRadius="20px" mb={2} mr={10} ml={10} onClick={onOpen}>Click me!</Button>
           <Modal onClose={onClose} isOpen={isOpen} isCentered>
             <ModalOverlay />
             <ModalContent>
@@ -130,7 +139,7 @@ export function MongTutorial(props) {
           <CardBody>
             <img src={Step3Damagochi} />
           </CardBody>
-          <Button borderRadius="20px" mb={3} m={3} onClick={onOpen}>About Baby Mong</Button>
+          <Button borderRadius="20px" mb={2} mr={10} ml={10} onClick={onOpen}>Click me!</Button>
           <Modal onClose={onClose} isOpen={isOpen} isCentered>
             <ModalOverlay />
             <ModalContent>
@@ -153,7 +162,7 @@ export function MongTutorial(props) {
           <CardBody>
             <img src={Step4Damagochi}/>
           </CardBody>
-          <Button borderRadius="20px" mb={3} m={3} onClick={onOpen}>About Baby Mong</Button>
+          <Button borderRadius="20px" mb={2} mr={10} ml={10} onClick={onOpen}>Click me!</Button>
           <Modal onClose={onClose} isOpen={isOpen} isCentered>
             <ModalOverlay />
             <ModalContent>

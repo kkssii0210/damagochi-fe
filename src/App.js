@@ -15,8 +15,6 @@ import ItemView from "./page/store/Item/ItemView";
 import ItemEdit from "./page/store/Item/ItemEdit";
 import {ItemPurchase} from "./page/store/Item/ItemPurchase";
 import MongStstusInfo from "./page/mongInfo/MongStatusInfo";
-import MongBattleInfo from "./page/mongInfo/MongBattleInfo";
-import MongBasicInfo from "./page/mongInfo/MongBasicInfo";
 import MongTutorial from "./page/mongInfo/MongTutorial";
 import WebSocketComponent from "./page/management/WebSocketComponent";
 import KakaoRedirectPage from "./KakaoRedirectPage";

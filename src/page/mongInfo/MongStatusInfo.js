@@ -63,11 +63,10 @@ export function MongStatusInfo() {
       case 4: return {level4};
       default:return null;
     }
-    return undefined;
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} >
       <ButtonGroup
         colorScheme="green"
         w="85%"
@@ -84,7 +83,7 @@ export function MongStatusInfo() {
           마이 몽 정보
         </Button>
       </ButtonGroup>
-      <Box border="1px solid yellow">
+      <Box border="0px solid yellow">
         <SimpleGrid ml="10%" display="flex" columns={2} mb={400} w="80%" h="3%">
           <Box
             color="white"
@@ -220,16 +219,6 @@ export function MongStatusInfo() {
             </Box>
           </Box>
         </SimpleGrid>
-        <Box w="80%" h="300px" ml="10%" border="1px solid yellow"><p> 몽 이름: {mong.name}</p>
-          <p> 레벨: {mong.level}</p>
-
-          {/*전희연 의도: 각 레벨에 맞는 이미지 반환하는 코드 작성..*/}
-          <p>피로도 : {mong.tired}</p>
-          <p>근력 : {mong.strength}</p>
-          <p>수면 : {mong.sleep}</p>
-          <p>배고픔 : {mong.feed}</p>
-          <p>청소 : {mong.clean}</p>
-        </Box>
       </Box>
     </div>
   );
