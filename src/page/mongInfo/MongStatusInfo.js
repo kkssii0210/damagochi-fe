@@ -44,7 +44,7 @@ export function MongStatusInfo() {
         },
       })
       .then((response) => {
-        setMong(response.data);
+        setMong_id(response.data);
       })
       .catch((error) => console.log(error))
   }, [mong_id]);
@@ -61,8 +61,8 @@ export function MongStatusInfo() {
         </Button>
       </ButtonGroup>
       <Box>
-        <SimpleGrid ml="10%" display="flex" columns={2} mb={400} w="80%" h="20%">
-          <Circle  ml={200} mr="-23.4rem" mt={50}  bg="rgba(255, 255, 255, 0.3)" mb={500} w="300px" h="300px"/>
+        <SimpleGrid ml="10%" display="flex" columns={2} mb={400} w="80%" h="3%"  >
+          <Circle ml={200} mr="-23.4rem" mt={50}  bg="rgba(255, 255, 255, 0.3)"  mb={500} w="300px" h="300px" fontSize="25px" color="white">Level:{mong.level}</Circle>
           <Box ml={195} mt={22} mb={500} w="300px" h="300px">
             <Box position="relative" mt={150} mr={300}>
               <Box size="xl" position="absolute" sx={{transform: `translate(${0 * scale}px, ${-1000 * scale}px)`}} >
@@ -123,23 +123,17 @@ export function MongStatusInfo() {
             </Box>
           </Box>
           <Box color="white" fontSize="1.8rem" mt={50} mb={500} ml={0} w="800px" h="300px">
-            <p>Level:{mong.level}</p>
-            <p>tired:{mong.tired}</p>
-            <p>strength:{mong.strength}</p>
-            <p>health:{mong.health}</p>
-            <p>sleep: {mong.sleep}</p>
-            <p>feed:{mong.feed}</p>
-            <p>clean:{mong.clean}</p>
+            <p> 몽 이름: {mong.name}</p>
+            <p> 레벨: {mong.level}</p>
+            <p>피로도 : {mong.tired}</p>
+            <p>근력 : {mong.strength}</p>
+            <p>수면 : {mong.sleep}</p>
+            <p>배고픔 : {mong.feed}</p>
+            <p>청소 : {mong.clean}</p>
           </Box>
         </SimpleGrid>
-        <Box w="80%" ml="10%" border="1px solid red"></Box>
+        <Box w="80%" h="300px" ml="10%" border="1px solid yellow"></Box>
       </Box>
-
-
-
-
-
-
     </div>
 )
 
