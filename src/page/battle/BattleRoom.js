@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import SockJS from "sockjs-client";
 import * as StompJS from "@stomp/stompjs";
 import axios from "axios";
+import {Ba} from "../../Ba";
 
 const BattleRoom = () => {
   const [stompClient, setStompClient] = useState(null);
   const [battleRoomId, setBattleRoomId] = useState(null);
   const [currentRoom, setCurrentRoom] = useState(null);
   const [battleRooms, setBattleRooms] = useState([]);
+
+  const [message, setMessage] = useState(null);
 
   const connectWebSocket = () => {
     const client = new StompJS.Client({
@@ -69,6 +72,11 @@ const BattleRoom = () => {
           // 서버로부터 받은 배틀룸 목록 데이터 처리
           const updatedRooms = JSON.parse(message.body);
           setBattleRooms(updatedRooms);
+
+          setMessage(message.body);
+
+          // 혹은 특정 조건에 따라 표시하도록 할 수 있습니다.
+          // const baComponent = updatedRooms.some(condition) ? <Ba message={message.body} /> : null;
         });
       },
       onDisconnect: () => {
@@ -156,6 +164,7 @@ const BattleRoom = () => {
           );
         })}
       </ul>
+      {message && currentRoom && <Ba message={message} roomId={currentRoom}/>}
     </div>
   );
 };
