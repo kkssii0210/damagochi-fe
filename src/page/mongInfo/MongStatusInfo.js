@@ -19,11 +19,12 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
 export function MongStatusInfo() {
+  const [evolutionLevel, setEvolutionLevel] = useState("");
   const navigate = useNavigate();
   const [mong_id, setMong_id] = useState("");
-  const [levelImage, setLevelImage] = useState(null);
   //Mong 갹체의 초기 상태를 미리 설정
   const [mong, setMong] = useState({
+    evolutionLevel:1,
     level: 1,
     tired: 100,
     strength: 50,
@@ -41,26 +42,24 @@ export function MongStatusInfo() {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
-      })
-      .then((response) => {
-        setMong_id(response.data);
-      })
-      .catch((error) => console.log(error))
-  }, [mong_id]);
+      }) .then((response) => {
+      setMong(response.data);
+      if (response.data.level === 1) {
+        setEvolutionImage(`/images/step1.png`);
+      } else {
+        setEvolutionImage(`/images/step${response.data.evolutionLevel}.png`);
+      }
+    })
+    const evolutionImageModule = async () => {
+      if (data.evolutionLevel >= 2) {
+        const imageModule = await import(`../../img/${data.mongLevel}-${data.evolutionLevel-1}.png`);
+        setEvolutionLevel(evolutionLevel.default);
+      }
+    };
 
+    evolutionImageModule();
 
   const scale = 0.1;
-  //
-  // function getImage(level) {
-  //   switch (level){
-  //     case 1: return {level1};
-  //     case 2: return {level2};
-  //     case 3: return {level3};
-  //     case 4: return {level4};
-  //     default:return null;
-  //   }
-  // }
-
   return (
     <div className={styles.container} w="100%">
       <ButtonGroup
@@ -91,12 +90,20 @@ export function MongStatusInfo() {
             h="300px"
             border="1px solid red"
           >
-            <img src={getImage(mong.level)}/>
-            {/*alt={`Mong 레벨 ${mong.level}`*/}
-            </Box>
-          <Circle
-            border="1px solid blue"
-            ml={200}
+            {mong.evolutionLevel === 1 && (
+              <img src={evolutionImage} alt={"Step1"} />
+            )}
+            {mong.evolutionLevel !== 1 && evolutionImage && (
+              <img
+                style={{ height: "100%", width: "100%" }}
+                src={evolutionImage}
+                alt={`step${mong.evolutionLevel}`}
+              />
+            )}
+          </Box>
+              <Circle
+              border="1px solid blue"
+              ml={200}
             mr="-23.4rem"
             mt={50}
             bg="rgba(255, 255, 255, 0.3)"
@@ -108,8 +115,20 @@ export function MongStatusInfo() {
           >
             Level:{mong.level}
           </Circle>
-          <Box ml={195} mt={22} mb={500} w="300px" h="300px" border="1px solid yellow">
-            <Box position="relative" mt={150} mr={300} border="1px solid yellow">
+          <Box
+            ml={195}
+            mt={22}
+            mb={500}
+            w="300px"
+            h="300px"
+            border="1px solid yellow"
+          >
+            <Box
+              position="relative"
+              mt={150}
+              mr={300}
+              border="1px solid yellow"
+            >
               <Box
                 border="1px solid yellow"
                 size="xl"
@@ -216,8 +235,5 @@ export function MongStatusInfo() {
         </SimpleGrid>
       </Box>
     </div>
-  );
-
-}
-
+  );}
 export default MongStatusInfo;

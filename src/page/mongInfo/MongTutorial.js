@@ -10,16 +10,6 @@ import {
   Heading,
   SimpleGrid,
   Box,
-  Image,
-  Grid,
-  Flex,
-  Popover,
-  PopoverHeader,
-  PopoverContent,
-  PopoverTrigger,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverBody,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -37,7 +27,6 @@ import Step3Damagochi from "../../사춘기.gif";
 import Step4Damagochi from "../../다큼.gif";
 import styles from "../../WelcomePage.module.css";
 import {useNavigate} from "react-router";
-
 const sg2Style ={ justifyContent:"space-arround", marginTop:"2rem"};
 const iconStyle = {
   display: "flex",
