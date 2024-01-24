@@ -3,13 +3,11 @@ import {
   Text,
   Box,
   Button,
-  Center,
   CircularProgress,
-  CircularProgressLabel, ButtonGroup, SimpleGrid, Circle, Spacer,
+  CircularProgressLabel, ButtonGroup, SimpleGrid, Circle,
 } from "@chakra-ui/react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-  faAngleUp,
   faDumbbell,
   faMoon,
   faPersonRunning,
@@ -19,14 +17,11 @@ import {
 import styles from "../../WelcomePage.module.css";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import level1 from "../../알.gif";
-import level2 from "../../자아생성시기.gif";
-import level3 from "../../사춘기.gif";
-import level4 from "../../다큼.gif";
 
 export function MongStatusInfo() {
   const navigate = useNavigate();
   const [mong_id, setMong_id] = useState("");
+  const [levelImage, setLevelImage] = useState(null);
   //Mong 갹체의 초기 상태를 미리 설정
   const [mong, setMong] = useState({
     level: 1,
@@ -42,7 +37,7 @@ export function MongStatusInfo() {
 
   useEffect(() => {
     axios
-      .get(`/api/monginfo/${mong_id}`, {
+      .get(`/api/mong/${mong_id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -53,20 +48,21 @@ export function MongStatusInfo() {
       .catch((error) => console.log(error))
   }, [mong_id]);
 
-  const scale = 0.1;
 
-  function getImage(level) {
-    switch (level){
-      case 1: return {level1};
-      case 2: return {level2};
-      case 3: return {level3};
-      case 4: return {level4};
-      default:return null;
-    }
-  }
+  const scale = 0.1;
+  //
+  // function getImage(level) {
+  //   switch (level){
+  //     case 1: return {level1};
+  //     case 2: return {level2};
+  //     case 3: return {level3};
+  //     case 4: return {level4};
+  //     default:return null;
+  //   }
+  // }
 
   return (
-    <div className={styles.container} >
+    <div className={styles.container} w="100%">
       <ButtonGroup
         colorScheme="green"
         w="85%"
@@ -193,7 +189,6 @@ export function MongStatusInfo() {
                     />
                   </CircularProgressLabel>
                 </CircularProgress>
-                {/*{mong.clean}%*/}
               </Box>
               <Box
                 border="1px solid yellow"
