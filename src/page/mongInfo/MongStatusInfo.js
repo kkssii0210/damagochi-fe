@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {
-  Card,
+  Text,
   Box,
   Button,
   Center,
@@ -19,6 +19,10 @@ import {
 import styles from "../../WelcomePage.module.css";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import level1 from "../../알.gif";
+import level2 from "../../자아생성시기.gif";
+import level3 from "../../사춘기.gif";
+import level4 from "../../다큼.gif";
 
 export function MongStatusInfo() {
   const navigate = useNavigate();
@@ -50,24 +54,82 @@ export function MongStatusInfo() {
   }, [mong_id]);
 
   const scale = 0.1;
+
+  function getImage(level) {
+    switch (level){
+      case 1: return {level1};
+      case 2: return {level2};
+      case 3: return {level3};
+      case 4: return {level4};
+      default:return null;
+    }
+    return undefined;
+  }
+
   return (
     <div className={styles.container}>
-      <ButtonGroup colorScheme='green' w="85%" mt={20} justifyContent="space-between">
+      <ButtonGroup
+        colorScheme="green"
+        w="85%"
+        mt={20}
+        justifyContent="space-between"
+      >
         <Button borderRadius="30px" onClick={() => navigate("/")}>
           홈 화면
         </Button>
+        <Text color="white" fontSize="3xl">
+          My Mong status
+        </Text>
         <Button borderRadius="30px" onClick={() => navigate("/MongTutorial")}>
           마이 몽 정보
         </Button>
       </ButtonGroup>
-      <Box>
-        <SimpleGrid ml="10%" display="flex" columns={2} mb={400} w="80%" h="3%"  >
-          <Circle ml={200} mr="-23.4rem" mt={50}  bg="rgba(255, 255, 255, 0.3)"  mb={500} w="300px" h="300px" fontSize="25px" color="white">Level:{mong.level}</Circle>
-          <Box ml={195} mt={22} mb={500} w="300px" h="300px">
-            <Box position="relative" mt={150} mr={300}>
-              <Box size="xl" position="absolute" sx={{transform: `translate(${0 * scale}px, ${-1000 * scale}px)`}} >
-                <CircularProgress size="4rem" value={mong.tired} color="red" max={100}>
-                  <CircularProgressLabel >
+      <Box border="1px solid yellow">
+        <SimpleGrid ml="10%" display="flex" columns={2} mb={400} w="80%" h="3%">
+          <Box
+            color="white"
+            fontSize="1.5rem"
+            mt={51}
+            mb={500}
+            ml={0}
+            w="500px"
+            h="300px"
+            border="1px solid red"
+          >
+            <img src={getImage(mong.level)}/>
+            {/*alt={`Mong 레벨 ${mong.level}`*/}
+            </Box>
+          <Circle
+            border="1px solid blue"
+            ml={200}
+            mr="-23.4rem"
+            mt={50}
+            bg="rgba(255, 255, 255, 0.3)"
+            mb={500}
+            w="300px"
+            h="300px"
+            fontSize="25px"
+            color="white"
+          >
+            Level:{mong.level}
+          </Circle>
+          <Box ml={195} mt={22} mb={500} w="300px" h="300px" border="1px solid yellow">
+            <Box position="relative" mt={150} mr={300} border="1px solid yellow">
+              <Box
+                border="1px solid yellow"
+                size="xl"
+                position="absolute"
+                sx={{
+                  transform: `translate(${0 * scale}px, ${-1000 * scale}px)`,
+                }}
+              >
+                <CircularProgress
+                  size="4rem"
+                  value={mong.tired}
+                  color="red"
+                  max={100}
+                >
+                  <CircularProgressLabel>
                     <FontAwesomeIcon
                       icon={faPersonRunning}
                       size="2x"
@@ -77,7 +139,13 @@ export function MongStatusInfo() {
                 </CircularProgress>
                 {/*<Button onClick={handleClick}>업데이트</Button>*/}
               </Box>
-              <Box position="absolute" sx={{transform: `translate(${-951 * scale}px, ${-309 * scale}px)`}} >
+              <Box
+                border="1px solid yellow"
+                position="absolute"
+                sx={{
+                  transform: `translate(${-951 * scale}px, ${-309 * scale}px)`,
+                }}
+              >
                 <CircularProgress size="4rem" value={mong.feed} color="#9933ff">
                   <CircularProgressLabel>
                     <FontAwesomeIcon
@@ -88,8 +156,18 @@ export function MongStatusInfo() {
                   </CircularProgressLabel>
                 </CircularProgress>
               </Box>
-              <Box position="absolute" sx={{transform: `translate(${-588 * scale}px, ${809 * scale}px)`}} >
-                <CircularProgress size="4rem" value={mong.sleep} color="#FFB300">
+              <Box
+                border="1px solid yellow"
+                position="absolute"
+                sx={{
+                  transform: `translate(${-588 * scale}px, ${809 * scale}px)`,
+                }}
+              >
+                <CircularProgress
+                  size="4rem"
+                  value={mong.sleep}
+                  color="#FFB300"
+                >
                   <CircularProgressLabel>
                     <FontAwesomeIcon
                       icon={faMoon}
@@ -100,16 +178,36 @@ export function MongStatusInfo() {
                 </CircularProgress>
                 {/*{mong.sleep}%*/}
               </Box>
-              <Box position="absolute" sx={{transform: `translate(${588 * scale}px, ${809 * scale}px)`}} >
+              <Box
+                border="1px solid yellow"
+                position="absolute"
+                sx={{
+                  transform: `translate(${588 * scale}px, ${809 * scale}px)`,
+                }}
+              >
                 <CircularProgress size="4rem" value={mong.clean} color="pink">
                   <CircularProgressLabel>
-                    <FontAwesomeIcon icon={faPoo} size="2xl" style={{color: "pink",}} />
+                    <FontAwesomeIcon
+                      icon={faPoo}
+                      size="2xl"
+                      style={{ color: "pink" }}
+                    />
                   </CircularProgressLabel>
                 </CircularProgress>
                 {/*{mong.clean}%*/}
               </Box>
-              <Box position="absolute" sx={{transform: `translate(${951 * scale}px, ${-309 * scale}px)`}} >
-                <CircularProgress size="4rem" value={mong.strength} color="#00b303">
+              <Box
+                border="1px solid yellow"
+                position="absolute"
+                sx={{
+                  transform: `translate(${951 * scale}px, ${-309 * scale}px)`,
+                }}
+              >
+                <CircularProgress
+                  size="4rem"
+                  value={mong.strength}
+                  color="#00b303"
+                >
                   <CircularProgressLabel>
                     <FontAwesomeIcon
                       icon={faDumbbell}
@@ -118,24 +216,23 @@ export function MongStatusInfo() {
                     />
                   </CircularProgressLabel>
                 </CircularProgress>
-                {/*{mong.strength}%*/}
               </Box>
             </Box>
           </Box>
-          <Box color="white" fontSize="1.8rem" mt={50} mb={500} ml={0} w="800px" h="300px">
-            <p> 몽 이름: {mong.name}</p>
-            <p> 레벨: {mong.level}</p>
-            <p>피로도 : {mong.tired}</p>
-            <p>근력 : {mong.strength}</p>
-            <p>수면 : {mong.sleep}</p>
-            <p>배고픔 : {mong.feed}</p>
-            <p>청소 : {mong.clean}</p>
-          </Box>
         </SimpleGrid>
-        <Box w="80%" h="300px" ml="10%" border="1px solid yellow"></Box>
+        <Box w="80%" h="300px" ml="10%" border="1px solid yellow"><p> 몽 이름: {mong.name}</p>
+          <p> 레벨: {mong.level}</p>
+
+          {/*전희연 의도: 각 레벨에 맞는 이미지 반환하는 코드 작성..*/}
+          <p>피로도 : {mong.tired}</p>
+          <p>근력 : {mong.strength}</p>
+          <p>수면 : {mong.sleep}</p>
+          <p>배고픔 : {mong.feed}</p>
+          <p>청소 : {mong.clean}</p>
+        </Box>
       </Box>
     </div>
-)
+  );
 
 }
 

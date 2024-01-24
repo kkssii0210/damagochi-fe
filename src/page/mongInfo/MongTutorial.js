@@ -59,13 +59,13 @@ export function MongTutorial(props) {
     setPopoverOpen(true);
     setStepInfo({step, info: `Step ${step} 정보입니다.`});
   };
-  const [isClicked, setIsClicked] = useState(false);
-  const handleButtonClick= ()=> {
-    setIsClicked(true);
-  };
-  const handlePopoverClose = () => {
-      setPopoverOpen(false);
-  };
+  // const [isClicked, setIsClicked] = useState(false);
+  // const handleButtonClick= ()=> {
+  //   setIsClicked(true);
+  // };
+  // const handlePopoverClose = () => {
+  //     setPopoverOpen(false);
+  // };
   return (
     <div className={styles.container}>
       <ButtonGroup colorScheme='green' w="85%" mt={20} justifyContent="space-between" >
@@ -76,13 +76,13 @@ export function MongTutorial(props) {
         My Mong Info
       </Button>
       </ButtonGroup>
-      <SimpleGrid mb={500} w="85%" columns={7} style={sg2Style} >
+      <SimpleGrid mb={400} w="85%" columns={7} style={sg2Style} >
         <Card h="80"style={{ backgroundColor: "rgba(255, 255, 255, 0.3)", borderRadius:"20px" }}>
           <CardHeader>
             <Text style={cardStyleInHeader}>Baby Mong</Text>
           </CardHeader>
           <CardBody>
-            <img src={Step1Damagochi} className="pictureSize"/>
+            <img src={Step1Damagochi} />
           </CardBody>
             <Button borderRadius="20px" mb={3} m={3} onClick={onOpen}>About Baby Mong</Button>
           <Modal onClose={onClose} isOpen={isOpen} isCentered>
@@ -107,7 +107,7 @@ export function MongTutorial(props) {
           <CardBody>
             <img src={Step2Damagochi}/>
           </CardBody>
-          <Button borderRadius="20px" mb={3} m={3} onClick={onOpen}>About Baby Mong</Button>
+          <Button borderRadius="20px" mb={2} mr={10} ml={10} onClick={onOpen}>About Baby Mong</Button>
           <Modal onClose={onClose} isOpen={isOpen} isCentered>
             <ModalOverlay />
             <ModalContent>
