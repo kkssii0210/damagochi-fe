@@ -12,6 +12,7 @@ const BattleRoom = () => {
   const [battleRooms, setBattleRooms] = useState([]);
   const [message, setMessage] = useState(null);
 
+
   const connectWebSocket = () => {
     const client = new StompJS.Client({
       webSocketFactory: () => new SockJS("/battle"),
@@ -32,6 +33,7 @@ const BattleRoom = () => {
     });
     client.activate();
   };
+
   const subscribeToRoom = (roomId, client) => {
     console.log("구독 시작");
     const roomTopic = `/topic/battleRooms/${roomId}`;
@@ -106,16 +108,16 @@ const BattleRoom = () => {
         },
         onConnect: () => {
           setStompClient(client);
+          // 현재 참여한 방에 대한 경로 구독
+          client.subscribe(`/topic/battleRoom/${battleRoomId}`, (message) => {
+            console.log(message.body);
+            setMessage(message.body);
+          });
           // 연결이 성공하면 publish를 사용하여 배틀룸 참여 요청을 보냄
           client.publish({
             destination: "/app/createBattleRoom",
             headers: { accessToken },
             body: JSON.stringify({ battleRoomId }),
-          });
-          // 현재 참여한 방에 대한 경로 구독
-          client.subscribe(`/topic/battleRoom/${battleRoomId}`, (message) => {
-            console.log(message.body);
-            setMessage(message.body);
           });
           setCurrentRoom(battleRoomId); // 현재 참여한 방 설정
           // WebSocket 연결 후 5초 지연하여 fetchBattleRooms 실행
