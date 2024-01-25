@@ -26,6 +26,7 @@ function HealthBar({health}) {
 
 
 export function Ba({message, roomId}) {
+
     const [userA, setUserA] = useState(null);
     const [userB, setUserB] = useState(null);
     const [userName, setUserName] = useState("");
@@ -45,8 +46,10 @@ export function Ba({message, roomId}) {
 //     const mongIdA = firstMessage.sessionIds.A.mongId;
 //     const mongIdB = firstMessage.sessionIds.B.mongId;
 
-    const userAMongId = info[roomId -1].statsMap["A"].mongId;
-    const userBMongId = info[roomId -1].statsMap["B"].mongId;
+    const userAMongId = info.statsMap["A"].mongId;
+    const userBMongId = info.statsMap["B"].mongId;
+
+
 
     const handleBattleRoomsMessage = (message) => {
         const receivedMessage = JSON.parse(message.body);
@@ -69,6 +72,9 @@ export function Ba({message, roomId}) {
 
 
     useEffect(() => {
+        if (userAMongId === null || userBMongId === null) {
+            return <div>로딩~</div>
+        }
         axios.get("api/manage/mong/getUser", {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -108,7 +114,7 @@ export function Ba({message, roomId}) {
                     console.log('Connected to WebSocket');
 
                     // 이미 토픽을 구독 중인 상태에서도 추가적인 토픽 구독 가능
-                    stompClient.subscribe("/topic/battleRooms/" + roomId, handleBattleRoomsMessage);
+                    stompClient.subscribe("/topic/battleRooms/page/" + roomId, handleBattleRoomsMessage);
                 });
 
                 // 컴포넌트가 언마운트될 때 WebSocket 연결 해제
@@ -119,7 +125,7 @@ export function Ba({message, roomId}) {
             });
 
 
-    }, [reload]);
+    }, [message]);
 
 
     if (userA === null || userB === null) {
