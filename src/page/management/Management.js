@@ -1,20 +1,41 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {Button, useToast} from "@chakra-ui/react";
+import {
+    Button, Drawer, DrawerBody,
+    DrawerCloseButton,
+    DrawerContent, DrawerFooter,
+    DrawerHeader,
+    DrawerOverlay,
+    Input,
+    useDisclosure,
+    useToast
+} from "@chakra-ui/react";
 import {useNavigate} from "react-router-dom";
 import {CountdownButton} from "./CountdownButton";
-
+import Step1Damagochi from "../../알.gif";
+import Step2Damagochi from "../../자아생성시기.gif";
+import Step3Damagochi from "../../사춘기.gif";
+import Step4Damagochi from "../../다큼.gif";
+import {Inventory} from "./Inventory";
 
 export function Management({reload2}) {
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const btnRef = React.useRef()
+
+    const [showInventory, setShowInventory] = useState(false)
 
     const [mong, setMong] = useState(null);
     const [reload, setReload] = useState(0);
     const [condition, setCondition] = useState("");
+    const [inputValue, setInputValue] = useState("");
+    const [warningMessage, setWarningMessage] = useState("")
 
     const toast = useToast();
     const navigate = useNavigate();
 
     const [countdown, setCountdown] = useState(null);
+    const [imageModule, setImageModule] = useState(null);
+
 
 
     useEffect(() => {
@@ -35,98 +56,59 @@ export function Management({reload2}) {
                 } else {
                     setCondition("보통")
                 }
+
+                const loadImageModule = async () => {
+                    if (data.evolutionLevel >= 2) {
+                        const imageModule = await import(`../../img/${data.mongCode}-${data.evolutionLevel-1}.png`);
+                        setImageModule(imageModule.default);
+                    }
+                };
+
+                loadImageModule();
             })
 
 
     }, [reload,reload2]);
 
 
+
+
     if (mong === null) {
 
         return <div>로딩중</div>;
     }
+
+    function handleAddMongClick() {
+        if (inputValue.trim() === '') {
+            // 인풋 값이 공백인 경우 경고 메시지 설정
+            setWarningMessage('인풋 값을 입력하세요.');
+        } else {
+            // 공백이 아니면 경고 메시지 초기화하고 Axios 요청 보내기
+            setWarningMessage('');
+            axios.postForm("/api/mongList", { mongName: inputValue }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                }
+            })
+                .then(() => setReload(reload + 1));
+        }
+    };
     if (!mong.name) {
-        return <div>몽이 없습니다</div>;
+        return <div>
+            몽이 없습니다
+            <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+            />
+            <button onClick={handleAddMongClick}>몽 획득하기</button>
+            {warningMessage && <p style={{ color: 'red' }}>{warningMessage}</p>}
+        </div>;
     }
 
 
 
-    function handleFeedClick() {
-        axios.put("/api/manage/feed", {memberId : mong.memberId})
-            .then(()=> {
-                console.log("먹이주기");
-                axios.post("/api/manage/feed/feedCool", {memberId : mong.memberId})
-                    // .then(()=> console.log("쿨타임끝"))
-                setReload(reload+1);
-            })
-            .catch((error)=> {
-                if (error.response.status === 400) {
-                    console.log("포만감이 가득 찼습니다.")
-                } else if (error.response.status === 404) {
-                    console.log("쿨타임 중")
-                }
-            })
 
-
-    }
-
-    function handleStrokeClick() {
-        axios.put("/api/manage/stroke", {memberId : mong.memberId})
-            .then(()=> {
-                console.log("쓰다듬기")
-                axios.post("/api/manage/stroke/strokeCool", {memberId : mong.memberId});
-                setReload(reload + 1);
-                setCountdown(10);
-
-                const countdownInterval = setInterval(() => {
-                    setCountdown((prevCountdown) => {
-                        if (prevCountdown <= 1) {
-                            clearInterval(countdownInterval);
-                            return null;
-                        }
-                        return prevCountdown - 1;
-                    });
-                }, 1000);
-            })
-            .catch((error)=> {
-                if (error.response.status === 400) {
-                    console.log("피로도가 가득 찼습니다.")
-                } else if (error.response.status === 404) {
-                    console.log("쿨타임 중")
-                }
-            })
-
-
-    }
-
-    function handleTrainigClick() {
-        axios.put("/api/manage/training", {memberId : mong.memberId})
-            .then(({data})=> {
-                console.log(data);
-                axios.post("/api/manage/training/trainingCool", {memberId : mong.memberId});
-                setReload(reload + 1);
-                setCountdown(10);
-
-                const countdownInterval = setInterval(() => {
-                    setCountdown((prevCountdown) => {
-                        if (prevCountdown <= 1) {
-                            clearInterval(countdownInterval);
-                            return null;
-                        }
-                        return prevCountdown - 1;
-                    });
-                }, 1000);
-            })
-            .catch((error)=> {
-                if (error.response.status === 400) {
-                    console.log("피로도가 없습니다.")
-                } else if (error.response.status === 404) {
-                    console.log("쿨타임 중")
-                }
-            })
-
-
-    }
 
     function handleSleepClick() {
         axios.put("/api/manage/sleep", {memberId : mong.memberId})
@@ -150,6 +132,19 @@ export function Management({reload2}) {
             }).catch(()=> {console.log("맵이 깨끗합니다.")})
     }
 
+    function handleEvolClick() {
+        axios.put("/api/manage/mong/evo", {memberId : mong.memberId})
+            .then(()=> {
+                console.log("진화성공!!");
+                setReload(reload+1);
+            })
+            .catch(()=> console.log("진화실패"))
+    }
+
+
+    function handleInvenButtonClick() {
+        setShowInventory(!showInventory)
+    }
 
     return <div>
         <div style={{display : "flex", justifyContent : "space-between", width : "500px"}}>
@@ -180,16 +175,35 @@ export function Management({reload2}) {
                 label={"훈련하기"}
             />
             <Button onClick={handleSleepClick}>잠자기</Button>
-            {/* clean 이 false 시 활성화 */}
-            <Button onClick={handleCleanClick
-            }>청소하기</Button>
+            {!mong.clean &&
+                <Button onClick={handleCleanClick}>청소하기</Button>
+                }
+            {(mong.level >= 1 && mong.evolutionLevel === 1) && <Button onClick={handleEvolClick}>진화</Button>}
+            {(mong.level >= 4 && mong.evolutionLevel === 2) && <Button onClick={handleEvolClick}>진화</Button>}
+            {(mong.level >= 8 && mong.evolutionLevel === 3) && <Button onClick={handleEvolClick}>진화</Button>}
+            <div>
+                <Button onClick={handleInvenButtonClick}>
+                    인벤토리
+                </Button>
+                {showInventory && <Inventory memberId={mong.memberId} />}
+            </div>
         </div>
         {mong.clean && <div>맵상태 : clean</div>}
         {mong.clean || <div>맵상태 : dirty</div>}
+        <div style={{ width: "300px", height: "300px" }}>
+            {mong.evolutionLevel === 1 && <img src={Step1Damagochi} alt={"Step1"} />}
+            {mong.evolutionLevel !== 1 && imageModule && (
+                <img style={{height : "100%", width : "100%"}}
+                    src={imageModule}
+                    alt={`step${mong.evolutionLevel}`}
+                />
+            )}
+        </div>
         <div style={{marginTop : "50px"}}>
             <div>이름 : {mong.name}</div>
             <div>속성 : {mong.attribute}</div>
             <div>레벨 : {mong.level}</div>
+            <div>진화레벨 : {mong.evolutionLevel }</div>
             <div>경험치 : {mong.exp}</div>
             {/* 아픔 디버프가 있다면 상태에 같이 표시 */}
             <div>상태 : {condition}</div>
