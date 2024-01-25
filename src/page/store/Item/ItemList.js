@@ -64,33 +64,42 @@ function ItemList(props) {
               <Card
                 key={index}
                 border="0px solid black"
-                // key={item.fileUrl}
                 width="100%"
                 onClick={() => navigate(`/store/item/view/id/${item.storeId}`)}
               >
                 <CardHeader>
                   <Heading size="sm">{index + 1}.</Heading>
-                  <Heading size="m">{item.itemName}</Heading>
+                  <Flex>
+                    {item.itemFiles &&
+                      item.itemFiles.map((e, index) => (
+                        <Box key={e.id} border={"0px solid green"}>
+                          {index === 0 && (
+                            <Image
+                              width="150px"
+                              height="100px"
+                              // objectFit="cover"
+                              src={e.fileUrl}
+                            />
+                          )}
+                        </Box>
+                      ))}
+                  </Flex>
                 </CardHeader>
                 <CardBody>
+                  <Box fontWeight="bold" fontSize="large">
+                    {item.itemName}
+                  </Box>
                   <Box>{item.itemCategory}</Box>
                   <Box mb={2}>{item.itemFunction}</Box>
                   <Box>{item.itemPrice} 포인트</Box>
-                  <Flex>
-                    {item.itemFiles.map((e) => (
-                      <Box key={e.id} border={"1px solid green"}>
-                        <Image src={e.fileUrl} />
-                      </Box>
-                    ))}
-                  </Flex>
                 </CardBody>
-                <CardFooter>
-                  <ButtonGroup>
-                    <Button w="70%" variant="solid" colorScheme="purple">
-                      담기
-                    </Button>
-                  </ButtonGroup>
-                </CardFooter>
+                {/*<CardFooter>*/}
+                {/*  <ButtonGroup>*/}
+                {/*    <Button w="70%" variant="solid" colorScheme="purple">*/}
+                {/*      담기*/}
+                {/*    </Button>*/}
+                {/*  </ButtonGroup>*/}
+                {/*</CardFooter>*/}
               </Card>
             ))}
           </>

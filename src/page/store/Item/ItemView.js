@@ -10,6 +10,7 @@ import {
   Container,
   Flex,
   Heading,
+  Image,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -113,14 +114,7 @@ function ItemView(props) {
     const addItem = cartItem.find(
       (item) => item.playerId === memberInfo.playerId,
     );
-    // addItem이 존재하지 않으면, 에러 처리
-    // if (!addItem) {
-    //   toast({
-    //     description: "장바구니 아이템을 찾을 수 없습니다.",
-    //     status: "error",
-    //   });
-    //   return;
-    // }
+
     // 새로 추가될 아이템 정보
     const newCartItem = {
       storeId: item.storeId,
@@ -165,23 +159,9 @@ function ItemView(props) {
     <>
       <Cart cartItems={cartItem} />
       <Container border="0px solid black" w="40%" h="70%" mt="10%" mb="5%">
-        {/*<Box>*/}
-        {/*{fileURL.map((url) => (*/}
-        {/*  <Box key={url}>*/}
-        {/*    <Image src={url} border="1px solid black" />*/}
-        {/*  </Box>*/}
-        {/*))}*/}
-        <Card
-          border="0px solid black"
-          // key={item.fileUrl}
-          // width="60%"
-          mr="15%"
-        >
+        <Card border="0px solid black" mr="15%">
           <CardHeader>
-            <Flex>
-              <Heading size="m" mr={10}>
-                {item.itemName}
-              </Heading>
+            <Flex mb={3}>
               <Button
                 colorScheme="purple"
                 mr={1}
@@ -194,8 +174,24 @@ function ItemView(props) {
                 삭제
               </Button>
             </Flex>
+            <Flex>
+              {item.itemFiles.map((e, index) => (
+                <Box key={e.id} border={"0px solid green"}>
+                  <Image
+                    mr={3}
+                    width="150px"
+                    height="100px"
+                    // objectFit="cover"
+                    src={e.fileUrl}
+                  />
+                </Box>
+              ))}
+            </Flex>
           </CardHeader>
           <CardBody>
+            <Box mb={2} fontWeight="bold">
+              {item.itemName}
+            </Box>
             <Box mb={2}>분 류 : {item.itemCategory}</Box>
             <Box mb={2}>기 능 : {item.itemFunction}</Box>
             <Box>가 격 : {item.itemPrice} 포인트</Box>
@@ -223,9 +219,7 @@ function ItemView(props) {
                 <FontAwesomeIcon icon={faPlus} />
               </Button>
 
-              {/*{cartItem.map((cartItem, index) => (*/}
               <Button
-                w="70%"
                 variant="solid"
                 colorScheme="purple"
                 onClick={() => handleAddCart()}
@@ -234,7 +228,6 @@ function ItemView(props) {
               </Button>
               <Button
                 onClick={() => navigate(`/purchase/${item.storeId}`)}
-                w="70%"
                 variant="solid"
                 colorScheme="purple"
               >
