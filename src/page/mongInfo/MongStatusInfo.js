@@ -57,14 +57,15 @@ export function MongStatusInfo() {
 
   function getImage(level) {
     switch (level){
-      case 1: return {level1};
-      case 2: return {level2};
-      case 3: return {level3};
-      case 4: return {level4};
+      case 1: return level1;
+      case 2: return level2;
+      case 3: return level3;
+      case 4: return level4;
       default:return null;
     }
   }
 
+  console.log(level1)
   return (
     <div className={styles.container} >
       <ButtonGroup
