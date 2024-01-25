@@ -219,6 +219,7 @@ export function MongStatusInfo() {
                   </CircularProgressLabel>
                 </CircularProgress>
               </Box>
+              <Box > </Box>
             </Box>
           </Box>
         </SimpleGrid>
