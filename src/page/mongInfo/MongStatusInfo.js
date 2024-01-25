@@ -89,18 +89,20 @@ export function MongStatusInfo() {
           <Box
             color="white"
             fontSize="1.5rem"
+            borderRadius="20px"
             mt={51}
             mb={500}
             ml={0}
             w="500px"
             h="300px"
+            bg="rgba(255, 255, 255, 0.3)"
             border="1px solid red"
           >
             <img src={getImage(mong.level)}/>
             {/*alt={`Mong 레벨 ${mong.level}`*/}
           </Box>
           <Circle
-            border="1px solid blue"
+            border="0px solid blue"
             ml={200}
             mr="-23.4rem"
             mt={50}
@@ -113,10 +115,10 @@ export function MongStatusInfo() {
           >
             Level:{mong.level}
           </Circle>
-          <Box ml={195} mt={22} mb={500} w="300px" h="300px" border="1px solid yellow">
-            <Box position="relative" mt={150} mr={300} border="1px solid yellow">
+          <Box ml={195} mt={22} mb={500} w="300px" h="300px" border="0px solid yellow">
+            <Box position="relative" mt={150} mr={300} border="0px solid yellow">
               <Box
-                border="1px solid yellow"
+                border="0px solid yellow"
                 size="xl"
                 position="absolute"
                 sx={{
@@ -140,7 +142,7 @@ export function MongStatusInfo() {
                 {/*<Button onClick={handleClick}>업데이트</Button>*/}
               </Box>
               <Box
-                border="1px solid yellow"
+                border="0px solid yellow"
                 position="absolute"
                 sx={{
                   transform: `translate(${-951 * scale}px, ${-309 * scale}px)`,
@@ -157,7 +159,7 @@ export function MongStatusInfo() {
                 </CircularProgress>
               </Box>
               <Box
-                border="1px solid yellow"
+                border="0px solid yellow"
                 position="absolute"
                 sx={{
                   transform: `translate(${-588 * scale}px, ${809 * scale}px)`,
@@ -179,7 +181,7 @@ export function MongStatusInfo() {
                 {/*{mong.sleep}%*/}
               </Box>
               <Box
-                border="1px solid yellow"
+                border="0px solid yellow"
                 position="absolute"
                 sx={{
                   transform: `translate(${588 * scale}px, ${809 * scale}px)`,
@@ -197,7 +199,7 @@ export function MongStatusInfo() {
                 {/*{mong.clean}%*/}
               </Box>
               <Box
-                border="1px solid yellow"
+                border="0px solid yellow"
                 position="absolute"
                 sx={{
                   transform: `translate(${951 * scale}px, ${-309 * scale}px)`,
