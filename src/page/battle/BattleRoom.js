@@ -3,14 +3,17 @@ import SockJS from "sockjs-client";
 import * as StompJS from "@stomp/stompjs";
 import axios from "axios";
 import { Ba } from "../../Ba";
-import { Spinner } from "@chakra-ui/react";
+import { Button, Spinner } from "@chakra-ui/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router";
 
 const BattleRoom = () => {
   const [stompClient, setStompClient] = useState(null);
-  const [battleRoomId, setBattleRoomId] = useState(null);
   const [currentRoom, setCurrentRoom] = useState(null);
   const [battleRooms, setBattleRooms] = useState([]);
   const [message, setMessage] = useState(null);
+  const navigate = useNavigate();
 
   const connectWebSocket = () => {
     const client = new StompJS.Client({
@@ -83,7 +86,8 @@ const BattleRoom = () => {
         console.log("웹소켓 연결 종료");
       }
     };
-  }, []);
+  }, [stompClient, navigate]);
+
   const fetchBattleRooms = (currentRoom, setBattleRooms) => {
     axios
       .get("/api/battleRooms")
@@ -154,6 +158,9 @@ const BattleRoom = () => {
       <button onClick={connectWebSocket}>Create Battle Room</button>
       {currentRoom && <div>Current Battle Room ID: {currentRoom}</div>}
       <h2>Available Battle Rooms</h2>
+      <Button onClick={() => fetchBattleRooms(currentRoom, setBattleRooms)}>
+        <FontAwesomeIcon icon={faRotateRight} />
+      </Button>
       <ul>
         {battleRooms.map((room) => {
           // 현재 참여 중인 플레이어 수 계산
