@@ -36,7 +36,7 @@ function ItemEdit(props) {
       .then((response) => updateItem(response.data))
       .catch((error) => console.log(error))
       .finally();
-  }, []);
+  }, [itemFiles]);
 
   if (item === null) {
     return <Spinner />;
@@ -112,11 +112,7 @@ function ItemEdit(props) {
             type="file"
             accept="image/*"
             multiple
-            onChange={(e) =>
-              updateItem((draft) => {
-                draft.itemFiles = e.target.files;
-              })
-            }
+            onChange={(e) => setItemFiles(e.target.files)}
           ></Input>
         </Flex>
       </FormControl>
