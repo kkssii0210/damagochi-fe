@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import SockJS from "sockjs-client";
 import * as StompJS from "@stomp/stompjs";
 import axios from "axios";
+import {Ba} from "../../Ba";
 
 const BattleRoom = () => {
   const [stompClient, setStompClient] = useState(null);
   const [battleRoomId, setBattleRoomId] = useState(null);
   const [currentRoom, setCurrentRoom] = useState(null);
   const [battleRooms, setBattleRooms] = useState([]);
+
+  const [message, setMessage] = useState(null);
+
   const connectWebSocket = () => {
     const client = new StompJS.Client({
       webSocketFactory: () => new SockJS("/battle"),
@@ -102,6 +106,7 @@ const BattleRoom = () => {
           // 현재 참여한 방에 대한 경로 구독
           client.subscribe(`/topic/battleRoom/${battleRoomId}`, (message) => {
             console.log(message.body);
+            setMessage(message.body);
           });
           setCurrentRoom(battleRoomId); // 현재 참여한 방 설정
           // WebSocket 연결 후 5초 지연하여 fetchBattleRooms 실행
@@ -118,6 +123,7 @@ const BattleRoom = () => {
       // 현재 참여한 방에 대한 경로 구독
       stompClient.subscribe(`/topic/battleRoom/${battleRoomId}`, (message) => {
         console.log(message.body);
+        setMessage(message.body);
       });
       // 웹소켓이 이미 연결되어 있으면 publish를 사용하여 참여 요청을 보냄
       stompClient.publish({
@@ -164,6 +170,7 @@ const BattleRoom = () => {
           );
         })}
       </ul>
+      {message && currentRoom && <Ba message={message} roomId={currentRoom}/>}
     </div>
   );
 };
