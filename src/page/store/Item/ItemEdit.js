@@ -44,8 +44,8 @@ function ItemEdit(props) {
 
   function handleSubmit(e) {
     axios
-      .put("/api/store/item/edit/id/" + storeId, {
-        itemFile: item.itemFiles.fileUrl,
+      .postForm("/api/store/item/edit/id/" + storeId, {
+        itemFile: item.itemFiles,
         itemName: item.itemName,
         itemCategory: item.itemCategory,
         itemFunction: item.itemFunction,
@@ -108,12 +108,13 @@ function ItemEdit(props) {
             <FontAwesomeIcon icon={faFolderPlus} color="gray" size={"2xl"} />
           </Box>
           <Input
+            // value={item.itemFiles}
             type="file"
             accept="image/*"
             multiple
             onChange={(e) =>
               updateItem((draft) => {
-                draft.itemFiles = e.target.value;
+                draft.itemFiles = e.target.files;
               })
             }
           ></Input>
