@@ -8,7 +8,6 @@ const BattleRoom = () => {
   const [battleRoomId, setBattleRoomId] = useState(null);
   const [currentRoom, setCurrentRoom] = useState(null);
   const [battleRooms, setBattleRooms] = useState([]);
-
   const connectWebSocket = () => {
     const client = new StompJS.Client({
       webSocketFactory: () => new SockJS("/battle"),
@@ -17,30 +16,38 @@ const BattleRoom = () => {
       },
       onConnect: () => {
         setStompClient(client);
-        client.subscribe("/topic/battleRoom", (message) => {
-          console.log(message);
-        });
-        createBattleRoom(client); // 웹소켓 연결 후 배틀룸 생성
+        createBattleRoom(client);
+        // WebSocket 연결 후 5초 지연하여 fetchBattleRooms 실행
+        setTimeout(() => {
+          fetchBattleRooms(currentRoom, setBattleRooms);
+        }, 5000);
       },
       onStompError: (error) => {
         console.error(error);
       },
     });
-
     client.activate();
+  };
+  const subscribeToRoom = (roomId, client) => {
+    console.log("구독 시작");
+    const roomTopic = `/topic/battleRooms/${roomId}`;
+    client.subscribe(roomTopic, (message) => {
+      // 여기서 받은 메시지를 처리하는 로직
+      console.log(message);
+    });
   };
 
   const createBattleRoom = (client) => {
-    if (client) {
+    if (client && client.connected) {
       client.publish({
         destination: "/app/createBattleRoom",
         headers: {
           accessToken: localStorage.getItem("accessToken"),
         },
-        body: JSON.stringify({
-          /* 배틀룸 생성 데이터 */
-        }),
+        body: JSON.stringify({}),
       });
+    } else {
+      console.error("WebSocket Client is not connected.");
     }
   };
   useEffect(() => {
@@ -52,52 +59,28 @@ const BattleRoom = () => {
       .catch((error) => {
         console.error("Error fetching battle rooms:", error);
       });
-
-    // 웹소켓 연결 설정 로직 (생략)
   }, []); // 빈 의존성 배열 사용
-
+  //다른페이지로 이동시 연결해제 로직
   useEffect(() => {
-    const client = new StompJS.Client({
-      webSocketFactory: () => new SockJS("/battle"),
-      connectHeaders: {
-        accessToken: localStorage.getItem("accessToken"),
-      },
-      onConnect: () => {
-        console.log("WebSocket Connected");
-        client.subscribe("/topic/battleRooms", (message) => {
-          console.log(message.body);
-          // 서버로부터 받은 배틀룸 목록 데이터 처리
-          const updatedRooms = JSON.parse(message.body);
-          setBattleRooms(updatedRooms);
-        });
-      },
-      onDisconnect: () => {
-        console.log("WebSocket Disconnected");
-      },
-      onStompError: (error) => {
-        console.error("STOMP Error:", error);
-      },
-    });
-    client.activate();
+    console.log("웹소켓 연결종료 로직 시작");
+    console.log("stompClient : " + stompClient);
+    return () => {
+      if (stompClient && stompClient.connected) {
+        stompClient.deactivate();
+        console.log("웹소켓 연결 종료");
+      }
+    };
   }, []);
-
-  // // WebSocket 연결 종료
-  // useEffect(() => {
-  //   // 서버로부터 배틀룸 목록 가져오기
-  //   axios
-  //     .get("/api/battleRooms")
-  //     .then((response) => {
-  //       setBattleRooms(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching battle rooms:", error);
-  //     });
-  //   return () => {
-  //     if (stompClient) {
-  //       stompClient.deactivate(); // WebSocket 연결 종료
-  //     }
-  //   };
-  // }, [stompClient]); // 의존성 배열에 stompClient 추가
+  const fetchBattleRooms = (currentRoom, setBattleRooms) => {
+    axios
+      .get("/api/battleRooms")
+      .then((response) => {
+        setBattleRooms(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching battle rooms:", error);
+      });
+  };
 
   const joinRoom = (battleRoomId) => {
     const accessToken = localStorage.getItem("accessToken");
@@ -116,7 +99,15 @@ const BattleRoom = () => {
             headers: { accessToken },
             body: JSON.stringify({ battleRoomId }),
           });
+          // 현재 참여한 방에 대한 경로 구독
+          client.subscribe(`/topic/battleRoom/${battleRoomId}`, (message) => {
+            console.log(message.body);
+          });
           setCurrentRoom(battleRoomId); // 현재 참여한 방 설정
+          // WebSocket 연결 후 5초 지연하여 fetchBattleRooms 실행
+          setTimeout(() => {
+            fetchBattleRooms(currentRoom, setBattleRooms);
+          }, 5000);
         },
         onStompError: (error) => {
           console.error(error);
@@ -124,6 +115,10 @@ const BattleRoom = () => {
       });
       client.activate();
     } else {
+      // 현재 참여한 방에 대한 경로 구독
+      stompClient.subscribe(`/topic/battleRoom/${battleRoomId}`, (message) => {
+        console.log(message.body);
+      });
       // 웹소켓이 이미 연결되어 있으면 publish를 사용하여 참여 요청을 보냄
       stompClient.publish({
         destination: "/app/createBattleRoom",
@@ -131,6 +126,10 @@ const BattleRoom = () => {
         body: JSON.stringify({ battleRoomId }),
       });
       setCurrentRoom(battleRoomId); // 현재 참여한 방 설정
+      // WebSocket 연결 후 5초 지연하여 fetchBattleRooms 실행
+      setTimeout(() => {
+        fetchBattleRooms(currentRoom, setBattleRooms);
+      }, 5000);
     }
   };
   // 서버로부터 응답을 받는 부분 구현 필요
@@ -146,12 +145,21 @@ const BattleRoom = () => {
           const playerCount = Object.values(room.sessionIds).filter(
             (id) => id !== null,
           ).length;
+          // 현재 참여한 방이거나 방이 이미 가득 찼다면 클릭할 수 없도록 설정
+          const isClickable =
+            currentRoom !== room.battleRoomId && playerCount < 2;
           return (
-            <li
-              key={room.battleRoomId}
-              onClick={() => joinRoom(room.battleRoomId)}
-            >
-              {room.battleRoomId + "번 방"} - Players: {playerCount}/2
+            <li key={room.battleRoomId}>
+              <button
+                onClick={() => isClickable && joinRoom(room.battleRoomId)}
+                disabled={!isClickable}
+                style={{
+                  cursor: isClickable ? "pointer" : "not-allowed",
+                  opacity: isClickable ? 1 : 0.5,
+                }}
+              >
+                {room.battleRoomId + "번 방"} - Players: {playerCount}/2
+              </button>
             </li>
           );
         })}
