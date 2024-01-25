@@ -48,6 +48,24 @@ export function Ba({message, roomId}) {
     const userAMongId = info[roomId -1].statsMap["A"].mongId;
     const userBMongId = info[roomId -1].statsMap["B"].mongId;
 
+    const handleBattleRoomsMessage = (message) => {
+        const receivedMessage = JSON.parse(message.body);
+        console.log('Received message:', receivedMessage);
+        // 원하는 작업 수행
+        // 예를 들면, 상태 업데이트 등
+
+        if (receivedMessage.mongAId === userAMongId) {
+            setMongAHp(receivedMessage.healthA);
+            setMongBHp(receivedMessage.healthB);
+        }
+
+        if (receivedMessage.mongAId === userBMongId) {
+            setMongBHp(receivedMessage.healthA);
+            setMongAHp(receivedMessage.healthB);
+        }
+
+        setNowTurn(receivedMessage.turn);
+    };
 
 
     useEffect(() => {
@@ -115,16 +133,7 @@ export function Ba({message, roomId}) {
         // axios.get("/api/manage/mong").then(()=> console.log("완"))
     }
 
-    const handleBattleRoomsMessage = (message) => {
-        const receivedMessage = JSON.parse(message.body);
-        console.log('Received message:', receivedMessage);
-        // 원하는 작업 수행
-        // 예를 들면, 상태 업데이트 등
 
-        setMongAHp(receivedMessage.healthA);
-        setMongBHp(receivedMessage.healthB);
-        setNowTurn(receivedMessage.turn);
-    };
 
     if (userName === userA.memberId) {
         return (
