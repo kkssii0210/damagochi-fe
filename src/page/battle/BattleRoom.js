@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import SockJS from "sockjs-client";
 import * as StompJS from "@stomp/stompjs";
 import axios from "axios";
-import {Ba} from "../../Ba";
+import { Ba } from "../../Ba";
+import { Spinner } from "@chakra-ui/react";
 
 const BattleRoom = () => {
   const [stompClient, setStompClient] = useState(null);
   const [battleRoomId, setBattleRoomId] = useState(null);
   const [currentRoom, setCurrentRoom] = useState(null);
   const [battleRooms, setBattleRooms] = useState([]);
-
   const [message, setMessage] = useState(null);
 
   const connectWebSocket = () => {
@@ -54,6 +54,15 @@ const BattleRoom = () => {
       console.error("WebSocket Client is not connected.");
     }
   };
+  // 메시지 객체를 상태로 관리
+  const [battleMessage, setBattleMessage] = useState(null);
+
+  // 메시지가 업데이트될 때 battleMessage 상태를 업데이트
+  useEffect(() => {
+    if (message) {
+      setBattleMessage(JSON.parse(message));
+    }
+  }, [message]);
   useEffect(() => {
     axios
       .get("/api/battleRooms")
@@ -170,7 +179,21 @@ const BattleRoom = () => {
           );
         })}
       </ul>
-      {message && currentRoom && <Ba message={message} roomId={currentRoom}/>}
+      <div>
+        {/* ... 기존 UI 코드 */}
+        {battleMessage &&
+          currentRoom &&
+          (battleMessage.sessionIds.B ? (
+            // B가 존재할 경우 Ba 컴포넌트 렌더링
+            <Ba message={battleMessage} roomId={currentRoom} />
+          ) : (
+            // B가 null일 경우 스피너 렌더링
+            <div>
+              매칭 중...
+              <Spinner />
+            </div> // 여기에 스피너 컴포넌트를 추가하세요.
+          ))}
+      </div>
     </div>
   );
 };
