@@ -1,43 +1,37 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
-  Text,
   Box,
-  Button,
-  Center,
+  Circle,
   CircularProgress,
   CircularProgressLabel,
-  ButtonGroup,
   SimpleGrid,
-  Circle,
-  Spacer,
   Tab,
-  TabPanels,
-  TabPanel,
   TabList,
+  TabPanel,
+  TabPanels,
   Tabs,
   useColorModeValue,
 } from "@chakra-ui/react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faAngleUp,
   faDumbbell,
   faMoon,
   faPersonRunning,
   faPoo,
   faUtensils,
 } from "@fortawesome/free-solid-svg-icons";
-import styles from "../../WelcomePage.module.css";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import level1 from "../../알.gif";
 import level2 from "../../자아생성시기.gif";
 import level3 from "../../사춘기.gif";
 import level4 from "../../다큼.gif";
-import NavBar from "../../page/component/NavBar";
 import MongTutorial from "./MongTutorial";
+
 const statusCss = {
-    background: 'linear-gradient(45deg, rgba(255,0,0,1) 0%, rgba(0,255,0,1) 50%, rgba(0,0,255,1) 100%)'
-}
+  background:
+    "linear-gradient(45deg, rgba(255,0,0,1) 0%, rgba(0,255,0,1) 50%, rgba(0,0,255,1) 100%)",
+};
 
 
 export function MongStatusInfo() {
@@ -55,10 +49,10 @@ export function MongStatusInfo() {
   });
   //mong id 찾는 건 백으로 -- member id
   //240115 멤버 아이디로 몽의 정보 가져오기
-  const colors = useColorModeValue(
-    ["teal.50", "yellow.50", "blue.50"],
-    ["teal.500", "yellow.100", "blue.500"],
-  );
+  // const colors = useColorModeValue(
+  //   ["teal.50", "yellow.50", "blue.50"],
+  //   ["teal.500", "yellow.100", "blue.500"],
+  // );
   useEffect(() => {
     axios
       .get(`/api/monginfo/${mong_id}`, {
@@ -74,7 +68,7 @@ export function MongStatusInfo() {
 
   const scale = 0.1;
   const [tabIndex, setTabIndex] = useState(0);
-  const bg = colors[tabIndex];
+  // const bg = colors[tabIndex];
   function getImage(level) {
     switch (level) {
       case 1:
@@ -92,14 +86,16 @@ export function MongStatusInfo() {
 
   console.log(level1);
   return (
-    <Box margin="30px" border="2px solid black">
+    <div>
+      <Box margin="30px" border="1px solid black">
       <Tabs
+        mt="20px"
         colorScheme="red"
         variant="soft-rounded"
         colomn={3}
         onChange={(index) => setTabIndex(index)}
-        bg={bg}
-        border="1px solid blue"
+        // bg={bg}
+        border="0px solid blue"
         w="100%"
       >
         <TabList
@@ -107,19 +103,15 @@ export function MongStatusInfo() {
           justifyContent="space-evenly"
           mb="1em"
           fontSize="2rem"
-          border="6px solid black"
+          border="0px solid black"
         >
-          <Tab>menu</Tab>
           <Tab>My Mong Status</Tab>
           <Tab>Mong Evolution Info</Tab>
           <Tab>My Account</Tab>
         </TabList>
         <TabPanels>
-          <TabPanel>
-            <NavBar />
-          </TabPanel>
           <TabPanel border="6px solid red">
-            <div border="6px solid black">
+            <div border="0px solid black">
               <SimpleGrid
                 border="0px solid red"
                 ml="10%"
@@ -135,7 +127,7 @@ export function MongStatusInfo() {
                   mb={500}
                   w="sm"
                   bg="rgba(255, 255, 255, 0.3)"
-                  border="2px solid red"
+                  border="0px solid red"
                 >
                   <img
                     src={getImage(mong.level)}
@@ -144,11 +136,10 @@ export function MongStatusInfo() {
                   {/*alt={`Mong 레벨 ${mong.level}`*/}
                 </Box>
                 <Circle
-                  border="0px solid blue"
+                  border="2px solid blue"
                   ml={200}
                   mr="-23.4rem"
                   mt={50}
-                  bg="rgba(255, 255, 255, 0.3)"
                   mb={500}
                   w="300px"
                   h="300px"
@@ -445,6 +436,7 @@ export function MongStatusInfo() {
       {/*  </SimpleGrid>*/}
       {/*</Box>*/}
     </Box>
+  </div>
   );
 }
 

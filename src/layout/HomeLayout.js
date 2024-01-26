@@ -6,7 +6,7 @@ export function HomeLayout() {
   return (
     <>
       <Box>
-        
+        <NavBar />
         <Outlet />
       </Box>
     </>

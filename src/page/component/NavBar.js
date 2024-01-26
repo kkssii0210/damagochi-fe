@@ -207,12 +207,11 @@ export function NavBar(props) {
 
   return (
     <Box
-      border="1px solid black"
+      border="0px solid black"
       style={{
-
         marginTop: "60px",
         display: "flex",
-        border: "1px solid navy",
+        border: "0px solid navy",
         width: "100%",
         height: "auto",
         justifyContent: "space-evenly",
@@ -222,15 +221,7 @@ export function NavBar(props) {
       <Button variant="ghost" size="lg" onClick={() => navigate("/")}>
         Home
       </Button>
-      <Button variant="ghost" size="lg" onClick={() => navigate("/MongTutorial")}>
-        Tutorial
-      </Button>
-      <Button variant="ghost" size="lg" onClick={() => navigate("/MongStatusInfo")}>
-        Status
-      </Button>
-      <Button variant="ghost" size="lg" onClick={() => navigate("/MongBattleInfo")}>
-        Battle
-      </Button>
+
       <Box
         padding="4"
         borderWidth="1px"
