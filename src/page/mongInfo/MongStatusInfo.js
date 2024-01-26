@@ -84,8 +84,8 @@ export function MongStatusInfo() {
           마이 몽 정보
         </Button>
       </ButtonGroup>
-      <Box border="0px solid yellow">
-        <SimpleGrid ml="10%" display="flex" columns={2} mb={400} w="80%" h="3%">
+      <Box border="0px solid red">
+        <SimpleGrid border="0px solid yellow" ml="10%" display="flex" columns={2} mb={400} w="80%" h="3%">
           <Box
             color="white"
             fontSize="1.5rem"
@@ -96,7 +96,7 @@ export function MongStatusInfo() {
             w="500px"
             h="300px"
             bg="rgba(255, 255, 255, 0.3)"
-            border="1px solid red"
+            border="0px solid red"
           >
             <img src={getImage(mong.level)}/>
             {/*alt={`Mong 레벨 ${mong.level}`*/}
