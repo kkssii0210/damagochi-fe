@@ -22,9 +22,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolderPlus } from "@fortawesome/free-solid-svg-icons";
 
 function ItemEdit(props) {
-  const [updateImage, setUpdateImage] = useState();
+  const [updateFiles, setUpdateFiles] = useState();
   const [item, updateItem] = useImmer(null);
-  const [itemFiles, setItemFiles] = useState();
+  const [itemFiles, setItemFiles] = useState(null);
 
   const { storeId } = useParams();
   const navigate = useNavigate();
@@ -36,20 +36,33 @@ function ItemEdit(props) {
       .then((response) => updateItem(response.data))
       .catch((error) => console.log(error))
       .finally();
-  }, [itemFiles]);
+  }, [updateFiles]);
 
   if (item === null) {
     return <Spinner />;
   }
 
   function handleSubmit(e) {
+    const formData = new FormData();
+
+    for (let i = 0; i < updateFiles.length; i++) {
+      formData.append("itemFiles", updateFiles[i]);
+    }
+
+    // for (let i = 0; i < item.itemFiles.length; i++) {
+    formData.append("itemFiles", item.itemFiles);
+    // }
+
+    formData.append("itemName", item.itemName);
+    formData.append("itemCategory", item.itemCategory);
+    formData.append("itemFunction", item.itemFunction);
+    formData.append("itemPrice", item.itemPrice);
+
     axios
-      .postForm("/api/store/item/edit/id/" + storeId, {
-        itemFile: item.itemFiles,
-        itemName: item.itemName,
-        itemCategory: item.itemCategory,
-        itemFunction: item.itemFunction,
-        itemPrice: item.itemPrice,
+      .post("/api/store/item/edit/id/" + storeId, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       })
       .then((response) => {
         toast({
@@ -66,6 +79,31 @@ function ItemEdit(props) {
       )
       .finally();
   }
+
+  // function handleSubmit(e) {
+  //   axios
+  //     .postForm("/api/store/item/edit/id/" + storeId, {
+  //       itemFiles: updateFiles,
+  //       itemName: item.itemName,
+  //       itemCategory: item.itemCategory,
+  //       itemFunction: item.itemFunction,
+  //       itemPrice: item.itemPrice,
+  //     })
+  //     .then((response) => {
+  //       toast({
+  //         description: storeId + "번 아이템이 수정되었습니다.",
+  //         status: "success",
+  //       });
+  //       navigate("/store/item/list");
+  //     })
+  //     .catch((error) =>
+  //       toast({
+  //         description: "수정 중 문제가 발생하였습니다.",
+  //         status: "error",
+  //       }),
+  //     )
+  //     .finally();
+  // }
 
   // 수정 시, 아이템 파일 삭제
   function handleDeleteFile(index) {
@@ -108,11 +146,10 @@ function ItemEdit(props) {
             <FontAwesomeIcon icon={faFolderPlus} color="gray" size={"2xl"} />
           </Box>
           <Input
-            // value={item.itemFiles}
             type="file"
             accept="image/*"
             multiple
-            onChange={(e) => setItemFiles(e.target.files)}
+            onChange={(e) => setUpdateFiles(e.target.files)}
           ></Input>
         </Flex>
       </FormControl>
