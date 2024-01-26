@@ -33,7 +33,7 @@ import level1 from "../../알.gif";
 import level2 from "../../자아생성시기.gif";
 import level3 from "../../사춘기.gif";
 import level4 from "../../다큼.gif";
-import navBar from "../component/NavBar";
+import NavBar from "../../page/component/NavBar";
 import MongTutorial from "./MongTutorial";
 const statusCss = {
     background: 'linear-gradient(45deg, rgba(255,0,0,1) 0%, rgba(0,255,0,1) 50%, rgba(0,0,255,1) 100%)'
@@ -116,7 +116,7 @@ export function MongStatusInfo() {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <navbar />
+            <NavBar />
           </TabPanel>
           <TabPanel border="6px solid red">
             <div border="6px solid black">
