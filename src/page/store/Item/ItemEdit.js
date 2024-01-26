@@ -49,10 +49,6 @@ function ItemEdit(props) {
       formData.append("newItemFiles", updateFiles[i]);
     }
 
-    // for (let i = 0; i < item.itemFiles.length; i++) {
-    // formData.append("itemFiles", item.itemFiles);
-    // }
-
     formData.append("itemName", item.itemName);
     formData.append("itemCategory", item.itemCategory);
     formData.append("itemFunction", item.itemFunction);
@@ -79,31 +75,6 @@ function ItemEdit(props) {
       )
       .finally();
   }
-
-  // function handleSubmit(e) {
-  //   axios
-  //     .postForm("/api/store/item/edit/id/" + storeId, {
-  //       itemFiles: updateFiles,
-  //       itemName: item.itemName,
-  //       itemCategory: item.itemCategory,
-  //       itemFunction: item.itemFunction,
-  //       itemPrice: item.itemPrice,
-  //     })
-  //     .then((response) => {
-  //       toast({
-  //         description: storeId + "번 아이템이 수정되었습니다.",
-  //         status: "success",
-  //       });
-  //       navigate("/store/item/list");
-  //     })
-  //     .catch((error) =>
-  //       toast({
-  //         description: "수정 중 문제가 발생하였습니다.",
-  //         status: "error",
-  //       }),
-  //     )
-  //     .finally();
-  // }
 
   // 수정 시, 아이템 파일 삭제
   function handleDeleteFile(index) {
