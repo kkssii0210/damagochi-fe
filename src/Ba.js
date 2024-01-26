@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import swordImage from "./칼1.png";
+import "./AttackAnimation.css";
 import axios from "axios";
 import {
   Box,
@@ -47,18 +49,19 @@ export function Ba({ message, roomId }) {
   const [mongBHp, setMongBHp] = useState(0);
 
   const [reload, setReload] = useState(0);
-
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [sessionIds, setSessionIds] = useState({ A: null, B: null });
   // const info = JSON.parse(message);
   const info = message;
   // A와 B의 mongId 추출
   //     const mongIdA = firstMessage.sessionIds.A.mongId;
   //     const mongIdB = firstMessage.sessionIds.B.mongId;
 
-  const userAMongId = info.statsMap["A"].mongId;
-  const userBMongId = info.statsMap["B"].mongId;
+  const userAMongId = info.mongAId;
+  const userBMongId = info.mongBId;
 
   const handleBattleRoomsMessage = (message) => {
-    const receivedMessage = JSON.parse(message.body);
+    const receivedMessage = message.body;
     console.log("Received message:", receivedMessage);
     // 원하는 작업 수행
     // 예를 들면, 상태 업데이트 등
@@ -77,6 +80,18 @@ export function Ba({ message, roomId }) {
   };
 
   useEffect(() => {
+    try {
+      // prop으로 받은 message는 문자열이므로 JSON으로 파싱해야 합니다.
+      // 이미 객체로 파싱된 상태라면 JSON.parse는 필요하지 않습니다.
+      const data = typeof message === "string" ? JSON.parse(message) : message;
+      if (data && data.sessionIds) {
+        setSessionIds(data.sessionIds);
+        console.log(sessionIds);
+      }
+    } catch (error) {
+      console.error("Error parsing message prop", error);
+    }
+
     if (userAMongId === null || userBMongId === null) {
       return <div>로딩~</div>;
     }
@@ -120,25 +135,26 @@ export function Ba({ message, roomId }) {
         };
 
         loadImageModule();
+        handleBattleRoomsMessage(message);
 
-        const socket = new SockJS("/ws"); // WebSocket 엔드포인트에 맞게 수정
-        const stompClient = Stomp.over(socket);
-
-        stompClient.connect({}, () => {
-          console.log("Connected to WebSocket");
-
-          // 이미 토픽을 구독 중인 상태에서도 추가적인 토픽 구독 가능
-          stompClient.subscribe(
-            "/topic/battleRooms/" + roomId,
-            handleBattleRoomsMessage,
-          );
-        });
+        // const socket = new SockJS("/ws"); // WebSocket 엔드포인트에 맞게 수정
+        // const stompClient = Stomp.over(socket);
+        //
+        // stompClient.connect({}, () => {
+        //   console.log("Connected to WebSocket");
+        //
+        //   // 이미 토픽을 구독 중인 상태에서도 추가적인 토픽 구독 가능
+        //   stompClient.subscribe(
+        //     "/topic/battleRooms/" + roomId,
+        //     handleBattleRoomsMessage,
+        //   );
+        // });
 
         // 컴포넌트가 언마운트될 때 WebSocket 연결 해제
-        return () => {
-          stompClient.disconnect();
-          console.log("Disconnected from WebSocket");
-        };
+        // return () => {
+        //   stompClient.disconnect();
+        //   console.log("Disconnected from WebSocket");
+        // };
       });
   }, [message]);
 
@@ -148,15 +164,20 @@ export function Ba({ message, roomId }) {
 
   function handleAttackClick(user1, user2, healthA, healthB) {
     console.log(user1.name + "가 " + user2.name + "에게 공격");
+    setIsAnimating(true); // 애니메이션 시작
     axios.put("/api/manage/mong", {
       mongAId: user1.id,
       mongBId: user2.id,
       healthA,
       healthB,
       battleRoomId: roomId,
+      sessionIds: sessionIds, // 세션 ID 객체를 요청 본문에 추가
     });
-
-    // axios.get("/api/manage/mong").then(()=> console.log("완"))
+    // 애니메이션이 끝난 후 상태를 초기화
+    setTimeout(() => {
+      setIsAnimating(false);
+      console.log("애니메이션 종료");
+    }, 4000); // 애니메이션 지속 시간과 일치해야 함
   }
 
   if (userName === userA.memberId) {
@@ -220,6 +241,19 @@ export function Ba({ message, roomId }) {
                 <Text fontSize="sm" noOfLines={2}>
                   Type: {userA.attribute}
                 </Text>
+              </Box>
+              <Box>
+                {isAnimating && (
+                  <Image
+                    src={swordImage}
+                    className="sword-animation"
+                    position="absolute"
+                    left="100px"
+                    bottom="100px"
+                    width="300px"
+                    height="300px"
+                  />
+                )}
               </Box>
             </Box>
             <Box
@@ -325,6 +359,17 @@ export function Ba({ message, roomId }) {
                 <Text fontSize="sm" noOfLines={2}>
                   Type: {userB.attribute}
                 </Text>
+              </Box>
+              <Box>
+                {isAnimating && (
+                  <Image
+                    src={swordImage}
+                    className="sword-animation"
+                    position="absolute"
+                    left="0"
+                    top="0"
+                  />
+                )}
               </Box>
             </Box>
             <Box
