@@ -35,8 +35,7 @@ const iconStyle = {
   color: "yellow"
 };
 const cardStyleInHeader={
-  color: "white", fontSize:"1.5rem",ㅜㅁ
-  textAlign:"center"};
+  color: "white", fontSize:"1.5rem",textAlign:"center"};
 export function MongTutorial(props) {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
