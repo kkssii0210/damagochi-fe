@@ -46,11 +46,11 @@ function ItemEdit(props) {
     const formData = new FormData();
 
     for (let i = 0; i < updateFiles.length; i++) {
-      formData.append("itemFiles", updateFiles[i]);
+      formData.append("newItemFiles", updateFiles[i]);
     }
 
     // for (let i = 0; i < item.itemFiles.length; i++) {
-    formData.append("itemFiles", item.itemFiles);
+    // formData.append("itemFiles", item.itemFiles);
     // }
 
     formData.append("itemName", item.itemName);
