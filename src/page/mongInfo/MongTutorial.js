@@ -27,7 +27,6 @@ import Step3Damagochi from "../../사춘기.gif";
 import Step4Damagochi from "../../다큼.gif";
 import styles from "../../WelcomePage.module.css";
 import {useNavigate} from "react-router";
-const sg2Style ={ justifyContent:"space-arround", marginTop:"2rem"};
 const iconStyle = {
   display: "flex",
   alignItems: "center",
@@ -56,28 +55,14 @@ export function MongTutorial(props) {
   //     setPopoverOpen(false);
   // };
   return (
-    <div className={styles.container}>
-      <ButtonGroup
-        colorScheme='green'
-        w="85%"
-        mt={20}
-        justifyContent="space-between" >
-      <Button borderRadius="30px" onClick={() => navigate("/MongStatusInfo")}>
-        My
-      </Button>
-        <Text color="white" fontSize="3xl">
-          Mong's Evolution
-        </Text>
-      <Button  borderRadius="30px" onClick={() => navigate("/MongStatusInfo")}>
-        My Mong Info
-      </Button>
-      </ButtonGroup>
-      <SimpleGrid mb={400} w="85%" columns={7} style={sg2Style} >
-        <Card h="80"style={{ backgroundColor: "rgba(255, 255, 255, 0.3)", borderRadius:"20px" }}>
+    <div border="0px solid green">
+      <SimpleGrid border="0px solid red" ml="10%" display="flex" columns={2} w="80%"  >
+
+        <Card style={{ backgroundColor: "rgba(255, 255, 255, 0.3)", borderRadius:"20px" }}>
           <CardHeader>
             <Text style={cardStyleInHeader}>Baby Mong</Text>
           </CardHeader>
-          <CardBody>
+          <CardBody  border="0px solid green">
             <img src={Step1Damagochi} />
           </CardBody>
           <Button borderRadius="20px" mb={2} mr={10} ml={10} onClick={onOpen}>Click me!</Button>
@@ -95,15 +80,14 @@ export function MongTutorial(props) {
             </ModalContent>
           </Modal>
         </Card>
-        <Box style={iconStyle}><FontAwesomeIcon size="5x" icon={faAngleUp} rotation={90} /></Box>
+        <Box style={iconStyle}><FontAwesomeIcon size="5x" icon={faAngleUp} rotation={90}/></Box>
         <Card h="80" style={{ backgroundColor: "rgba(255, 255, 255, 0.3)", borderRadius:"20px" }}>
           <CardHeader>
             <Text style={cardStyleInHeader}>Step 2</Text>
           </CardHeader>
-          <CardBody>
+          <CardBody  border="0px solid green">
             <img src={Step2Damagochi}/>
           </CardBody>
-
           <Button borderRadius="20px" mb={2} mr={10} ml={10} onClick={onOpen}>Click me!</Button>
           <Modal onClose={onClose} isOpen={isOpen} isCentered>
             <ModalOverlay />
@@ -124,7 +108,7 @@ export function MongTutorial(props) {
           <CardHeader>
           <Text style={cardStyleInHeader}>Step 3</Text>
           </CardHeader>
-          <CardBody>
+          <CardBody  border="0px solid green">
             <img src={Step3Damagochi} />
           </CardBody>
           <Button borderRadius="20px" mb={2} mr={10} ml={10} onClick={onOpen}>Click me!</Button>
@@ -147,11 +131,10 @@ export function MongTutorial(props) {
             <CardHeader>
             <Text style={cardStyleInHeader}>Step 4</Text>
           </CardHeader>
-          <CardBody>
+          <CardBody  border="0px solid green">
             <img src={Step4Damagochi}/>
           </CardBody>
-          <Button borderRadius="20px" mb={2} mr={10} ml={10} onClick={onOpen}>Click me!</Button>
-          <Modal onClose={onClose} isOpen={isOpen} isCentered>
+          <Button borderRadius="20px" mb={2} mr={10} ml={10} onClick={onOpen}>Click me!</Button>          <Modal onClose={onClose} isOpen={isOpen} isCentered>
             <ModalOverlay />
             <ModalContent>
               <ModalHeader>Modal Title</ModalHeader>

@@ -209,9 +209,10 @@ export function NavBar(props) {
     <Box
       border="1px solid black"
       style={{
+
         marginTop: "60px",
         display: "flex",
-        border: "0px solid navy",
+        border: "1px solid navy",
         width: "100%",
         height: "auto",
         justifyContent: "space-evenly",
