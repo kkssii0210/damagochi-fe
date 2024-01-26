@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { Stomp } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
+import {Inventory} from "./page/management/Inventory";
 
 function HealthBar({ health }) {
   // 체력바 스타일을 계산하는 함수
@@ -45,6 +46,8 @@ export function Ba({ message, roomId }) {
 
   const [mongAHp, setMongAHp] = useState(0);
   const [mongBHp, setMongBHp] = useState(0);
+
+  const [showInventory, setShowInventory] = useState(false);
 
   const [reload, setReload] = useState(0);
 
@@ -159,17 +162,13 @@ export function Ba({ message, roomId }) {
     // axios.get("/api/manage/mong").then(()=> console.log("완"))
   }
 
+  function handleInvenButtonClick() {
+    setShowInventory(!showInventory)
+  }
+
   if (userName === userA.memberId) {
     return (
       <div>
-        {userA.mongId}
-        {nowTurn === userA.name && (
-          <Button
-            onClick={() => handleAttackClick(userA, userB, mongAHp, mongBHp)}
-          >
-            공격
-          </Button>
-        )}
         <Center>
           <Flex
             display="flex"
@@ -223,6 +222,31 @@ export function Ba({ message, roomId }) {
               </Box>
             </Box>
             <Box
+                border="1px solid green"
+                display="flex"
+                width="35%"
+                height="100%"
+                p="2"
+                borderRadius="md"
+                boxShadow="sm"
+                flexDirection="column"
+                justifyContent="end"
+            >
+              {nowTurn === userA.name && (
+                  <div>
+                    <Button
+                        onClick={() => handleAttackClick(userA, userB, mongAHp, mongBHp)}
+                    >
+                      공격
+                    </Button>
+                    <Button onClick={handleInvenButtonClick}>
+                      인벤토리
+                    </Button>
+                    {showInventory && <Inventory memberId={userA.memberId} mystyle={{border: "10px solid green"}} onClick={(item) => console.log(item.name + "사용")}/>}
+                  </div>
+              )}
+            </Box>
+            <Box
               border="1px solid blue"
               display="flex"
               width="30%"
@@ -268,13 +292,7 @@ export function Ba({ message, roomId }) {
   } else {
     return (
       <div>
-        {nowTurn === userB.name && (
-          <Button
-            onClick={() => handleAttackClick(userB, userA, mongBHp, mongAHp)}
-          >
-            공격
-          </Button>
-        )}
+
         <Center>
           <Flex
             display="flex"
@@ -326,6 +344,31 @@ export function Ba({ message, roomId }) {
                   Type: {userB.attribute}
                 </Text>
               </Box>
+            </Box>
+            <Box
+                border="1px solid green"
+                display="flex"
+                width="35%"
+                height="100%"
+                p="2"
+                borderRadius="md"
+                boxShadow="sm"
+                flexDirection="column"
+                justifyContent="end"
+            >
+              {nowTurn === userB.name && (
+                  <div>
+                    <Button
+                        onClick={() => handleAttackClick(userB, userA, mongBHp, mongAHp)}
+                    >
+                      공격
+                    </Button>
+                    <Button onClick={handleInvenButtonClick}>
+                      인벤토리
+                    </Button>
+                    {showInventory && <Inventory memberId={userB.memberId} mystyle={{border: "10px solid green"}} onClick={(item) => console.log(item.name + "사용")} />}
+                  </div>
+              )}
             </Box>
             <Box
               border="1px solid blue"
