@@ -121,7 +121,7 @@ export function Ba({ message, roomId }) {
 
         loadImageModule();
 
-        const socket = new SockJS("http://localhost:8080/ws"); // WebSocket 엔드포인트에 맞게 수정
+        const socket = new SockJS("/ws"); // WebSocket 엔드포인트에 맞게 수정
         const stompClient = Stomp.over(socket);
 
         stompClient.connect({}, () => {
@@ -129,7 +129,7 @@ export function Ba({ message, roomId }) {
 
           // 이미 토픽을 구독 중인 상태에서도 추가적인 토픽 구독 가능
           stompClient.subscribe(
-            "/topic/battleRooms/page/" + roomId,
+            "/topic/battleRooms/" + roomId,
             handleBattleRoomsMessage,
           );
         });
