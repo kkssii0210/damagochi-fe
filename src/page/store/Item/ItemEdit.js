@@ -44,8 +44,9 @@ function ItemEdit(props) {
 
   function handleSubmit(e) {
     const formData = new FormData();
-
-    for (let i = 0; i < updateFiles.length; i++) {
+    let leng = 0;
+    updateFiles && (leng = updateFiles.length);
+    for (let i = 0; i < leng; i++) {
       formData.append("newItemFiles", updateFiles[i]);
     }
 

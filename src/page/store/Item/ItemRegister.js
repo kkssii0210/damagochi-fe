@@ -23,6 +23,7 @@ function ItemRegister(props) {
   const [itemName, setItemName] = useState();
   const [itemFunction, setItemFunction] = useState();
   const [itemPrice, setItemPrice] = useState();
+  const [itemCode, setItemCode] = useState();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
@@ -42,6 +43,7 @@ function ItemRegister(props) {
         itemName,
         itemFunction,
         itemPrice,
+        itemCode,
       })
       .then(() => {
         toast({
@@ -145,6 +147,15 @@ function ItemRegister(props) {
               type="number"
               min="0"
               placeholder="포인트"
+            />
+          </FormControl>
+
+          <FormControl mb={5}>
+            <FormLabel>아이템 코드</FormLabel>
+            <Input
+              value={itemCode}
+              onChange={(e) => setItemCode(e.target.value)}
+              placeholder="ex) P001"
             />
           </FormControl>
         </CardBody>
