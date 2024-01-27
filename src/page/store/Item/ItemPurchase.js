@@ -75,12 +75,31 @@ export function ItemPurchase() {
       .finally();
   }
 
-  function handlePurchaseItem() {}
+  function handlePurchaseItem() {
+    // playerId 보내서 item의 member_id 속성에 넣기
+    // 구매한 각 아이템명, 카테고리, 구매수량도 보내기
+    const playerId = member.playerId;
+
+    const purchasedItems = [];
+
+    cartInfo.forEach((cartItem) => {
+      const itemInfo = {
+        itemName: cartItem.cartItemName,
+        itemCategory: cartItem.cartItemCategory,
+        itemCount: cartItem.cartItemCount,
+      };
+      purchasedItems.push(itemInfo);
+    });
+    axios.post("/api/purchase/buyItem", {
+      playerId: playerId,
+      purchasedItems: purchasedItems,
+      remainingPoint: remainingPoint,
+    });
+  }
 
   const playerIdWithoutAt = member.playerId.split("@")[0];
 
   return (
-    // Member: 포인트, item: price
     <Container
       mt={20}
       border="0px solid black"
@@ -92,12 +111,13 @@ export function ItemPurchase() {
           {playerIdWithoutAt}님의 구매 목록
         </Heading>
 
-        <Table mb={5} border={"0px solid blue"}>
+        <Table mb={5} border={"0px solid blue"} width={"130%"}>
           <Tr>
             <Th
               textAlign={"center"}
               fontSize={"medium"}
               borderBottom={"3px solid darkGray"}
+              width={"15%"}
             >
               목록
             </Th>
@@ -105,6 +125,7 @@ export function ItemPurchase() {
               textAlign={"center"}
               fontSize={"medium"}
               borderBottom={"3px solid darkGray"}
+              width={"20%"}
             >
               아이템명
             </Th>
@@ -113,6 +134,7 @@ export function ItemPurchase() {
               textAlign={"center"}
               fontSize={"medium"}
               borderBottom={"3px solid darkGray"}
+              width={"20%"}
             >
               아이템 수량
             </Th>
@@ -120,6 +142,7 @@ export function ItemPurchase() {
               textAlign={"center"}
               fontSize={"medium"}
               borderBottom={"3px solid darkGray"}
+              width={"20%"}
             >
               아이템 가격
             </Th>
@@ -136,7 +159,7 @@ export function ItemPurchase() {
 
         <HStack
           fontSize={"x-large"}
-          width={"100%"}
+          width={"130%"}
           justify={"flex-end"}
           mb={20}
         >
