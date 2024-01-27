@@ -47,6 +47,9 @@ export function Ba({ message, roomId }) {
   const [mongAHp, setMongAHp] = useState(0);
   const [mongBHp, setMongBHp] = useState(0);
 
+  const [attackBuffA, setAttackBuffA] = useState(1);
+  const [attackBuffB, setAttackBuffB] = useState(1);
+
   const [showInventory, setShowInventory] = useState(false);
 
   const [useItem, setUseItem] = useState("");
@@ -74,11 +77,19 @@ export function Ba({ message, roomId }) {
     if (receivedMessage.mongAId === userAMongId) {
       setMongAHp(receivedMessage.healthA);
       setMongBHp(receivedMessage.healthB);
+
+      if (receivedMessage.attackBuff) {
+        setAttackBuffA(receivedMessage.attackBuff);
+      }
     }
 
     if (receivedMessage.mongAId === userBMongId) {
       setMongBHp(receivedMessage.healthA);
       setMongAHp(receivedMessage.healthB);
+
+      if (receivedMessage.attackBuff) {
+        setAttackBuffB(receivedMessage.attackBuff);
+      }
     }
 
     if (receivedMessage.turn) {
@@ -156,13 +167,14 @@ export function Ba({ message, roomId }) {
     return <div>로딩중...</div>;
   }
 
-  function handleAttackClick(user1, user2, healthA, healthB) {
+  function handleAttackClick(user1, user2, healthA, healthB, attackBuff) {
     console.log(user1.name + "가 " + user2.name + "에게 공격");
     axios.put("/api/manage/mong", {
       mongAId: user1.id,
       mongBId: user2.id,
       healthA,
       healthB,
+      attackBuff,
       battleRoomId: roomId,
     });
 
@@ -243,7 +255,7 @@ export function Ba({ message, roomId }) {
               {nowTurn === userA.name && (
                   <div>
                     <Button
-                        onClick={() => handleAttackClick(userA, userB, mongAHp, mongBHp)}
+                        onClick={() => handleAttackClick(userA, userB, mongAHp, mongBHp, attackBuffA)}
                     >
                       공격
                     </Button>
@@ -377,7 +389,7 @@ export function Ba({ message, roomId }) {
               {nowTurn === userB.name && (
                   <div>
                     <Button
-                        onClick={() => handleAttackClick(userB, userA, mongBHp, mongAHp)}
+                        onClick={() => handleAttackClick(userB, userA, mongBHp, mongAHp, attackBuffB)}
                     >
                       공격
                     </Button>
