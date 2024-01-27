@@ -6,7 +6,6 @@ import {
   HStack,
   Table,
   Td,
-  Text,
   Th,
   Tr,
   VStack,
@@ -14,7 +13,9 @@ import {
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import response from "sockjs-client/lib/event/trans-message";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEquals } from "@fortawesome/free-solid-svg-icons/faEquals";
+import { faCircleMinus } from "@fortawesome/free-solid-svg-icons";
 
 // 실제 카드결제를 해서 포인트를 결제하는건 payment.js
 // 결제된 포인트를 이용해 상점에서 아이템을 구매하는건 purchase.js
@@ -59,8 +60,9 @@ export function ItemPurchase() {
       })
       .then((response) => {
         setCartInfo(response.data);
+
         const totalPrice = response.data.reduce(
-          (acc, item) => acc + item.cartItemPrice,
+          (acc, item) => acc + item.cartItemCount * item.cartItemPrice,
           0,
         );
         setTotalPrice(totalPrice);
@@ -90,15 +92,35 @@ export function ItemPurchase() {
           {playerIdWithoutAt}님의 구매 목록
         </Heading>
 
-        <Table mb={10} border={"0px solid blue"}>
+        <Table mb={5} border={"0px solid blue"}>
           <Tr>
-            <Th textAlign={"center"} fontSize={"medium"}>
-              목록 번호
+            <Th
+              textAlign={"center"}
+              fontSize={"medium"}
+              borderBottom={"3px solid darkGray"}
+            >
+              목록
             </Th>
-            <Th textAlign={"center"} fontSize={"medium"}>
+            <Th
+              textAlign={"center"}
+              fontSize={"medium"}
+              borderBottom={"3px solid darkGray"}
+            >
               아이템명
             </Th>
-            <Th textAlign={"center"} fontSize={"medium"}>
+
+            <Th
+              textAlign={"center"}
+              fontSize={"medium"}
+              borderBottom={"3px solid darkGray"}
+            >
+              아이템 수량
+            </Th>
+            <Th
+              textAlign={"center"}
+              fontSize={"medium"}
+              borderBottom={"3px solid darkGray"}
+            >
               아이템 가격
             </Th>
           </Tr>
@@ -106,29 +128,46 @@ export function ItemPurchase() {
             <Tr>
               <Td textAlign={"center"}>{index + 1}</Td>
               <Td textAlign={"center"}>{cartItem.cartItemName}</Td>
+              <Td textAlign={"center"}>{cartItem.cartItemCount}개</Td>
               <Td textAlign={"center"}>{cartItem.cartItemPrice} 포인트</Td>
             </Tr>
           ))}
         </Table>
 
-        <Table mb={10} mt={5} border={"0px solid blue"}>
+        <HStack
+          fontSize={"x-large"}
+          width={"100%"}
+          justify={"flex-end"}
+          mb={20}
+        >
+          <Box fontWeight={"bold"}>아이템 총 금액 =</Box>
+          <Box fontWeight={"bold"} textColor={"#C00"}>
+            {totalPrice}
+          </Box>
+          <Box textColor={"#C00"} fontSize={"lg"} fontWeight={"bold"}>
+            포인트
+          </Box>
+        </HStack>
+
+        <Table mb={10} mt={5} border="0px solid blue">
           <Tr>
-            <Th fontSize={"large"} padding={"10px"}>
-              현재 내 포인트
+            <Th fontSize="large" padding="5px" textAlign="center">
+              현재 내 포인트 <FontAwesomeIcon icon={faCircleMinus} />
             </Th>
-            <Th fontSize={"large"} padding={"10px"}>
-              아이템의 총 가격
+            <Th fontSize="large" padding="5px" textAlign="center">
+              아이템의 총 가격 <FontAwesomeIcon icon={faEquals} />
             </Th>
-            <Th fontSize={"large"} padding={"10px"}>
+            <Th fontSize="large" padding="5px" textAlign="center">
               구매 후 포인트
             </Th>
           </Tr>
           <Tr>
-            <Td>{member.point} 포인트</Td>
-            <Td>{totalPrice} 포인트</Td>
-            <Td>{remainingPoint} 포인트</Td>
+            <Td textAlign="center">{member.point} 포인트</Td>
+            <Td textAlign="center">{totalPrice} 포인트</Td>
+            <Td textAlign="center">{remainingPoint} 포인트</Td>
           </Tr>
         </Table>
+
         <Button colorScheme="purple" mb={20} onClick={handlePurchaseItem}>
           아이템 구매하기
         </Button>
