@@ -186,6 +186,10 @@ export function Ba({ message, roomId }) {
     setShowInventory(!showInventory)
   }
 
+  const handleInventoryClose = () => {
+    setShowInventory(false);
+  };
+
   if (userName === userA.memberId) {
     return (
       <div>
@@ -262,7 +266,8 @@ export function Ba({ message, roomId }) {
                     <Button onClick={handleInvenButtonClick}>
                       인벤토리
                     </Button>
-                    {showInventory && <Inventory memberId={userA.memberId} mystyle={{border: "10px solid green"}} onClick={(item) => {
+                    <div style={{ position: "relative" }}>
+                    {showInventory && <Inventory memberId={userA.memberId} mystyle={{border: "10px solid green"}} onClose={handleInventoryClose} onClick={(item) => {
                       console.log(item.name + "사용")
                       axios.put("/api/manage/mong/useItem", {
                         itemId: item.id,
@@ -273,6 +278,7 @@ export function Ba({ message, roomId }) {
                         battleRoomId: roomId,
                       })
                     }}/>}
+                    </div>
                   </div>
               )}
             </Box>
@@ -388,15 +394,17 @@ export function Ba({ message, roomId }) {
             >
               {nowTurn === userB.name && (
                   <div>
-                    <Button
-                        onClick={() => handleAttackClick(userB, userA, mongBHp, mongAHp, attackBuffB)}
-                    >
-                      공격
-                    </Button>
-                    <Button onClick={handleInvenButtonClick}>
-                      인벤토리
-                    </Button>
-                    {showInventory && <Inventory memberId={userB.memberId} mystyle={{border: "10px solid green"}} onClick={(item) => {
+                      <Button
+                          onClick={() => handleAttackClick(userB, userA, mongBHp, mongAHp, attackBuffB)}
+                      >
+                        공격
+                      </Button>
+                      <Button onClick={handleInvenButtonClick}>
+                        인벤토리
+                      </Button>
+
+                    <div style={{ position: "relative" }}>
+                    {showInventory && <Inventory memberId={userB.memberId} mystyle={{border: "10px solid green"}} onClose={handleInventoryClose} onClick={(item) => {
                       console.log(item.name + "사용")
                       axios.put("/api/manage/mong/useItem", {
                         itemId: item.id,
@@ -407,6 +415,7 @@ export function Ba({ message, roomId }) {
                         battleRoomId: roomId,
                       })
                     }} />}
+                    </div>
                   </div>
               )}
             </Box>
