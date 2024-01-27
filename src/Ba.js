@@ -49,6 +49,8 @@ export function Ba({ message, roomId }) {
 
   const [showInventory, setShowInventory] = useState(false);
 
+  const [useItem, setUseItem] = useState("");
+
   const [reload, setReload] = useState(0);
 
   // const info = JSON.parse(message);
@@ -59,6 +61,9 @@ export function Ba({ message, roomId }) {
 
   const userAMongId = info.statsMap["A"].mongId;
   const userBMongId = info.statsMap["B"].mongId;
+
+  const mongAMaxHp = info.statsMap["A"].health;
+  const mongBMaxHp = info.statsMap["B"].health;
 
   const handleBattleRoomsMessage = (message) => {
     const receivedMessage = JSON.parse(message.body);
@@ -76,7 +81,9 @@ export function Ba({ message, roomId }) {
       setMongAHp(receivedMessage.healthB);
     }
 
-    setNowTurn(receivedMessage.turn);
+    if (receivedMessage.turn) {
+      setNowTurn(receivedMessage.turn);
+    }
   };
 
   useEffect(() => {
@@ -162,6 +169,7 @@ export function Ba({ message, roomId }) {
     // axios.get("/api/manage/mong").then(()=> console.log("완"))
   }
 
+
   function handleInvenButtonClick() {
     setShowInventory(!showInventory)
   }
@@ -242,7 +250,17 @@ export function Ba({ message, roomId }) {
                     <Button onClick={handleInvenButtonClick}>
                       인벤토리
                     </Button>
-                    {showInventory && <Inventory memberId={userA.memberId} mystyle={{border: "10px solid green"}} onClick={(item) => console.log(item.name + "사용")}/>}
+                    {showInventory && <Inventory memberId={userA.memberId} mystyle={{border: "10px solid green"}} onClick={(item) => {
+                      console.log(item.name + "사용")
+                      axios.put("/api/manage/mong/useItem", {
+                        itemId: item.id,
+                        mongAId: userA.id,
+                        mongBId: userB.id,
+                        healthA: mongAHp,
+                        healthB: mongBHp,
+                        battleRoomId: roomId,
+                      })
+                    }}/>}
                   </div>
               )}
             </Box>
@@ -366,7 +384,17 @@ export function Ba({ message, roomId }) {
                     <Button onClick={handleInvenButtonClick}>
                       인벤토리
                     </Button>
-                    {showInventory && <Inventory memberId={userB.memberId} mystyle={{border: "10px solid green"}} onClick={(item) => console.log(item.name + "사용")} />}
+                    {showInventory && <Inventory memberId={userB.memberId} mystyle={{border: "10px solid green"}} onClick={(item) => {
+                      console.log(item.name + "사용")
+                      axios.put("/api/manage/mong/useItem", {
+                        itemId: item.id,
+                        mongAId: userB.id,
+                        mongBId: userA.id,
+                        healthA : mongBHp,
+                        healthB : mongAHp,
+                        battleRoomId: roomId,
+                      })
+                    }} />}
                   </div>
               )}
             </Box>
