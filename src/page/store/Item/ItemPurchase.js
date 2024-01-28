@@ -93,6 +93,7 @@ export function ItemPurchase() {
         itemName: cartItem.cartItemName,
         itemCategory: cartItem.cartItemCategory,
         itemCount: cartItem.cartItemCount,
+        itemCode: cartItem.cartItemCode,
       };
       purchasedItems.push(itemInfo);
     });

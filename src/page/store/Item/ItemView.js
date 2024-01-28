@@ -122,6 +122,7 @@ function ItemView(props) {
       playerId: memberInfo.playerId,
       itemName: item.itemName,
       itemCount: itemCount,
+      itemCode: item.itemCode,
     };
 
     const updatedCartItems = [...cartItem, newCartItem];
@@ -133,6 +134,7 @@ function ItemView(props) {
         playerId: memberInfo.playerId,
         itemName: item.itemName,
         itemCount: itemCount,
+        itemCode: item.itemCode,
       })
       .then(async (response) => {
         console.log(response.data);
