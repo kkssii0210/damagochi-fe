@@ -51,49 +51,29 @@ export function Ba({ message, roomId }) {
   const [reload, setReload] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [sessionIds, setSessionIds] = useState({ A: null, B: null });
-  // const info = JSON.parse(message);
-  const info = message;
-  // A와 B의 mongId 추출
-  //     const mongIdA = firstMessage.sessionIds.A.mongId;
-  //     const mongIdB = firstMessage.sessionIds.B.mongId;
 
+  const info = message;
   const userAMongId = info.mongAId;
   const userBMongId = info.mongBId;
 
   const handleBattleRoomsMessage = (message) => {
-    const receivedMessage = message.body;
+    const receivedMessage = message;
     console.log("Received message:", receivedMessage);
     // 원하는 작업 수행
     // 예를 들면, 상태 업데이트 등
-
     if (receivedMessage.mongAId === userAMongId) {
       setMongAHp(receivedMessage.healthA);
       setMongBHp(receivedMessage.healthB);
     }
-
     if (receivedMessage.mongAId === userBMongId) {
       setMongBHp(receivedMessage.healthA);
       setMongAHp(receivedMessage.healthB);
     }
-
     setNowTurn(receivedMessage.turn);
   };
-
   useEffect(() => {
-    try {
-      // prop으로 받은 message는 문자열이므로 JSON으로 파싱해야 합니다.
-      // 이미 객체로 파싱된 상태라면 JSON.parse는 필요하지 않습니다.
-      const data = typeof message === "string" ? JSON.parse(message) : message;
-      if (data && data.sessionIds) {
-        setSessionIds(data.sessionIds);
-        console.log(sessionIds);
-      }
-    } catch (error) {
-      console.error("Error parsing message prop", error);
-    }
-
-    if (userAMongId === null || userBMongId === null) {
-      return <div>로딩~</div>;
+    if (message && message.sessionIds) {
+      setSessionIds(message.sessionIds);
     }
     axios
       .get("api/manage/mong/getUser", {
@@ -106,11 +86,11 @@ export function Ba({ message, roomId }) {
         },
       })
       .then(({ data }) => {
+        console.log(data);
         setUserA(data.userA);
         setUserB(data.userB);
         setUserName(data.userName);
         setNowTurn(data.userA.name);
-
         setMongAHp(data.userA.health);
         setMongBHp(data.userB.health);
 
@@ -137,27 +117,15 @@ export function Ba({ message, roomId }) {
         loadImageModule();
         handleBattleRoomsMessage(message);
 
-        // const socket = new SockJS("/ws"); // WebSocket 엔드포인트에 맞게 수정
-        // const stompClient = Stomp.over(socket);
-        //
-        // stompClient.connect({}, () => {
-        //   console.log("Connected to WebSocket");
-        //
-        //   // 이미 토픽을 구독 중인 상태에서도 추가적인 토픽 구독 가능
-        //   stompClient.subscribe(
-        //     "/topic/battleRooms/" + roomId,
-        //     handleBattleRoomsMessage,
-        //   );
-        // });
-
-        // 컴포넌트가 언마운트될 때 WebSocket 연결 해제
-        // return () => {
-        //   stompClient.disconnect();
-        //   console.log("Disconnected from WebSocket");
-        // };
       });
   }, [message]);
-
+  useEffect(() => {
+    console.log(nowTurn);
+  }, [nowTurn]);
+  console.log(nowTurn);
+  if (userAMongId === null || userBMongId === null) {
+    return <div>로딩~</div>;
+  }
   if (userA === null || userB === null) {
     return <div>로딩중...</div>;
   }
@@ -248,10 +216,6 @@ export function Ba({ message, roomId }) {
                     src={swordImage}
                     className="sword-animation"
                     position="absolute"
-                    left="100px"
-                    bottom="100px"
-                    width="300px"
-                    height="300px"
                   />
                 )}
               </Box>
