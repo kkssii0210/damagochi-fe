@@ -4,10 +4,19 @@ import {
   Container,
   Heading,
   HStack,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Table,
   Td,
   Th,
   Tr,
+  useDisclosure,
+  useToast,
   VStack,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -19,20 +28,17 @@ import { faCircleMinus } from "@fortawesome/free-solid-svg-icons";
 
 // 실제 카드결제를 해서 포인트를 결제하는건 payment.js
 // 결제된 포인트를 이용해 상점에서 아이템을 구매하는건 purchase.js
-
-// 포인트 부족하면 토스트로 포인트가 상품 금액보다 적은데 결제하시겠습니까? 띄우고 결제하기, 취소하기 버튼 만들어서
-// 결제하기 누르면 navigate로 payment페이지로 이동하도록 설정하면 됨
-// response에 로그인한 멤버의 아이디, 자기포인트, itemPrice를 가져와야함
-// 멤버 아이디 가져오기
 export function ItemPurchase() {
   const navigate = useNavigate();
   const [purchaseInfo, setPurchaseInfo] = useState(null);
   const { storeId } = useParams();
 
+  const toast = useToast();
   const [member, setMember] = useState({ playerId: "" });
   const [cartInfo, setCartInfo] = useState([]);
   const [totalPrice, setTotalPrice] = useState(null);
   const [remainingPoint, setRemainingPoint] = useState(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     if (localStorage.getItem("accessToken") !== null) {
@@ -90,11 +96,30 @@ export function ItemPurchase() {
       };
       purchasedItems.push(itemInfo);
     });
-    axios.post("/api/purchase/buyItem", {
-      playerId: playerId,
-      purchasedItems: purchasedItems,
-      remainingPoint: remainingPoint,
-    });
+
+    // 포인트 부족 시 모달 onOpen
+    if (member.point < totalPrice) {
+      onOpen();
+    } else {
+      axios
+        .post("/api/purchase/buyItem", {
+          playerId: playerId,
+          purchasedItems: purchasedItems,
+          remainingPoint: remainingPoint,
+        })
+        .then(() => {
+          toast({
+            description: "아이템 구매가 완료되었습니다",
+            status: "success",
+          });
+        })
+        .catch(() => {
+          toast({
+            description: "아이템 구매에 실패하였습니다",
+            status: "error",
+          });
+        });
+    }
   }
 
   const playerIdWithoutAt = member.playerId.split("@")[0];
@@ -195,6 +220,26 @@ export function ItemPurchase() {
           아이템 구매하기
         </Button>
       </VStack>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>포인트 부족</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            현재 보유한 포인트로는 아이템을 구매할 수 없습니다. 결제 페이지로
+            이동하여 포인트를 충전하시겠습니까?
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose} colorScheme="purple" mr={1}>
+              닫기
+            </Button>
+            <Button colorScheme="red" onClick={() => navigate("/Order")}>
+              결제
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Container>
   );
 }

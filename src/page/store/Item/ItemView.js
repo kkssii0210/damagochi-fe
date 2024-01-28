@@ -240,7 +240,7 @@ function ItemView(props) {
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Delete Message</ModalHeader>
+            <ModalHeader>아이템 삭제</ModalHeader>
             <ModalCloseButton />
             <ModalBody>아이템을 삭제 하시겠습니까?</ModalBody>
             <ModalFooter>

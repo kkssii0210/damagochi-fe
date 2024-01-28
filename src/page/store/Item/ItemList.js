@@ -40,6 +40,9 @@ function ItemList(props) {
 
   return (
     <>
+      <Button ml={2} mr={5} mt={5} onClick={() => navigate("/Order")}>
+        포인트 결제하기
+      </Button>
       <Button mr={5} mt={5} onClick={() => navigate("/store/item/register")}>
         아이템 등록
       </Button>

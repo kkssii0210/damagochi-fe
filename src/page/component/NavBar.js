@@ -1,11 +1,11 @@
-import {Box, Button, Progress, Text, useToast} from "@chakra-ui/react";
-import {useEffect, useState} from "react";
-import {useLocation, useNavigate} from "react-router";
+import { Box, Button, Progress, Text, useToast } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
 import axios from "axios";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightFromBracket, faStore } from "@fortawesome/free-solid-svg-icons";
 import KakaoLoginComponent from "../../KakaoLoginComponent";
-import {getKakaoLogoutLink} from "../api/kakaoApi";
+import { getKakaoLogoutLink } from "../api/kakaoApi";
 
 export function NavBar(props) {
   const [currentPoints, setCurrentPoints] = useState(0);
@@ -22,42 +22,42 @@ export function NavBar(props) {
     console.log("리프레시 토큰: ", refreshToken);
 
     axios
-        .get("/auth/reissue", {
-          headers: { Authorization: `Bearer ${refreshToken}` },
-        })
-        .then((response) => {
-          console.log("sendRefreshToken()의 then 실행");
+      .get("/auth/reissue", {
+        headers: { Authorization: `Bearer ${refreshToken}` },
+      })
+      .then((response) => {
+        console.log("sendRefreshToken()의 then 실행");
 
-          localStorage.setItem("accessToken", response.data.accessToken);
-          localStorage.setItem("refreshToken", response.data.refreshToken);
+        localStorage.setItem("accessToken", response.data.accessToken);
+        localStorage.setItem("refreshToken", response.data.refreshToken);
 
-          console.log("토큰들 업데이트 리프레시 토큰: ");
-          console.log(response.data.refreshToken);
-          setLoggedIn(true);
-        })
-        .catch((error) => {
-          console.log("sendRefreshToken()의 catch 실행");
-          localStorage.removeItem("refreshToken");
+        console.log("토큰들 업데이트 리프레시 토큰: ");
+        console.log(response.data.refreshToken);
+        setLoggedIn(true);
+      })
+      .catch((error) => {
+        console.log("sendRefreshToken()의 catch 실행");
+        localStorage.removeItem("refreshToken");
 
-          setLoggedIn(false);
-        });
+        setLoggedIn(false);
+      });
   }
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken !== null) {
       axios
-          .get("/member/info", {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            },
-          })
-          .then((response) => {
-            console.log(response.data);
-            setTotalPoints(response.data.point);
-          })
-          .finally(() => {
-            console.log("끝----");
-          });
+        .get("/member/info", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          setTotalPoints(response.data.point);
+        })
+        .finally(() => {
+          console.log("끝----");
+        });
     }
   });
   useEffect(() => {
@@ -122,18 +122,22 @@ export function NavBar(props) {
     // 소셜 로그인 사용자인 경우 카카오 로그아웃 API 호출
     const handleSocialLogout = () => {
       axios
-          .post("https://kapi.kakao.com/v1/user/logout", {}, {
+        .post(
+          "https://kapi.kakao.com/v1/user/logout",
+          {},
+          {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             },
-          })
-          .then(() => {
-            console.log("카카오 로그아웃 성공");
-            window.location.href = getKakaoLogoutLink();
-          })
-          .catch((error) => {
-            console.error("카카오 로그아웃 실패", error);
-          });
+          },
+        )
+        .then(() => {
+          console.log("카카오 로그아웃 성공");
+          window.location.href = getKakaoLogoutLink();
+        })
+        .catch((error) => {
+          console.error("카카오 로그아웃 실패", error);
+        });
     };
 
     axios
@@ -146,7 +150,7 @@ export function NavBar(props) {
         console.log("!!!!!!!!!!!!!!!!!!!");
         // 소셜 로그인 사용자인 경우 카카오 로그아웃 진행
         if (isSocial) {
-          console.log("카카오에 신호보내서 토큰만료시키기.")
+          console.log("카카오에 신호보내서 토큰만료시키기.");
           handleSocialLogout();
         }
         localStorage.removeItem("accessToken");
@@ -222,13 +226,25 @@ export function NavBar(props) {
       <Button variant="ghost" size="lg" onClick={() => navigate("/")}>
         Home
       </Button>
-      <Button variant="ghost" size="lg" onClick={() => navigate("/MongTutorial")}>
+      <Button
+        variant="ghost"
+        size="lg"
+        onClick={() => navigate("/MongTutorial")}
+      >
         Tutorial
       </Button>
-      <Button variant="ghost" size="lg" onClick={() => navigate("/MongStatusInfo")}>
+      <Button
+        variant="ghost"
+        size="lg"
+        onClick={() => navigate("/MongStatusInfo")}
+      >
         Status
       </Button>
-      <Button variant="ghost" size="lg" onClick={() => navigate("/MongBattleInfo")}>
+      <Button
+        variant="ghost"
+        size="lg"
+        onClick={() => navigate("/MongBattleInfo")}
+      >
         Battle
       </Button>
       <Box
@@ -238,7 +254,10 @@ export function NavBar(props) {
         onClick={handleClick}
         cursor="pointer"
       >
-        <Text mb="8px">내 포인트: {totalPoints}</Text>
+        <Text mb="8px" textAlign="center">
+          <FontAwesomeIcon icon={faStore} fontSize="large" /> 내 포인트 :
+          {totalPoints}
+        </Text>
         <Progress
           value={filledPercentage}
           colorScheme={filledPercentage > 50 ? "green" : "red"}
