@@ -27,7 +27,7 @@ import level2 from "../../자아생성시기.gif";
 import level3 from "../../사춘기.gif";
 import level4 from "../../다큼.gif";
 import MongTutorial from "./MongTutorial";
-
+import styles from "../../TutorialPage.module.css";
 const statusCss = {
   background:
     "linear-gradient(45deg, rgba(255,0,0,1) 0%, rgba(0,255,0,1) 50%, rgba(0,0,255,1) 100%)",
@@ -86,7 +86,7 @@ export function MongStatusInfo() {
 
   console.log(level1);
   return (
-    <div>
+    <div className={styles.status1}>
       <Box margin="30px" border="1px solid black">
       <Tabs
         mt="20px"
@@ -111,181 +111,141 @@ export function MongStatusInfo() {
         </TabList>
         <TabPanels>
           <TabPanel border="6px solid red">
-            <div border="0px solid black">
-              <SimpleGrid
-                border="0px solid red"
-                ml="10%"
-                display="flex"
-                columns={2}
-                w="80%"
-              >
-                <Box
+            <SimpleGrid ml="10%" display="flex" columns={2} mb={400} w="80%" h="3%">
+              <Box
                   color="white"
                   fontSize="1.5rem"
-                  borderRadius="20px"
                   mt={51}
                   mb={500}
-                  w="sm"
-                  bg="rgba(255, 255, 255, 0.3)"
-                  border="0px solid red"
-                >
-                  <img
-                    src={getImage(mong.level)}
-                    style={{ width: "500px", height: "500px" }}
-                  />
-                  {/*alt={`Mong 레벨 ${mong.level}`*/}
-                </Box>
-                <Circle
-                  border="2px solid blue"
+                  ml={0}
+                  w="4  00px"
+                  h="300px"
+                  border="1px solid red"
+              >
+                <img src={getImage(mong.level)}/>
+                {/*alt={`Mong 레벨 ${mong.level}`*/}
+              </Box>
+              <Circle
+                  border="1px solid blue"
                   ml={200}
                   mr="-23.4rem"
                   mt={50}
+                  bg="rgba(255, 255, 255, 0.3)"
                   mb={500}
                   w="300px"
                   h="300px"
                   fontSize="25px"
-                >
-                  Level:{mong.level}
-                </Circle>
-                <Box
-                  ml={195}
-                  mt={22}
-                  mb={500}
-                  w="300px"
-                  h="300px"
-                  border="0px solid yellow"
-                >
+                  color="white"
+              >
+                Level:{mong.level}
+              </Circle>
+              <Box ml={195} mt={22} mb={500} w="300px" h="300px" border="1px solid yellow">
+                <Box position="relative" mt={150} mr={300} border="1px solid yellow">
                   <Box
-                    position="relative"
-                    mt={150}
-                    mr={300}
-                    border="0px solid yellow"
-                  >
-                    <Box
-                      border="0px solid yellow"
+                      border="1px solid yellow"
                       size="xl"
                       position="absolute"
                       sx={{
-                        transform: `translate(${0 * scale}px, ${
-                          -1000 * scale
-                        }px)`,
+                        transform: `translate(${0 * scale}px, ${-1000 * scale}px)`,
                       }}
-                    >
-                      <CircularProgress
+                  >
+                    <CircularProgress
                         size="4rem"
                         value={mong.tired}
                         color="red"
                         max={100}
-                      >
-                        <CircularProgressLabel>
-                          <FontAwesomeIcon
+                    >
+                      <CircularProgressLabel>
+                        <FontAwesomeIcon
                             icon={faPersonRunning}
                             size="2x"
                             style={{ color: "red" }}
-                          />
-                        </CircularProgressLabel>
-                      </CircularProgress>
-                      {/*<Button onClick={handleClick}>업데이트</Button>*/}
-                    </Box>
-                    <Box
-                      border="0px solid yellow"
+                        />
+                      </CircularProgressLabel>
+                    </CircularProgress>
+                    {/*<Button onClick={handleClick}>업데이트</Button>*/}
+                  </Box>
+                  <Box
+                      border="1px solid yellow"
                       position="absolute"
                       sx={{
-                        transform: `translate(${-951 * scale}px, ${
-                          -309 * scale
-                        }px)`,
+                        transform: `translate(${-951 * scale}px, ${-309 * scale}px)`,
                       }}
-                    >
-                      <CircularProgress
-                        size="4rem"
-                        value={mong.feed}
-                        color="#9933ff"
-                      >
-                        <CircularProgressLabel>
-                          <FontAwesomeIcon
+                  >
+                    <CircularProgress size="4rem" value={mong.feed} color="#9933ff">
+                      <CircularProgressLabel>
+                        <FontAwesomeIcon
                             icon={faUtensils}
                             size="2x"
                             style={{ color: "#9933ff" }}
-                          />
-                        </CircularProgressLabel>
-                      </CircularProgress>
-                    </Box>
-                    <Box
-                      border="0px solid yellow"
+             erw           />
+                      </CircularProgressLabel>
+                    </CircularProgress>
+                  </Box>
+                  <Box
+                      border="1px solid yellow"
                       position="absolute"
                       sx={{
-                        transform: `translate(${-588 * scale}px, ${
-                          809 * scale
-                        }px)`,
+                        transform: `translate(${-588 * scale}px, ${809 * scale}px)`,
                       }}
-                    >
-                      <CircularProgress
+                  >
+                    <CircularProgress
                         size="4rem"
                         value={mong.sleep}
                         color="#FFB300"
-                      >
-                        <CircularProgressLabel>
-                          <FontAwesomeIcon
+                    >
+                      <CircularProgressLabel>
+                        <FontAwesomeIcon
                             icon={faMoon}
                             size="2x"
                             style={{ color: "#FFB300" }}
-                          />
-                        </CircularProgressLabel>
-                      </CircularProgress>
-                      {/*{mong.sleep}%*/}
-                    </Box>
-                    <Box
-                      border="0px solid yellow"
+                        />
+                      </CircularProgressLabel>
+                    </CircularProgress>
+                    {/*{mong.sleep}%*/}
+                  </Box>
+                  <Box
+                      border="1px solid yellow"
                       position="absolute"
                       sx={{
-                        transform: `translate(${588 * scale}px, ${
-                          809 * scale
-                        }px)`,
+                        transform: `translate(${588 * scale}px, ${809 * scale}px)`,
                       }}
-                    >
-                      <CircularProgress
-                        size="4rem"
-                        value={mong.clean}
-                        color="pink"
-                      >
-                        <CircularProgressLabel>
-                          <FontAwesomeIcon
+                  >
+                    <CircularProgress size="4rem" value={mong.clean} color="pink">
+                      <CircularProgressLabel>
+                        <FontAwesomeIcon
                             icon={faPoo}
                             size="2xl"
                             style={{ color: "pink" }}
-                          />
-                        </CircularProgressLabel>
-                      </CircularProgress>
-                      {/*{mong.clean}%*/}
-                    </Box>
-                    <Box
-                      border="0px solid yellow"
+                        />
+                      </CircularProgressLabel>
+                    </CircularProgress>
+                    {/*{mong.clean}%*/}
+                  </Box>
+                  <Box
+                      border="1px solid yellow"
                       position="absolute"
                       sx={{
-                        transform: `translate(${951 * scale}px, ${
-                          -309 * scale
-                        }px)`,
+                        transform: `translate(${951 * scale}px, ${-309 * scale}px)`,
                       }}
-                    >
-                      <CircularProgress
+                  >
+                    <CircularProgress
                         size="4rem"
                         value={mong.strength}
                         color="#00b303"
-                      >
-                        <CircularProgressLabel>
-                          <FontAwesomeIcon
+                    >
+                      <CircularProgressLabel>
+                        <FontAwesomeIcon
                             icon={faDumbbell}
                             size="2x"
                             style={{ color: "#00b303" }}
-                          />
-                        </CircularProgressLabel>
-                      </CircularProgress>
-                    </Box>
-                    <Box> </Box>
+                        />
+                      </CircularProgressLabel>
+                    </CircularProgress>
                   </Box>
                 </Box>
-              </SimpleGrid>
-            </div>
+              </Box>
+            </SimpleGrid>
           </TabPanel>
           <TabPanel>
             <MongTutorial />
@@ -295,146 +255,6 @@ export function MongStatusInfo() {
           </TabPanel>
         </TabPanels>
       </Tabs>
-      {/*<Box border="0px solid red">*/}
-      {/*  <SimpleGrid border="0px solid yellow" ml="10%" display="flex" columns={2} mb={400} w="80%" h="3%">*/}
-      {/*    <Box*/}
-      {/*      color="white"*/}
-      {/*      fontSize="1.5rem"*/}
-      {/*      borderRadius="20px"*/}
-      {/*      mt={51}*/}
-      {/*      mb={500}*/}
-      {/*      ml={0}*/}
-      {/*      w="500px"*/}
-      {/*      h="300px"*/}
-      {/*      bg="rgba(255, 255, 255, 0.3)"*/}
-      {/*      border="0px solid red"*/}
-      {/*    >*/}
-      {/*      <img src={getImage(mong.level)}/>*/}
-      {/*      /!*alt={`Mong 레벨 ${mong.level}`*!/*/}
-      {/*    </Box>*/}
-      {/*    <Circle*/}
-      {/*      border="0px solid blue"*/}
-      {/*      ml={200}*/}
-      {/*      mr="-23.4rem"*/}
-      {/*      mt={50}*/}
-      {/*      bg="rgba(255, 255, 255, 0.3)"*/}
-      {/*      mb={500}*/}
-      {/*      w="300px"*/}
-      {/*      h="300px"*/}
-      {/*      fontSize="25px"*/}
-      {/*      color="white"*/}
-      {/*    >*/}
-      {/*      Level:{mong.level}*/}
-      {/*    </Circle>*/}
-      {/*    <Box ml={195} mt={22} mb={500} w="300px" h="300px" border="0px solid yellow">*/}
-      {/*      <Box position="relative" mt={150} mr={300} border="0px solid yellow">*/}
-      {/*        <Box*/}
-      {/*          border="0px solid yellow"*/}
-      {/*          size="xl"*/}
-      {/*          position="absolute"*/}
-      {/*          sx={{*/}
-      {/*            transform: `translate(${0 * scale}px, ${-1000 * scale}px)`,*/}
-      {/*          }}*/}
-      {/*        >*/}
-      {/*          <CircularProgress*/}
-      {/*            size="4rem"*/}
-      {/*            value={mong.tired}*/}
-      {/*            color="red"*/}
-      {/*            max={100}*/}
-      {/*          >*/}
-      {/*            <CircularProgressLabel>*/}
-      {/*              <FontAwesomeIcon*/}
-      {/*                icon={faPersonRunning}*/}
-      {/*                size="2x"*/}
-      {/*                style={{ color: "red" }}*/}
-      {/*              />*/}
-      {/*            </CircularProgressLabel>*/}
-      {/*          </CircularProgress>*/}
-      {/*          /!*<Button onClick={handleClick}>업데이트</Button>*!/*/}
-      {/*        </Box>*/}
-      {/*        <Box*/}
-      {/*          border="0px solid yellow"*/}
-      {/*          position="absolute"*/}
-      {/*          sx={{*/}
-      {/*            transform: `translate(${-951 * scale}px, ${-309 * scale}px)`,*/}
-      {/*          }}*/}
-      {/*        >*/}
-      {/*          <CircularProgress size="4rem" value={mong.feed} color="#9933ff">*/}
-      {/*            <CircularProgressLabel>*/}
-      {/*              <FontAwesomeIcon*/}
-      {/*                icon={faUtensils}*/}
-      {/*                size="2x"*/}
-      {/*                style={{ color: "#9933ff" }}*/}
-      {/*              />*/}
-      {/*            </CircularProgressLabel>*/}
-      {/*          </CircularProgress>*/}
-      {/*        </Box>*/}
-      {/*        <Box*/}
-      {/*          border="0px solid yellow"*/}
-      {/*          position="absolute"*/}
-      {/*          sx={{*/}
-      {/*            transform: `translate(${-588 * scale}px, ${809 * scale}px)`,*/}
-      {/*          }}*/}
-      {/*        >*/}
-      {/*          <CircularProgress*/}
-      {/*            size="4rem"*/}
-      {/*            value={mong.sleep}*/}
-      {/*            color="#FFB300"*/}
-      {/*          >*/}
-      {/*            <CircularProgressLabel>*/}
-      {/*              <FontAwesomeIcon*/}
-      {/*                icon={faMoon}*/}
-      {/*                size="2x"*/}
-      {/*                style={{ color: "#FFB300" }}*/}
-      {/*              />*/}
-      {/*            </CircularProgressLabel>*/}
-      {/*          </CircularProgress>*/}
-      {/*          /!*{mong.sleep}%*!/*/}
-      {/*        </Box>*/}
-      {/*        <Box*/}
-      {/*          border="0px solid yellow"*/}
-      {/*          position="absolute"*/}
-      {/*          sx={{*/}
-      {/*            transform: `translate(${588 * scale}px, ${809 * scale}px)`,*/}
-      {/*          }}*/}
-      {/*        >*/}
-      {/*          <CircularProgress size="4rem" value={mong.clean} color="pink">*/}
-      {/*            <CircularProgressLabel>*/}
-      {/*              <FontAwesomeIcon*/}
-      {/*                icon={faPoo}*/}
-      {/*                size="2xl"*/}
-      {/*                style={{ color: "pink" }}*/}
-      {/*              />*/}
-      {/*            </CircularProgressLabel>*/}
-      {/*          </CircularProgress>*/}
-      {/*          /!*{mong.clean}%*!/*/}
-      {/*        </Box>*/}
-      {/*        <Box*/}
-      {/*          border="0px solid yellow"*/}
-      {/*          position="absolute"*/}
-      {/*          sx={{*/}
-      {/*            transform: `translate(${951 * scale}px, ${-309 * scale}px)`,*/}
-      {/*          }}*/}
-      {/*        >*/}
-      {/*          <CircularProgress*/}
-      {/*            size="4rem"*/}
-      {/*            value={mong.strength}*/}
-      {/*            color="#00b303"*/}
-      {/*          >*/}
-      {/*            <CircularProgressLabel>*/}
-      {/*              <FontAwesomeIcon*/}
-      {/*                icon={faDumbbell}*/}
-      {/*                size="2x"*/}
-      {/*                style={{ color: "#00b303" }}*/}
-      {/*              />*/}
-      {/*            </CircularProgressLabel>*/}
-      {/*          </CircularProgress>*/}
-      {/*        </Box>*/}
-      {/*        <Box > </Box>*/}
-      {/*      </Box>*/}
-      {/*    </Box>*/}
-      {/*  </SimpleGrid>*/}
-      {/*</Box>*/}
     </Box>
   </div>
   );
