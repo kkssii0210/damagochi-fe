@@ -11,9 +11,9 @@ const WebSocketComponent = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const socket = new SockJS('http://localhost:8080/ws');
+        const socket = new SockJS('/ma');
         const stomp = Stomp.over(function(){
-            return new SockJS('http://localhost:8080/ws')
+            return new SockJS('/ma')
         });
 
 
@@ -51,9 +51,9 @@ const WebSocketComponent = () => {
         };
     }, []);
 
-    if (!stompClient || !stompClient.connected) {
-        return <div>머야이ㅓㄴ</div>;
-    }
+    // if (!stompClient || !stompClient.connected) {
+    //     return <div>머야이ㅓㄴ</div>;
+    // }
 
 
     return <Management reload2={reload2} />;

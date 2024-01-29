@@ -46,29 +46,55 @@ export function Ba({ message, roomId }) {
   const [mongAHp, setMongAHp] = useState(0);
   const [mongBHp, setMongBHp] = useState(0);
 
+  const [attackBuffA, setAttackBuffA] = useState(1);
+  const [attackBuffB, setAttackBuffB] = useState(1);
+
+  const [showInventory, setShowInventory] = useState(false);
+
+  const [useItem, setUseItem] = useState("");
+
   const [reload, setReload] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [sessionIds, setSessionIds] = useState({ A: null, B: null });
 
+  // const info = JSON.parse(message);
   const info = message;
   const userAMongId = info.mongAId;
   const userBMongId = info.mongBId;
+
+  const mongAMaxHp = info.statsMap["A"].health;
+  const mongBMaxHp = info.statsMap["B"].health;
 
   const handleBattleRoomsMessage = (message) => {
     const receivedMessage = message;
     console.log("Received message:", receivedMessage);
     // 원하는 작업 수행
     // 예를 들면, 상태 업데이트 등
+
     if (receivedMessage.mongAId === userAMongId) {
       setMongAHp(receivedMessage.healthA);
       setMongBHp(receivedMessage.healthB);
+
+      if (receivedMessage.attackBuff) {
+        setAttackBuffA(receivedMessage.attackBuff);
+      }
     }
+
     if (receivedMessage.mongAId === userBMongId) {
       setMongBHp(receivedMessage.healthA);
       setMongAHp(receivedMessage.healthB);
+
+      if (receivedMessage.attackBuff) {
+        setAttackBuffB(receivedMessage.attackBuff);
+      }
+    }
+
+    if (receivedMessage.turn) {
+      setNowTurn(receivedMessage.turn);
     }
     setNowTurn(receivedMessage.turn);
   };
+
   useEffect(() => {
     if (message && message.sessionIds) {
       setSessionIds(message.sessionIds);
@@ -89,6 +115,7 @@ export function Ba({ message, roomId }) {
         setUserB(data.userB);
         setUserName(data.userName);
         setNowTurn(data.userA.name);
+
         setMongAHp(data.userA.health);
         setMongBHp(data.userB.health);
 
@@ -154,17 +181,18 @@ export function Ba({ message, roomId }) {
     }
   }
 
+
+  function handleInvenButtonClick() {
+    setShowInventory(!showInventory)
+  }
+
+  const handleInventoryClose = () => {
+    setShowInventory(false);
+  };
+
   if (userName === userA.memberId) {
     return (
       <div>
-        {userA.mongId}
-        {nowTurn === userA.name && (
-          <Button
-            onClick={() => handleAttackClick(userA, userB, mongAHp, mongBHp)}
-          >
-            공격
-          </Button>
-        )}
         <Center>
           <Flex
             display="flex"
@@ -216,15 +244,43 @@ export function Ba({ message, roomId }) {
                   Type: {userA.attribute}
                 </Text>
               </Box>
-              <Box>
-                {isAnimating && (
-                  <Image
-                    src={swordImage}
-                    className="sword-animation"
-                    position="absolute"
-                  />
-                )}
-              </Box>
+            </Box>
+            <Box
+                border="1px solid green"
+                display="flex"
+                width="35%"
+                height="100%"
+                p="2"
+                borderRadius="md"
+                boxShadow="sm"
+                flexDirection="column"
+                justifyContent="end"
+            >
+              {nowTurn === userA.name && (
+                  <div>
+                    <Button
+                        onClick={() => handleAttackClick(userA, userB, mongAHp, mongBHp, attackBuffA)}
+                    >
+                      공격
+                    </Button>
+                    <Button onClick={handleInvenButtonClick}>
+                      인벤토리
+                    </Button>
+                    <div style={{ position: "relative" }}>
+                    {showInventory && <Inventory memberId={userA.memberId} mystyle={{border: "10px solid green"}} onClose={handleInventoryClose} onClick={(item) => {
+                      console.log(item.name + "사용")
+                      axios.put("/api/manage/mong/useItem", {
+                        itemId: item.id,
+                        mongAId: userA.id,
+                        mongBId: userB.id,
+                        healthA: mongAHp,
+                        healthB: mongBHp,
+                        battleRoomId: roomId,
+                      })
+                    }}/>}
+                    </div>
+                  </div>
+              )}
             </Box>
             <Box
               border="1px solid blue"
@@ -272,13 +328,7 @@ export function Ba({ message, roomId }) {
   } else {
     return (
       <div>
-        {nowTurn === userB.name && (
-          <Button
-            onClick={() => handleAttackClick(userB, userA, mongBHp, mongAHp)}
-          >
-            공격
-          </Button>
-        )}
+
         <Center>
           <Flex
             display="flex"
@@ -330,17 +380,44 @@ export function Ba({ message, roomId }) {
                   Type: {userB.attribute}
                 </Text>
               </Box>
-              <Box>
-                {isAnimating && (
-                  <Image
-                    src={swordImage}
-                    className="sword-animation"
-                    position="absolute"
-                    left="0"
-                    top="0"
-                  />
-                )}
-              </Box>
+            </Box>
+            <Box
+                border="1px solid green"
+                display="flex"
+                width="35%"
+                height="100%"
+                p="2"
+                borderRadius="md"
+                boxShadow="sm"
+                flexDirection="column"
+                justifyContent="end"
+            >
+              {nowTurn === userB.name && (
+                  <div>
+                      <Button
+                          onClick={() => handleAttackClick(userB, userA, mongBHp, mongAHp, attackBuffB)}
+                      >
+                        공격
+                      </Button>
+                      <Button onClick={handleInvenButtonClick}>
+                        인벤토리
+                      </Button>
+
+                    <div style={{ position: "relative" }}>
+                    {showInventory && <Inventory memberId={userB.memberId} mystyle={{border: "10px solid green"}} onClose={handleInventoryClose} onClick={(item) => {
+                      console.log(item.name + "사용")
+                      axios.put("/api/manage/mong/useItem", {
+                        itemId: item.id,
+                        mongAId: userB.id,
+                        mongBId: userA.id,
+                        healthA : mongBHp,
+                        healthB : mongAHp,
+                        battleRoomId: roomId,
+                      })
+                    }} />}
+                    </div>
+                  </div>
+              )}
             </Box>
             <Box
               border="1px solid blue"

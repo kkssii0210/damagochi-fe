@@ -38,6 +38,7 @@ export function Management({reload2}) {
 
 
 
+
     useEffect(() => {
         axios.get("/api/manage/mong", {
             headers: {
@@ -115,6 +116,10 @@ export function Management({reload2}) {
             .then(() => {
                 console.log("잠자기");
                 setReload(reload + 1);
+                toast({
+                    description : "잠자기",
+                    status : "success"
+                })
             })
     }
 
@@ -129,7 +134,15 @@ export function Management({reload2}) {
             .then(()=> {
                 console.log("청소하기");
                 setReload(reload+1);
-            }).catch(()=> {console.log("맵이 깨끗합니다.")})
+                toast({
+                    description : "청소하기",
+                    status : "success"
+                })
+            }).catch(()=> {console.log("맵이 깨끗합니다.")
+            toast({
+                description : "맵이 깨끗합니다",
+                status : "error"
+            })})
     }
 
     function handleEvolClick() {
@@ -137,8 +150,18 @@ export function Management({reload2}) {
             .then(()=> {
                 console.log("진화성공!!");
                 setReload(reload+1);
+                toast({
+                    description : "진화성공",
+                    status : "success"
+                })
             })
-            .catch(()=> console.log("진화실패"))
+            .catch(()=> {
+                console.log("진화실패")
+                toast({
+                    description : "진화 실패",
+                    status : "error"
+                })
+            })
     }
 
 
@@ -146,8 +169,12 @@ export function Management({reload2}) {
         setShowInventory(!showInventory)
     }
 
-    return <div>
-        <div style={{display : "flex", justifyContent : "space-between", width : "500px"}}>
+    const handleInventoryClose = () => {
+        setShowInventory(false);
+    };
+
+    return <div style={{border : "1px solid red", width : "100%", height : "100%"}}>
+        <div style={{display : "flex"}}>
             {/* setTimeout을 이용해서 먹이를 준후 랜덤시간 똥싸기 clean false */}
             <CountdownButton
                 buttonNumber={1}
@@ -185,11 +212,12 @@ export function Management({reload2}) {
                 <Button onClick={handleInvenButtonClick}>
                     인벤토리
                 </Button>
-                {showInventory && <Inventory memberId={mong.memberId} />}
+                {showInventory && <Inventory memberId={mong.memberId} onClose={handleInventoryClose}/>}
             </div>
         </div>
         {mong.clean && <div>맵상태 : clean</div>}
         {mong.clean || <div>맵상태 : dirty</div>}
+        <div style={{display : "flex"}}>
         <div style={{ width: "300px", height: "300px" }}>
             {mong.evolutionLevel === 1 && <img src={Step1Damagochi} alt={"Step1"} />}
             {mong.evolutionLevel !== 1 && imageModule && (
@@ -199,7 +227,7 @@ export function Management({reload2}) {
                 />
             )}
         </div>
-        <div style={{marginTop : "50px"}}>
+        <div style={{ border : "1px solid black"}}>
             <div>이름 : {mong.name}</div>
             <div>속성 : {mong.attribute}</div>
             <div>레벨 : {mong.level}</div>
@@ -213,6 +241,7 @@ export function Management({reload2}) {
             <div>민첩 : {mong.agility}</div>
             <div>방어력 : {mong.defense}</div>
             <div>체력 : {mong.health}</div>
+        </div>
         </div>
     </div>;
 }
