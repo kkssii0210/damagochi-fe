@@ -33,10 +33,10 @@ const statusCss = {
     "linear-gradient(45deg, rgba(255,0,0,1) 0%, rgba(0,255,0,1) 50%, rgba(0,0,255,1) 100%)",
 };
 
-
 export function MongStatusInfo() {
   const navigate = useNavigate();
   const [mong_id, setMong_id] = useState("");
+  const [memberId, setMemberId] = useState(null);
   //Mong 갹체의 초기 상태를 미리 설정
   const [mong, setMong] = useState({
     level: 1,
@@ -55,13 +55,15 @@ export function MongStatusInfo() {
   // );
   useEffect(() => {
     axios
-      .get(`/api/monginfo/${mong_id}`, {
+      .get(`/api/monginfo/id`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       })
       .then((response) => {
-        setMong_id(response.data);
+        console.log(response);
+        setMong_id(response.data.id);
+        setMemberId(response.data.memberId);
       })
       .catch((error) => console.log(error));
   }, [mong_id]);
@@ -84,7 +86,10 @@ export function MongStatusInfo() {
     }
   }
 
-  console.log(level1);
+  function takeMapList() {
+    axios.get();
+  }
+
   return (
     <div>
       <Box margin="30px" border="1px solid black">
@@ -107,7 +112,7 @@ export function MongStatusInfo() {
           >
             <Tab>My Mong Status</Tab>
             <Tab>Mong Evolution Info</Tab>
-            <Tab>My Account</Tab>
+            <Tab onClick={takeMapList}>My Account</Tab>
           </TabList>
           <TabPanels>
             <TabPanel border="1px solid red">
@@ -284,7 +289,15 @@ export function MongStatusInfo() {
                     </Box>
                   </Box>
                 </SimpleGrid>
-                <Box border="1px solid" fontSize="1.8rem" mt={50} mb={500} ml={0} w="800px" h="300px">
+                <Box
+                  border="1px solid"
+                  fontSize="1.8rem"
+                  mt={50}
+                  mb={500}
+                  ml={0}
+                  w="800px"
+                  h="300px"
+                >
                   <p> 몽 이름: {mong.name}</p>
                   <p> 레벨: {mong.level}</p>
                   <p>피로도 : {mong.tired}</p>
@@ -299,7 +312,7 @@ export function MongStatusInfo() {
               <MongTutorial />
             </TabPanel>
             <TabPanel>
-              <p>two!</p>
+              <p>보유한 맵 종류</p>
             </TabPanel>
           </TabPanels>
         </Tabs>

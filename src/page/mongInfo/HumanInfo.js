@@ -1,11 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 
 export function HumanInfo(props) {
   const [memberId, setMemberId] = useState(null);
-  u
-  return (
-    <div></div>
-  );
+  return <div></div>;
 }
 
 export default HumanInfo;
