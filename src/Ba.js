@@ -11,6 +11,7 @@ import {
   Badge,
   Button,
 } from "@chakra-ui/react";
+import {Inventory} from "./page/management/Inventory";
 
 function HealthBar({ health }) {
   // 체력바 스타일을 계산하는 함수
@@ -62,8 +63,8 @@ export function Ba({ message, roomId }) {
   const userAMongId = info.mongAId;
   const userBMongId = info.mongBId;
 
-  const mongAMaxHp = info.statsMap["A"].health;
-  const mongBMaxHp = info.statsMap["B"].health;
+  const mongAMaxHp = 100;
+  const mongBMaxHp = 100;
 
   const handleBattleRoomsMessage = (message) => {
     const receivedMessage = message;
@@ -156,7 +157,7 @@ export function Ba({ message, roomId }) {
   function waitForAnimation(duration) {
     return new Promise((resolve) => setTimeout(resolve, duration));
   }
-  async function handleAttackClick(user1, user2, healthA, healthB) {
+  async function handleAttackClick(user1, user2, healthA, healthB, attackBuff) {
     console.log(user1.name + "가 " + user2.name + "에게 공격");
     setIsAnimating(true); // 애니메이션 시작
     // 애니메이션 완료까지 기다림
@@ -168,6 +169,7 @@ export function Ba({ message, roomId }) {
         mongBId: user2.id,
         healthA,
         healthB,
+        attackBuff,
         battleRoomId: roomId,
         sessionIds: sessionIds,
       });
@@ -244,6 +246,15 @@ export function Ba({ message, roomId }) {
                   Type: {userA.attribute}
                 </Text>
               </Box>
+              <Box>
+                {isAnimating && (
+                    <Image
+                        src={swordImage}
+                        className="sword-animation"
+                        position="absolute"
+                    />
+                )}
+              </Box>
             </Box>
             <Box
                 border="1px solid green"
@@ -276,6 +287,7 @@ export function Ba({ message, roomId }) {
                         healthA: mongAHp,
                         healthB: mongBHp,
                         battleRoomId: roomId,
+                        sessionIds: sessionIds,
                       })
                     }}/>}
                     </div>
@@ -380,6 +392,15 @@ export function Ba({ message, roomId }) {
                   Type: {userB.attribute}
                 </Text>
               </Box>
+              <Box>
+                {isAnimating && (
+                    <Image
+                        src={swordImage}
+                        className="sword-animation"
+                        position="absolute"
+                    />
+                )}
+              </Box>
             </Box>
             <Box
                 border="1px solid green"
@@ -413,6 +434,7 @@ export function Ba({ message, roomId }) {
                         healthA : mongBHp,
                         healthB : mongAHp,
                         battleRoomId: roomId,
+                        sessionIds: sessionIds,
                       })
                     }} />}
                     </div>
