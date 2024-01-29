@@ -87,7 +87,7 @@ export function MongStatusInfo() {
   console.log(level1);
   return (
     <div>
-      <Box margin="30px" border="1px solid black">
+      <Box border="1px solid black">
         <Tabs
           mt="20px"
           colorScheme="red"
@@ -109,14 +109,16 @@ export function MongStatusInfo() {
             <Tab>Mong Evolution Info</Tab>
             <Tab>My Account</Tab>
           </TabList>
-          <TabPanels>
-            <TabPanel border="1px solid red">
-              <div border="0px solid black">
+          <TabPanels >
+            <TabPanel border="5px solid red" >
+              <Box border="4px solid black" >
                 <SimpleGrid
                   border="0px solid red"
+                  justifyContent="space-between"
                   ml="10%"
                   display="flex"
-                  columns={1}
+                  columns={2}
+                  spacing={4}
                   w="80%"
                 >
                   <Box
@@ -127,7 +129,7 @@ export function MongStatusInfo() {
                     mb={500}
                     w="sm"
                     bg="rgba(255, 255, 255, 0.3)"
-                    border="0px solid red"
+                    border="1px solid red"
                   >
                     <img
                       src={getImage(mong.level)}
@@ -153,13 +155,13 @@ export function MongStatusInfo() {
                     mb={500}
                     w="300px"
                     h="300px"
-                    border="0px solid yellow"
+                    border="1px solid yellow"
                   >
                     <Box
                       position="relative"
                       mt={150}
                       mr={300}
-                      border="0px solid yellow"
+                      border="1px solid red"
                     >
                       <Box
                         border="0px solid yellow"
@@ -283,17 +285,18 @@ export function MongStatusInfo() {
                       </Box>
                     </Box>
                   </Box>
+                  <Box border="1px solid" fontSize="1.8rem" mt={50} mb={-500} ml={0} w="800px" h="300px">
+                    <p> 몽 이름: {mong.name}</p>
+                    <p> 레벨: {mong.level}</p>
+                    <p>피로도 : {mong.tired}</p>
+                    <p>근력 : {mong.strength}</p>
+                    <p>수면 : {mong.sleep}</p>
+                    <p>배고픔 : {mong.feed}</p>
+                    <p>청소 : {mong.clean}</p>
+                  </Box>
+                  <Box border="1px solid"></Box>
                 </SimpleGrid>
-                <Box border="1px solid" fontSize="1.8rem" mt={50} mb={500} ml={0} w="800px" h="300px">
-                  <p> 몽 이름: {mong.name}</p>
-                  <p> 레벨: {mong.level}</p>
-                  <p>피로도 : {mong.tired}</p>
-                  <p>근력 : {mong.strength}</p>
-                  <p>수면 : {mong.sleep}</p>
-                  <p>배고픔 : {mong.feed}</p>
-                  <p>청소 : {mong.clean}</p>
-                </Box>
-              </div>
+              </Box>
             </TabPanel>
             <TabPanel>
               <MongTutorial />
