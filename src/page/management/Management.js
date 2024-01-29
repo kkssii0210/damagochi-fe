@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {
-    Button, Drawer, DrawerBody,
+    Button, Center, Drawer, DrawerBody,
     DrawerCloseButton,
     DrawerContent, DrawerFooter,
     DrawerHeader,
@@ -173,7 +173,9 @@ export function Management({reload2}) {
         setShowInventory(false);
     };
 
-    return <div style={{border : "1px solid red", width : "100%", height : "100%"}}>
+    return <Center width={"100%"} height={"80vh"}>
+    <div style={{border : "1px solid red", width : "70%", height : "70%", display : "flex"}}>
+        <div>
         <div style={{display : "flex"}}>
             {/* setTimeout을 이용해서 먹이를 준후 랜덤시간 똥싸기 clean false */}
             <CountdownButton
@@ -215,19 +217,17 @@ export function Management({reload2}) {
                 {showInventory && <Inventory memberId={mong.memberId} onClose={handleInventoryClose}/>}
             </div>
         </div>
-        {mong.clean && <div>맵상태 : clean</div>}
-        {mong.clean || <div>맵상태 : dirty</div>}
-        <div style={{display : "flex"}}>
-        <div style={{ width: "300px", height: "300px" }}>
-            {mong.evolutionLevel === 1 && <img src={Step1Damagochi} alt={"Step1"} />}
-            {mong.evolutionLevel !== 1 && imageModule && (
-                <img style={{height : "100%", width : "100%"}}
-                    src={imageModule}
-                    alt={`step${mong.evolutionLevel}`}
-                />
-            )}
+            <div style={{ width: "60%", height: "90%" }}>
+                {mong.evolutionLevel === 1 && <img src={Step1Damagochi} alt={"Step1"} style={{ width: "60%", height: "90%" }}/>}
+                {mong.evolutionLevel !== 1 && imageModule && (
+                    <img style={{height : "100%", width : "100%"}}
+                         src={imageModule}
+                         alt={`step${mong.evolutionLevel}`}
+                    />
+                )}
+            </div>
         </div>
-        <div style={{ border : "1px solid black"}}>
+        <div style={{ border : "1px solid black", height:"100%", width:"40%"}}>
             <div>이름 : {mong.name}</div>
             <div>속성 : {mong.attribute}</div>
             <div>레벨 : {mong.level}</div>
@@ -242,6 +242,7 @@ export function Management({reload2}) {
             <div>방어력 : {mong.defense}</div>
             <div>체력 : {mong.health}</div>
         </div>
-        </div>
-    </div>;
+
+    </div>
+    </Center>;
 }
