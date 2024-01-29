@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { faRightFromBracket, faStore } from "@fortawesome/free-solid-svg-icons";
 import KakaoLoginComponent from "../../KakaoLoginComponent";
 import { getKakaoLogoutLink } from "../api/kakaoApi";
 
