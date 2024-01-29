@@ -11,8 +11,6 @@ import {
   Badge,
   Button,
 } from "@chakra-ui/react";
-import { Stomp } from "@stomp/stompjs";
-import SockJS from "sockjs-client";
 
 function HealthBar({ health }) {
   // 체력바 스타일을 계산하는 함수
@@ -116,7 +114,6 @@ export function Ba({ message, roomId }) {
 
         loadImageModule();
         handleBattleRoomsMessage(message);
-
       });
   }, [message]);
   useEffect(() => {
@@ -129,23 +126,32 @@ export function Ba({ message, roomId }) {
   if (userA === null || userB === null) {
     return <div>로딩중...</div>;
   }
-
-  function handleAttackClick(user1, user2, healthA, healthB) {
+  function waitForAnimation(duration) {
+    return new Promise((resolve) => setTimeout(resolve, duration));
+  }
+  async function handleAttackClick(user1, user2, healthA, healthB) {
     console.log(user1.name + "가 " + user2.name + "에게 공격");
     setIsAnimating(true); // 애니메이션 시작
-    axios.put("/api/manage/mong", {
-      mongAId: user1.id,
-      mongBId: user2.id,
-      healthA,
-      healthB,
-      battleRoomId: roomId,
-      sessionIds: sessionIds, // 세션 ID 객체를 요청 본문에 추가
-    });
-    // 애니메이션이 끝난 후 상태를 초기화
-    setTimeout(() => {
-      setIsAnimating(false);
+    // 애니메이션 완료까지 기다림
+    await waitForAnimation(4000);
+    // 애니메이션이 끝난 후 axios 요청 수행
+    try {
+      const response = await axios.put("/api/manage/mong", {
+        mongAId: user1.id,
+        mongBId: user2.id,
+        healthA,
+        healthB,
+        battleRoomId: roomId,
+        sessionIds: sessionIds,
+      });
+      // 요청 성공에 대한 처리
+    } catch (error) {
+      // 오류 처리
+      console.error("API 요청 중 오류 발생:", error);
+    } finally {
+      setIsAnimating(false); // 애니메이션 상태를 false로 설정
       console.log("애니메이션 종료");
-    }, 4000); // 애니메이션 지속 시간과 일치해야 함
+    }
   }
 
   if (userName === userA.memberId) {
