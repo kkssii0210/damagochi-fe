@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import swordImage from "./칼1.png";
 import "./AttackAnimation.css";
 import axios from "axios";
@@ -12,6 +12,26 @@ import {
   Button,
 } from "@chakra-ui/react";
 import {Inventory} from "./page/management/Inventory";
+
+function ScrollableBox({ battleLog }) {
+  const boxRef = useRef();
+
+  useEffect(() => {
+    // 스크롤 위치를 항상 가장 아래로 설정
+    boxRef.current.scrollTop = boxRef.current.scrollHeight;
+  }, [battleLog]); // battleLog이 변경될 때마다 호출
+
+  return (
+      <div ref={boxRef} style={{ border: '1px solid black', width: '100%', height: '70%', overflow: 'auto' }}>
+        {battleLog.split('\n').map((line, index) => (
+            <React.Fragment key={index}>
+              {line}
+              <br />
+            </React.Fragment>
+        ))}
+      </div>
+  );
+};
 
 function HealthBar({ health }) {
   // 체력바 스타일을 계산하는 함수
@@ -66,11 +86,16 @@ export function Ba({ message, roomId }) {
   const mongAMaxHp = 100;
   const mongBMaxHp = 100;
 
+  const [battleLog, setBattleLog] = useState("게임 시작!!")
+
   const handleBattleRoomsMessage = (message) => {
     const receivedMessage = message;
     console.log("Received message:", receivedMessage);
     // 원하는 작업 수행
     // 예를 들면, 상태 업데이트 등
+    if (receivedMessage.battleLog) {
+      setBattleLog(battleLog + '\n' + receivedMessage.battleLog);
+    }
 
     if (receivedMessage.mongAId === userAMongId) {
       setMongAHp(receivedMessage.healthA);
@@ -265,8 +290,10 @@ export function Ba({ message, roomId }) {
                 borderRadius="md"
                 boxShadow="sm"
                 flexDirection="column"
-                justifyContent="end"
+                justifyContent="space-between"
             >
+              <ScrollableBox battleLog={battleLog} />
+
               {nowTurn === userA.name && (
                   <div>
                     <Button
@@ -411,8 +438,9 @@ export function Ba({ message, roomId }) {
                 borderRadius="md"
                 boxShadow="sm"
                 flexDirection="column"
-                justifyContent="end"
+                justifyContent="space-between"
             >
+                <ScrollableBox battleLog={battleLog} />
               {nowTurn === userB.name && (
                   <div>
                       <Button
