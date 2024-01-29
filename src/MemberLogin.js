@@ -48,7 +48,7 @@ export function MemberLogin() {
 
   return (
     <div className={styles.container}>
-    <Box bg="white" position="center" m={0} p={10} borderRadius={10} mt={100} w="60%" >
+    <Box backgroundColor="rgba(255, 255, 255, 0.5)" position="center" m={0} p={10} borderRadius={10} mt={100} w="60%" >
       <Heading textAlign="center" mb={10}>
         Login
       </Heading>

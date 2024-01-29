@@ -213,7 +213,7 @@ export function NavBar(props) {
     <Box
       border="1px solid black"
       style={{
-        marginTop: "60px",
+        color:"white",
         display: "flex",
         border: "0px solid navy",
         width: "100%",
@@ -222,7 +222,7 @@ export function NavBar(props) {
         alignItems: "center", // Align items vertically in the center
       }}
     >
-      <Button variant="ghost" size="lg" onClick={() => navigate("/")}>
+      <Button mt="30px" color="white" variant="ghost" size="lg" onClick={() => navigate("/")}>
         Home
       </Button>
       <Box
