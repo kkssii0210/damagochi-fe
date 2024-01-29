@@ -1,18 +1,23 @@
 import styles from "./WelcomePage.module.css";
 import TamagotchiImage from "./다마고찌.gif";
 import { useNavigate } from "react-router";
+import {useEffect, useState} from "react";
 export function WelcomePage() {
+    const [isTokenPresent, setIsTokenPresent] = useState(false);
   const navigate = useNavigate();
   function handleClick() {
     navigate("/login");
   }
+    useEffect(() => {
+        const token = localStorage.getItem('accessToken');
+        setIsTokenPresent(!!token);
+    }, []);
 
   return (
     <div className={styles.container}>
       <div className={styles.logo}>Damagochi</div>
-      {/* 'character.png'는 public 폴더 내부 또는 src 폴더 내부의 경로일 수 있습니다. */}
       <img src={TamagotchiImage} alt="캐릭터" className={styles.character} />
-      <button className={styles.button} onClick={handleClick}>
+        <button className={`${styles.button} ${isTokenPresent ? styles.hidden : ''}`} onClick={handleClick}>
         시작하기
       </button>
     </div>

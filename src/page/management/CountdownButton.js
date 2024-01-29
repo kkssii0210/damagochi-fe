@@ -1,11 +1,12 @@
 
 import React, { useEffect, useState } from "react";
-import { Button } from "@chakra-ui/react";
+import {Button, useToast} from "@chakra-ui/react";
 import axios from "axios";
 
 export function CountdownButton ({ buttonNumber, onButtonClick, memberId, label, setReload, reload }) {
     const [countdown, setCountdown] = useState(0);
 
+    const toast = useToast();
     useEffect(() => {
         let countdownInterval;
 
@@ -36,12 +37,24 @@ export function CountdownButton ({ buttonNumber, onButtonClick, memberId, label,
                     // .then(()=> console.log("쿨타임끝"))
                     onButtonClick(buttonNumber);
                     setCountdown(10);
+                    toast({
+                        description : "먹이주기",
+                        status : "success"
+                    })
                 })
                 .catch((error) => {
                     if (error.response.status === 400) {
                         console.log("포만감이 가득 찼습니다.");
+                        toast({
+                            description : "포만감이 가득 찼습니다",
+                            status : "error"
+                        })
                     } else if (error.response.status === 404) {
                         console.log("쿨타임 중");
+                        toast({
+                            description : "쿨타임 중",
+                            status : "error"
+                        })
                         // 에러가 발생하면 카운트다운을 초기화하지 않음
                     }
                 });
@@ -56,12 +69,24 @@ export function CountdownButton ({ buttonNumber, onButtonClick, memberId, label,
 
                     onButtonClick(buttonNumber);
                     setCountdown(10);
+                    toast({
+                        description : "쓰다듬기",
+                        status : "success"
+                    })
                 })
                 .catch((error)=> {
                     if (error.response.status === 400) {
                         console.log("피로도가 가득 찼습니다.")
+                        toast({
+                            description : "피로도가 가득 찼습니다.",
+                            status : "error"
+                        })
                     } else if (error.response.status === 404) {
                         console.log("쿨타임 중")
+                        toast({
+                            description : "쿨타임 중",
+                            status : "error"
+                        })
                     }
                 })
         }
@@ -74,13 +99,24 @@ export function CountdownButton ({ buttonNumber, onButtonClick, memberId, label,
                     setReload(reload+1);
 
                     onButtonClick(buttonNumber);
-                    setCountdown(10);
+                    setCountdown(10);toast({
+                        description : "훈련하기 (경험치 + 10)",
+                        status : "success"
+                    })
                 })
                 .catch((error)=> {
                     if (error.response.status === 400) {
                         console.log("피로도가 없습니다.")
+                        toast({
+                            description : "피로도가 없습니다.",
+                            status : "error"
+                        })
                     } else if (error.response.status === 404) {
                         console.log("쿨타임 중")
+                        toast({
+                            description : "쿨타임 중",
+                            status : "error"
+                        })
                     }
                 })
         }

@@ -45,3 +45,6 @@
     margin-bottom: 2em;
     cursor: pointer;
 }
+.hidden {
+    visibility: hidden;
+}

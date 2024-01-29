@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRightFromBracket, faStore } from "@fortawesome/free-solid-svg-icons";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import KakaoLoginComponent from "../../KakaoLoginComponent";
 import { getKakaoLogoutLink } from "../api/kakaoApi";
 
@@ -211,7 +211,6 @@ export function NavBar(props) {
 
   return (
     <Box
-      margin="8"
       border="1px solid black"
       style={{
         marginTop: "60px",
@@ -240,11 +239,7 @@ export function NavBar(props) {
       >
         Status
       </Button>
-      <Button
-        variant="ghost"
-        size="lg"
-        onClick={() => navigate("/MongBattleInfo")}
-      >
+      <Button variant="ghost" size="lg" onClick={() => navigate("/battle")}>
         Battle
       </Button>
       <Box
