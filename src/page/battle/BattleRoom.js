@@ -12,7 +12,7 @@ const BattleRoom = () => {
   const [stompClient, setStompClient] = useState(null);
   const [currentRoom, setCurrentRoom] = useState(null);
   const [battleRooms, setBattleRooms] = useState([]);
-  const [message, setMessage] = useState(null);
+  const [battleMessage, setBattleMessage] = useState(null);
   const navigate = useNavigate();
 
 
@@ -59,15 +59,11 @@ const BattleRoom = () => {
       console.error("WebSocket Client is not connected.");
     }
   };
-  // 메시지 객체를 상태로 관리
-  const [battleMessage, setBattleMessage] = useState(null);
 
-  // 메시지가 업데이트될 때 battleMessage 상태를 업데이트
+
   useEffect(() => {
-    if (message) {
-      setBattleMessage(JSON.parse(message));
-    }
-  }, [message]);
+    console.log(battleMessage);
+  }, [battleMessage]);
   useEffect(() => {
     axios
       .get("/api/battleRooms")
@@ -115,7 +111,9 @@ const BattleRoom = () => {
           // 현재 참여한 방에 대한 경로 구독
           client.subscribe(`/topic/battleRoom/${battleRoomId}`, (message) => {
             console.log(message.body);
-            setMessage(message.body);
+            const messageData = JSON.parse(message.body);
+            console.log(messageData);
+            setBattleMessage(messageData);
           });
           // 연결이 성공하면 publish를 사용하여 배틀룸 참여 요청을 보냄
           client.publish({
@@ -138,7 +136,9 @@ const BattleRoom = () => {
       // 현재 참여한 방에 대한 경로 구독
       stompClient.subscribe(`/topic/battleRoom/${battleRoomId}`, (message) => {
         console.log(message.body);
-        setMessage(message.body);
+        const messageData = JSON.parse(message.body);
+        console.log(messageData);
+        setBattleMessage(messageData);
       });
       // 웹소켓이 이미 연결되어 있으면 publish를 사용하여 참여 요청을 보냄
       stompClient.publish({

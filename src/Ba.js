@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import swordImage from "./칼1.png";
+import "./AttackAnimation.css";
 import axios from "axios";
 import {
   Box,
@@ -9,9 +11,6 @@ import {
   Badge,
   Button,
 } from "@chakra-ui/react";
-import { Stomp } from "@stomp/stompjs";
-import SockJS from "sockjs-client";
-import {Inventory} from "./page/management/Inventory";
 
 function HealthBar({ health }) {
   // 체력바 스타일을 계산하는 함수
@@ -55,21 +54,19 @@ export function Ba({ message, roomId }) {
   const [useItem, setUseItem] = useState("");
 
   const [reload, setReload] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [sessionIds, setSessionIds] = useState({ A: null, B: null });
 
   // const info = JSON.parse(message);
   const info = message;
-  // A와 B의 mongId 추출
-  //     const mongIdA = firstMessage.sessionIds.A.mongId;
-  //     const mongIdB = firstMessage.sessionIds.B.mongId;
-
-  const userAMongId = info.statsMap["A"].mongId;
-  const userBMongId = info.statsMap["B"].mongId;
+  const userAMongId = info.mongAId;
+  const userBMongId = info.mongBId;
 
   const mongAMaxHp = info.statsMap["A"].health;
   const mongBMaxHp = info.statsMap["B"].health;
 
   const handleBattleRoomsMessage = (message) => {
-    const receivedMessage = JSON.parse(message.body);
+    const receivedMessage = message;
     console.log("Received message:", receivedMessage);
     // 원하는 작업 수행
     // 예를 들면, 상태 업데이트 등
@@ -95,11 +92,12 @@ export function Ba({ message, roomId }) {
     if (receivedMessage.turn) {
       setNowTurn(receivedMessage.turn);
     }
+    setNowTurn(receivedMessage.turn);
   };
 
   useEffect(() => {
-    if (userAMongId === null || userBMongId === null) {
-      return <div>로딩~</div>;
+    if (message && message.sessionIds) {
+      setSessionIds(message.sessionIds);
     }
     axios
       .get("api/manage/mong/getUser", {
@@ -112,6 +110,7 @@ export function Ba({ message, roomId }) {
         },
       })
       .then(({ data }) => {
+        console.log(data);
         setUserA(data.userA);
         setUserB(data.userB);
         setUserName(data.userName);
@@ -141,44 +140,45 @@ export function Ba({ message, roomId }) {
         };
 
         loadImageModule();
-
-        const socket = new SockJS("/ws"); // WebSocket 엔드포인트에 맞게 수정
-        const stompClient = Stomp.over(socket);
-
-        stompClient.connect({}, () => {
-          console.log("Connected to WebSocket");
-
-          // 이미 토픽을 구독 중인 상태에서도 추가적인 토픽 구독 가능
-          stompClient.subscribe(
-            "/topic/battleRooms/" + roomId,
-            handleBattleRoomsMessage,
-          );
-        });
-
-        // 컴포넌트가 언마운트될 때 WebSocket 연결 해제
-        return () => {
-          stompClient.disconnect();
-          console.log("Disconnected from WebSocket");
-        };
+        handleBattleRoomsMessage(message);
       });
   }, [message]);
-
+  useEffect(() => {
+    console.log(nowTurn);
+  }, [nowTurn]);
+  console.log(nowTurn);
+  if (userAMongId === null || userBMongId === null) {
+    return <div>로딩~</div>;
+  }
   if (userA === null || userB === null) {
     return <div>로딩중...</div>;
   }
-
-  function handleAttackClick(user1, user2, healthA, healthB, attackBuff) {
+  function waitForAnimation(duration) {
+    return new Promise((resolve) => setTimeout(resolve, duration));
+  }
+  async function handleAttackClick(user1, user2, healthA, healthB) {
     console.log(user1.name + "가 " + user2.name + "에게 공격");
-    axios.put("/api/manage/mong", {
-      mongAId: user1.id,
-      mongBId: user2.id,
-      healthA,
-      healthB,
-      attackBuff,
-      battleRoomId: roomId,
-    });
-
-    // axios.get("/api/manage/mong").then(()=> console.log("완"))
+    setIsAnimating(true); // 애니메이션 시작
+    // 애니메이션 완료까지 기다림
+    await waitForAnimation(4000);
+    // 애니메이션이 끝난 후 axios 요청 수행
+    try {
+      const response = await axios.put("/api/manage/mong", {
+        mongAId: user1.id,
+        mongBId: user2.id,
+        healthA,
+        healthB,
+        battleRoomId: roomId,
+        sessionIds: sessionIds,
+      });
+      // 요청 성공에 대한 처리
+    } catch (error) {
+      // 오류 처리
+      console.error("API 요청 중 오류 발생:", error);
+    } finally {
+      setIsAnimating(false); // 애니메이션 상태를 false로 설정
+      console.log("애니메이션 종료");
+    }
   }
 
 
