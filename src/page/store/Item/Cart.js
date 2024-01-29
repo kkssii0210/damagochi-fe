@@ -12,6 +12,7 @@ export function Cart({ cartItems, storeId }) {
   const toast = useToast();
   const [member, setMember] = useState({ playerId: "" });
   const [cartItem, setCartItem] = useState([]);
+  const [boxHeight, setBoxHeight] = useState(0);
 
   //member.playerId를 이용하기 위해 중간에 axios요청을 함.
   useEffect(() => {
@@ -39,7 +40,10 @@ export function Cart({ cartItems, storeId }) {
       .get("/api/cart/itemInfo", {
         params: { playerId: playerId },
       })
-      .then((response) => setCartItem(response.data))
+      .then((response) => {
+        setCartItem(response.data);
+        setBoxHeight(12 + response.data.length * 10);
+      })
       .catch((error) => {
         console.log("카트 아이템의 정보를 가져오는데 실패하였습니다.");
       })
@@ -79,10 +83,12 @@ export function Cart({ cartItems, storeId }) {
   return (
     <>
       <Box
-        border="2px solid black"
-        width="13%"
-        height="50%"
-        bg="white"
+        border="2px solid gray"
+        borderRadius={20}
+        width="15%"
+        height={`${boxHeight}%`}
+        bg="rgba(255, 255, 255, 0.8)"
+        opacity={0.8}
         zIndex={50}
         position="fixed"
         right={15}
@@ -91,23 +97,25 @@ export function Cart({ cartItems, storeId }) {
         p={4}
       >
         <VStack spacing={2}>
-          <Text fontSize="lg" fontWeight="bold" mb={5}>
+          <Text fontSize="lg" fontWeight="bold" mb={5} color="black">
             {playerIdWithoutAt}님의 장바구니
           </Text>
           {cartItem.map((cartItem, index) => (
             <Flex key={index} alignItems="center">
-              <Text mr={2}>{cartItem.cartItemName}</Text>
-              <Text mr={2} color="gray.500" fontSize="sm">
+              <Text mr={2} color="black">
+                {cartItem.cartItemName}
+              </Text>
+              <Text mr={2} color="gray" fontSize="sm">
                 {cartItem.cartItemPrice}포인트
               </Text>
-              <Text fontSize="sm" mr={4}>
+              <Text fontSize="sm" mr={4} color="black">
                 수량: {cartItem.cartItemCount}
               </Text>
               <Text>
                 <FontAwesomeIcon
                   icon={faRectangleXmark}
                   onClick={() => handleDeleteItem(index)}
-                  color="purple"
+                  color="black"
                 />
               </Text>
             </Flex>
@@ -115,7 +123,9 @@ export function Cart({ cartItems, storeId }) {
           {cartItem.length > 0 && (
             <Button
               mt={5}
-              colorScheme="purple"
+              colorScheme="gray.500"
+              bg="black"
+              color="white"
               onClick={() => navigate("/purchase/" + storeId)}
             >
               아이템 구매
