@@ -92,7 +92,7 @@ function OrderWrite(props) {
           </Box>
           <Box p={5} shadow="md" borderWidth="1px">
             <Button colorScheme={"orange"} onClick={handleSubmit} mr={2}>
-              주문하기
+              포인트 결제하기
             </Button>
             <Button onClick={() => navigate(-1)}>취소</Button>
           </Box>
