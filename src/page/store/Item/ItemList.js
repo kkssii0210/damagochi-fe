@@ -38,6 +38,8 @@ function ItemList(props) {
       .finally();
   }, [currentPage]);
 
+  function handleAddCart() {}
+
   return (
     <>
       <Button ml={2} mr={5} mt={5} onClick={() => navigate("/Order")}>
@@ -96,13 +98,17 @@ function ItemList(props) {
                   <Box mb={2}>{item.itemFunction}</Box>
                   <Box>{item.itemPrice} 포인트</Box>
                 </CardBody>
-                {/*<CardFooter>*/}
-                {/*  <ButtonGroup>*/}
-                {/*    <Button w="70%" variant="solid" colorScheme="purple">*/}
-                {/*      담기*/}
-                {/*    </Button>*/}
-                {/*  </ButtonGroup>*/}
-                {/*</CardFooter>*/}
+                <CardFooter>
+                  <ButtonGroup>
+                    <Button
+                      variant="solid"
+                      colorScheme="purple"
+                      onClick={() => handleAddCart()}
+                    >
+                      담기
+                    </Button>
+                  </ButtonGroup>
+                </CardFooter>
               </Card>
             ))}
           </>
