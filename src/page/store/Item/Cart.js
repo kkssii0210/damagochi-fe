@@ -7,7 +7,7 @@ import { faRectangleXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import toast from "bootstrap/js/src/toast";
 
-export function Cart({cartItems}) {
+export function Cart({ cartItems, storeId }) {
   const navigate = useNavigate();
   const toast = useToast();
   const [member, setMember] = useState({ playerId: "" });
@@ -113,7 +113,11 @@ export function Cart({cartItems}) {
             </Flex>
           ))}
           {cartItem.length > 0 && (
-            <Button mt={5} colorScheme="purple">
+            <Button
+              mt={5}
+              colorScheme="purple"
+              onClick={() => navigate("/purchase/" + storeId)}
+            >
               아이템 구매
             </Button>
           )}

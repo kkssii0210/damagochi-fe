@@ -159,7 +159,7 @@ function ItemView(props) {
 
   return (
     <>
-      <Cart cartItems={cartItem} />
+      <Cart cartItems={cartItem} storeId={item.storeId} />
       <Container border="0px solid black" w="40%" h="70%" mt="10%" mb="5%">
         <Card border="0px solid black" mr="15%">
           <CardHeader>
