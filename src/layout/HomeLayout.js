@@ -1,15 +1,14 @@
-import { Box, Spacer } from "@chakra-ui/react";
+import React from "react";
 import NavBar from "../page/component/NavBar";
 import { Outlet } from "react-router";
-import home from "../homeLayout.module.css";
 
-export function HomeLayout() {
+export function HomeLayout(props) {
   return (
-      <div
-        className={home.homelayout}>
-        <NavBar />
-        <Outlet />
-      </div>
-
+    <div>
+      <NavBar />
+      <Outlet />
+    </div>
   );
 }
+
+export default HomeLayout;
