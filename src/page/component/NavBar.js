@@ -228,13 +228,6 @@ export function NavBar(props) {
       <Button
         variant="ghost"
         size="lg"
-        onClick={() => navigate("/MongTutorial")}
-      >
-        Tutorial
-      </Button>
-      <Button
-        variant="ghost"
-        size="lg"
         onClick={() => navigate("/MongStatusInfo")}
       >
         Status
