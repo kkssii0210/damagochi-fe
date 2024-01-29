@@ -18,17 +18,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import response from "sockjs-client/lib/event/trans-message";
 function ItemRegister(props) {
-
-  const [imageFile, setImageFile] = useState();
-  const [storeId, setStoreId] = useState();
+  const [files, setFiles] = useState(null);
   const [itemCategory, setItemCategory] = useState();
   const [itemName, setItemName] = useState();
   const [itemFunction, setItemFunction] = useState();
   const [itemPrice, setItemPrice] = useState();
-
-  const [food, setFood] = useState();
-  const [liquidMedicine, setLiquidMedicine] = useState();
-  const [map, setMap] = useState();
+  const [itemCode, setItemCode] = useState();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
@@ -38,26 +33,18 @@ function ItemRegister(props) {
     setItemCategory(selectedCategory);
   };
 
-  const storeData = {
-    // imageFile
-    storeId,
-    itemCategory,
-    itemName,
-    itemFunction,
-    itemPrice,
-  };
-
-
   function handleSubmit() {
     setIsSubmitting(true);
 
     axios
-      .post("/api/store/item/register")
-        .then((response) => {
-          const index = response.data.map( (item, index) => (
-              {...item, storeId: index + 1}));
-          return axios.post("api/store/item/register", index )
-        })
+      .postForm("/api/store/item/register", {
+        files,
+        itemCategory,
+        itemName,
+        itemFunction,
+        itemPrice,
+        itemCode,
+      })
       .then(() => {
         toast({
           description: "새 아이템이 저장되었습니다",
@@ -99,11 +86,10 @@ function ItemRegister(props) {
               type="file"
               accept="image/*"
               multiple
-              onChange={(e) => setImageFile(e.target.files)}
+              onChange={(e) => setFiles(e.target.files)}
               placeholder="이미지 url을 입력하세요"
             ></Input>
           </FormControl>
-
 
           <FormControl mb={5}>
             <FormLabel>아이템 분류</FormLabel>
@@ -161,6 +147,15 @@ function ItemRegister(props) {
               type="number"
               min="0"
               placeholder="포인트"
+            />
+          </FormControl>
+
+          <FormControl mb={5}>
+            <FormLabel>아이템 코드</FormLabel>
+            <Input
+              value={itemCode}
+              onChange={(e) => setItemCode(e.target.value)}
+              placeholder="ex) P001"
             />
           </FormControl>
         </CardBody>
