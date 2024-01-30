@@ -2,7 +2,7 @@ import styles from "./WelcomePage.module.css";
 import TamagotchiImage from "./다마고찌.gif";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-import { Tooltip } from "@chakra-ui/react";
+import {Button, ButtonGroup} from "@chakra-ui/react";
 import NavBar from "./page/component/NavBar";
 
 export function WelcomePage() {
@@ -23,14 +23,13 @@ export function WelcomePage() {
       <div fontFamily="DungGeunMo" className={styles.logo}>
         Damagochi
       </div>
-      <NavBar />
       <img src={TamagotchiImage} alt="캐릭터" className={styles.character} />
-      <button
+      <Button
         className={`${styles.button} ${isTokenPresent ? styles.hidden : ""}`}
         onClick={handleClick}
       >
         시작하기
-      </button>
+      </Button>
     </div>
   );
 }

@@ -1,19 +1,25 @@
 import {
   Box,
   Button,
-  Drawer, DrawerBody,
+  Drawer,
+  DrawerBody,
   DrawerCloseButton,
   DrawerContent,
   DrawerHeader,
   Progress,
-  Text, useDisclosure,
-  useToast
+  Text,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRightFromBracket, faStore } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlay,
+  faRightFromBracket,
+  faStore,
+} from "@fortawesome/free-solid-svg-icons";
 import KakaoLoginComponent from "../../KakaoLoginComponent";
 import { getKakaoLogoutLink } from "../api/kakaoApi";
 
@@ -27,14 +33,14 @@ export function NavBar(props) {
   const [isSocial, setIsSocial] = useState(false);
   const location = useLocation();
   const toast = useToast();
-  const [size, setSize] = useState('');
+  const [size, setSize] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const handleClickDrawer = (newSize) => {
-    setSize(newSize)
-    onOpen()
-  }
+    setSize(newSize);
+    onOpen();
+  };
 
-  const sizes = [ 'full']
+  const sizes = ["sm"];
 
   function sendRefreshToken() {
     const refreshToken = localStorage.getItem("refreshToken");
@@ -61,6 +67,7 @@ export function NavBar(props) {
         setLoggedIn(false);
       });
   }
+
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken !== null) {
@@ -230,19 +237,40 @@ export function NavBar(props) {
 
   return (
     <Box border="0px solid yellow">
+
       {sizes.map((size) => (
         <Button
           onClick={() => handleClickDrawer(size)}
           key={size}
-          m={4}
-        ></Button>
+
+        >
+          {" "}
+          <FontAwesomeIcon
+            icon={faPlay}
+            size="xl"
+            style={{ color: "#ffef42" }}
+          />
+          Start!
+        </Button>
       ))}
 
-      <Drawer placement="left" onClose={onClose} isOpen={isOpen} size={size}>
+      <Drawer
+        backgroundColor="rgba(255, 255, 255, 0.3)"
+        placement="right"
+        onClose={onClose}
+        isOpen={isOpen}
+        size={size}
+      >
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerBody>
-            <Button mt="30px" color="white" variant="ghost" size="lg" onClick={() => navigate("/")}>
+            <Button
+              mt="30px"
+              color="white"
+              variant="ghost"
+              size="lg"
+              onClick={() => navigate("/")}
+            >
               Home
             </Button>
             {/*포인트 표시*/}
@@ -286,4 +314,5 @@ export function NavBar(props) {
     </Box>
   );
 }
+
 export default NavBar;
