@@ -9,9 +9,10 @@ import {
   Text,
   Image,
   Badge,
-  Button,
+  Button, Modal, useDisclosure, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter,
 } from "@chakra-ui/react";
 import {Inventory} from "./page/management/Inventory";
+import * as PropTypes from "prop-types";
 
 function ScrollableBox({ battleLog }) {
   const boxRef = useRef();
@@ -54,6 +55,12 @@ function HealthBar({ health }) {
   );
 }
 
+function Lorem(props) {
+  return null;
+}
+
+Lorem.propTypes = {count: PropTypes.number};
+
 export function Ba({ message, roomId }) {
   const [userA, setUserA] = useState(null);
   const [userB, setUserB] = useState(null);
@@ -84,10 +91,15 @@ export function Ba({ message, roomId }) {
   const userAMongId = info.mongAId;
   const userBMongId = info.mongBId;
 
-  const mongAMaxHp = 100;
-  const mongBMaxHp = 100;
+  const mongAMaxHp = 30;
+  const mongBMaxHp = 30;
 
-  const [battleLog, setBattleLog] = useState("게임 시작!!")
+  const [battleLog, setBattleLog] = useState("게임 시작!!");
+  const [endMessage, setEndMessage] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
 
   const handleBattleRoomsMessage = (message) => {
     const receivedMessage = message;
@@ -178,6 +190,7 @@ export function Ba({ message, roomId }) {
   }, [message]);
   useEffect(() => {
     console.log(nowTurn);
+
   }, [nowTurn]);
   console.log(nowTurn);
   if (userAMongId === null || userBMongId === null) {
@@ -226,26 +239,46 @@ export function Ba({ message, roomId }) {
   };
 
 
-  // battle 종료 로직
-  if (totalTurn >= 30) {
-    console.log("배틀 종료 (무승부)")
+  // battle 종료
+  if (totalTurn >= 30 || mongAHp <= 0 || mongBHp <= 0) {
+
+
+    if (mongAHp <= 0) {
+      if (userName === userA.memberId) {
+        console.log("배틀 종료 (패배)");
+        setEndMessage("배틀 종료 (패배)")
+
+      } else if (userName === userB.memberId) {
+        console.log("배틀 죵료 (승리)")
+        setEndMessage("배틀 종료 (승리)")
+
+      }
+
+    } else if (mongBHp <= 0) {
+      if (userName === userA.memberId) {
+        console.log("배틀 종료 (승리)");
+        setEndMessage("배틀 종료 (승리)")
+
+      } else if (userName === userB.memberId) {
+        console.log("배틀 죵료 (패배)")
+        setEndMessage("배틀 종료 (패배)")
+      }
+
+    } else if (totalTurn >= 30) {
+      console.log("배틀 종료 (무승부)");
+      setEndMessage("배틀 종료 (무승부)")
+
+    }
+
+
+    setModalOpen(true);
   }
 
-  if (mongAHp <= 0) {
-    if (userName === userA.memberId) {
-      console.log("배틀 종료 (패배)");
-    } else if (userName === userB.memberId) {
-      console.log("배틀 죵료 (승리)")
-    }
-  }
 
-  if (mongBHp <= 0) {
-    if (userName === userA.memberId) {
-      console.log("배틀 종료 (승리)");
-    } else if (userName === userB.memberId) {
-      console.log("배틀 죵료 (패배)")
-    }
-  }
+
+
+  console.log("modal : " + modalOpen);
+  console.log(isOpen);
 
   if (userName === userA.memberId) {
     return (
@@ -392,6 +425,22 @@ export function Ba({ message, roomId }) {
             </Box>
           </Flex>
         </Center>
+        <Modal closeOnOverlayClick={false} isOpen={modalOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Create your account</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>
+              {endMessage}
+            </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme='blue' mr={3}>
+                나가기
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </div>
     );
   } else {
@@ -540,6 +589,22 @@ export function Ba({ message, roomId }) {
             </Box>
           </Flex>
         </Center>
+        <Modal closeOnOverlayClick={false} isOpen={modalOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Create your account</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>
+              {endMessage}
+            </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme='blue' mr={3}>
+                나가기
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </div>
     );
   }
