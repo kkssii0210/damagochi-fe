@@ -63,7 +63,7 @@ export function Ba({ message, roomId }) {
   const [imageModuleB, setImageModuleB] = useState(null);
 
   const [nowTurn, setNowTurn] = useState("");
-  const [turnCount, setTurnCount] = useState(0);
+  const [totalTurn, setTotalTurn] = useState(0);
 
   const [mongAHp, setMongAHp] = useState(0);
   const [mongBHp, setMongBHp] = useState(0);
@@ -120,6 +120,12 @@ export function Ba({ message, roomId }) {
       setNowTurn(receivedMessage.turn);
     }
     setNowTurn(receivedMessage.turn);
+    if (receivedMessage.totalTurn) {
+      setTotalTurn(receivedMessage.totalTurn);
+    }
+
+
+
   };
 
   useEffect(() => {
@@ -198,6 +204,7 @@ export function Ba({ message, roomId }) {
         attackBuff,
         battleRoomId: roomId,
         sessionIds: sessionIds,
+        totalTurn
       });
       // 요청 성공에 대한 처리
     } catch (error) {
@@ -217,6 +224,28 @@ export function Ba({ message, roomId }) {
   const handleInventoryClose = () => {
     setShowInventory(false);
   };
+
+
+  // battle 종료 로직
+  if (totalTurn >= 30) {
+    console.log("배틀 종료 (무승부)")
+  }
+
+  if (mongAHp <= 0) {
+    if (userName === userA.memberId) {
+      console.log("배틀 종료 (패배)");
+    } else if (userName === userB.memberId) {
+      console.log("배틀 죵료 (승리)")
+    }
+  }
+
+  if (mongBHp <= 0) {
+    if (userName === userA.memberId) {
+      console.log("배틀 종료 (승리)");
+    } else if (userName === userB.memberId) {
+      console.log("배틀 죵료 (패배)")
+    }
+  }
 
   if (userName === userA.memberId) {
     return (
