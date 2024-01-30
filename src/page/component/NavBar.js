@@ -210,6 +210,7 @@ export function NavBar(props) {
   }
 
   return (
+    <>
     <Box
       border="1px solid black"
       style={{
@@ -222,9 +223,11 @@ export function NavBar(props) {
         alignItems: "center", // Align items vertically in the center
       }}
     >
+      {/*홈버튼*/}
       <Button mt="30px" color="white" variant="ghost" size="lg" onClick={() => navigate("/")}>
         Home
       </Button>
+      {/*포인트 표시*/}
       <Box
         padding="4"
         borderWidth="1px"
@@ -240,7 +243,7 @@ export function NavBar(props) {
           value={filledPercentage}
           colorScheme={filledPercentage > 50 ? "green" : "red"}
         />
-
+        {/*로그인 상태에서 -- 로그아웃*/}
         {loggedIn && (
           <Button
             variant="ghost"
@@ -256,10 +259,12 @@ export function NavBar(props) {
           //   <KakaoLogoutComponent/>
         )}
       </Box>
+      {/*카카오톡 로그인 컴포넌트*/}
       <Box>
         <KakaoLoginComponent />
       </Box>
     </Box>
+    </>
   );
 }
 export default NavBar;
