@@ -246,13 +246,13 @@ export function Management({reload2}) {
                 )}
             </div>
                 {mong.clean ||
-                <div style={{width : "30%", height : "30%", marginTop : "55%"}}>
+                <div style={{width : "30%", height : "30%", marginTop : "300px"}}>
                     <img src={food} alt="" style={{width : "100%", height : "100%"}}/>
                 </div>
                 }
             </div>
         </div>
-        <div style={{ border : "1px solid black", height:"100%", width:"40%", background : "lightblue"}}>
+        <div style={{ border : "1px solid black", height:"100%", width:"40%", background : "lightblue", padding : "5px", boxSizing: "border-box"}}>
             <div style={{border : "1px solid blue", height : "10%", fontSize : "1.5rem", display : "flex", justifyContent : "space-between"}}>
                 <div>
                     이름 : {mong.name}

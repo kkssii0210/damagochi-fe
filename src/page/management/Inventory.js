@@ -36,7 +36,7 @@ export function Inventory({memberId, mystyle, onClick, onClose}) {
                 <div key={item.id} style={{ width: "100%", marginBottom: "20px", position: "relative" }}
                      onClick={()=>handleClick(item)}
                 >
-                    <img src={Step1Damagochi} alt={item.name} style={{ width: "100%", height: "auto" }} />
+                    <img src={Step1Damagochi} alt={item.name} style={{ width: "70%", height: "auto" }} />
                     <div style={{ position: "absolute", bottom: "20px", right: "5px", background: "rgba(0,0,0,0.7)", color: "white", padding: "5px", borderRadius: "5px" }}>
                         <span style={{ marginRight: "3px" }}>{item.quantity}</span>
                     </div>

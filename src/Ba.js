@@ -63,6 +63,7 @@ export function Ba({ message, roomId }) {
   const [imageModuleB, setImageModuleB] = useState(null);
 
   const [nowTurn, setNowTurn] = useState("");
+  const [turnCount, setTurnCount] = useState(0);
 
   const [mongAHp, setMongAHp] = useState(0);
   const [mongBHp, setMongBHp] = useState(0);
