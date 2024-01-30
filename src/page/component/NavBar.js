@@ -242,9 +242,7 @@ export function NavBar(props) {
         <Button
           onClick={() => handleClickDrawer(size)}
           key={size}
-
         >
-          {" "}
           <FontAwesomeIcon
             icon={faPlay}
             size="xl"
