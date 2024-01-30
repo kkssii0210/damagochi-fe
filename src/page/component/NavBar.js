@@ -229,19 +229,18 @@ export function NavBar(props) {
   }
 
   return (
-    <Box border="1px solid yellow">
+    <Box border="0px solid yellow">
       {sizes.map((size) => (
         <Button
           onClick={() => handleClickDrawer(size)}
           key={size}
           m={4}
-        >{`Open ${size} Drawer`}</Button>
+        ></Button>
       ))}
 
       <Drawer placement="left" onClose={onClose} isOpen={isOpen} size={size}>
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>{`${size} drawer contents`}</DrawerHeader>
           <DrawerBody>
             <Button mt="30px" color="white" variant="ghost" size="lg" onClick={() => navigate("/")}>
               Home
