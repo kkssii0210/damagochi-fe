@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import {Inventory} from "./page/management/Inventory";
 import * as PropTypes from "prop-types";
+import {useNavigate} from "react-router-dom";
 
 function ScrollableBox({ battleLog }) {
   const boxRef = useRef();
@@ -62,6 +63,7 @@ function Lorem(props) {
 Lorem.propTypes = {count: PropTypes.number};
 
 export function Ba({ message, roomId }) {
+  const navigate = useNavigate();
   const [userA, setUserA] = useState(null);
   const [userB, setUserB] = useState(null);
   const [userName, setUserName] = useState("");
@@ -82,7 +84,6 @@ export function Ba({ message, roomId }) {
 
   const [useItem, setUseItem] = useState("");
 
-  const [reload, setReload] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [sessionIds, setSessionIds] = useState({ A: null, B: null });
 
@@ -91,8 +92,8 @@ export function Ba({ message, roomId }) {
   const userAMongId = info.mongAId;
   const userBMongId = info.mongBId;
 
-  const mongAMaxHp = 30;
-  const mongBMaxHp = 30;
+  const mongAMaxHp = 100;
+  const mongBMaxHp = 100;
 
   const [battleLog, setBattleLog] = useState("게임 시작!!");
   const [endMessage, setEndMessage] = useState("");
@@ -114,6 +115,15 @@ export function Ba({ message, roomId }) {
       setMongAHp(receivedMessage.healthA);
       setMongBHp(receivedMessage.healthB);
 
+      if (receivedMessage.healthB <= 0) {
+        if (userName === userA.memberId) {
+          setEndMessage("승리!!");
+        } else if (userName === userB.memberId) {
+          setEndMessage("패배!!");
+        }
+        setModalOpen(true);
+      }
+
       if (receivedMessage.attackBuff) {
         setAttackBuffA(receivedMessage.attackBuff);
       }
@@ -122,6 +132,15 @@ export function Ba({ message, roomId }) {
     if (receivedMessage.mongAId === userBMongId) {
       setMongBHp(receivedMessage.healthA);
       setMongAHp(receivedMessage.healthB);
+
+      if (receivedMessage.healthB <= 0) {
+        if (userName === userA.memberId) {
+          setEndMessage("패배!!");
+        } else if (userName === userB.memberId) {
+          setEndMessage("승리!!");
+        }
+        setModalOpen(true);
+      }
 
       if (receivedMessage.attackBuff) {
         setAttackBuffB(receivedMessage.attackBuff);
@@ -134,9 +153,47 @@ export function Ba({ message, roomId }) {
     setNowTurn(receivedMessage.turn);
     if (receivedMessage.totalTurn) {
       setTotalTurn(receivedMessage.totalTurn);
+
+      if (totalTurn >= 30) {
+        setEndMessage("무승부!!");
+        setModalOpen(true);
+      }
     }
 
 
+
+    // if ((totalTurn >= 30 || mongAHp <= 0 || mongBHp <= 0) && userA && userB) {
+    //
+    //
+    //   if (mongAHp <= 0) {
+    //     if (userName === userA.memberId) {
+    //       console.log("배틀 종료 (패배)");
+    //       setEndMessage("배틀 종료 (패배)")
+    //
+    //     } else if (userName === userB.memberId) {
+    //       console.log("배틀 죵료 (승리)")
+    //       setEndMessage("배틀 종료 (승리)")
+    //
+    //     }
+    //
+    //   } else if (mongBHp <= 0) {
+    //     if (userName === userA.memberId) {
+    //       console.log("배틀 종료 (승리)");
+    //       setEndMessage("배틀 종료 (승리)")
+    //
+    //     } else if (userName === userB.memberId) {
+    //       console.log("배틀 죵료 (패배)")
+    //       setEndMessage("배틀 종료 (패배)")
+    //     }
+    //
+    //   } else if (totalTurn >= 30) {
+    //     console.log("배틀 종료 (무승부)");
+    //     setEndMessage("배틀 종료 (무승부)")
+    //
+    //   }
+    //
+    //   setModalOpen(true);
+    // }
 
   };
 
@@ -187,7 +244,7 @@ export function Ba({ message, roomId }) {
         loadImageModule();
         handleBattleRoomsMessage(message);
       });
-  }, [message]);
+  }, [message, modalOpen]);
   useEffect(() => {
     console.log(nowTurn);
 
@@ -218,7 +275,8 @@ export function Ba({ message, roomId }) {
         battleRoomId: roomId,
         sessionIds: sessionIds,
         totalTurn
-      });
+      })
+          .then(()=> setUseItem(false));
       // 요청 성공에 대한 처리
     } catch (error) {
       // 오류 처리
@@ -240,45 +298,12 @@ export function Ba({ message, roomId }) {
 
 
   // battle 종료
-  if (totalTurn >= 30 || mongAHp <= 0 || mongBHp <= 0) {
 
-
-    if (mongAHp <= 0) {
-      if (userName === userA.memberId) {
-        console.log("배틀 종료 (패배)");
-        setEndMessage("배틀 종료 (패배)")
-
-      } else if (userName === userB.memberId) {
-        console.log("배틀 죵료 (승리)")
-        setEndMessage("배틀 종료 (승리)")
-
-      }
-
-    } else if (mongBHp <= 0) {
-      if (userName === userA.memberId) {
-        console.log("배틀 종료 (승리)");
-        setEndMessage("배틀 종료 (승리)")
-
-      } else if (userName === userB.memberId) {
-        console.log("배틀 죵료 (패배)")
-        setEndMessage("배틀 종료 (패배)")
-      }
-
-    } else if (totalTurn >= 30) {
-      console.log("배틀 종료 (무승부)");
-      setEndMessage("배틀 종료 (무승부)")
-
-    }
-
-
-    setModalOpen(true);
-  }
 
 
 
 
   console.log("modal : " + modalOpen);
-  console.log(isOpen);
 
   if (userName === userA.memberId) {
     return (
@@ -370,15 +395,19 @@ export function Ba({ message, roomId }) {
                     <div style={{ position: "relative" }}>
                     {showInventory && <Inventory memberId={userA.memberId} mystyle={{border: "10px solid green"}} onClose={handleInventoryClose} onClick={(item) => {
                       console.log(item.name + "사용")
-                      axios.put("/api/manage/mong/useItem", {
-                        itemId: item.id,
-                        mongAId: userA.id,
-                        mongBId: userB.id,
-                        healthA: mongAHp,
-                        healthB: mongBHp,
-                        battleRoomId: roomId,
-                        sessionIds: sessionIds,
-                      })
+                      if (!useItem) {
+                        axios.put("/api/manage/mong/useItem", {
+                          itemId: item.id,
+                          mongAId: userA.id,
+                          mongBId: userB.id,
+                          healthA: mongAHp,
+                          healthB: mongBHp,
+                          battleRoomId: roomId,
+                          sessionIds: sessionIds,
+                        }).then(() => setUseItem(true));
+                      } else {
+                        console.log("아이템은 하나만 사용 가능")
+                      }
                     }}/>}
                     </div>
                   </div>
@@ -435,7 +464,7 @@ export function Ba({ message, roomId }) {
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme='blue' mr={3}>
+              <Button colorScheme='blue' mr={3} onClick={()=> {navigate("/management")}}>
                 나가기
               </Button>
             </ModalFooter>
@@ -534,15 +563,20 @@ export function Ba({ message, roomId }) {
                     <div style={{ position: "relative" }}>
                     {showInventory && <Inventory memberId={userB.memberId} mystyle={{border: "10px solid green"}} onClose={handleInventoryClose} onClick={(item) => {
                       console.log(item.name + "사용")
-                      axios.put("/api/manage/mong/useItem", {
-                        itemId: item.id,
-                        mongAId: userB.id,
-                        mongBId: userA.id,
-                        healthA : mongBHp,
-                        healthB : mongAHp,
-                        battleRoomId: roomId,
-                        sessionIds: sessionIds,
-                      })
+                      if (!useItem) {
+                        axios.put("/api/manage/mong/useItem", {
+                          itemId: item.id,
+                          mongAId: userB.id,
+                          mongBId: userA.id,
+                          healthA: mongBHp,
+                          healthB: mongAHp,
+                          battleRoomId: roomId,
+                          sessionIds: sessionIds,
+                        })
+                            .then(() => setUseItem(true));
+                      } else {
+                        console.log("아이템은 하나만 사용 가능")
+                      }
                     }} />}
                     </div>
                   </div>
@@ -599,7 +633,7 @@ export function Ba({ message, roomId }) {
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme='blue' mr={3}>
+              <Button colorScheme='blue' mr={3} onClick={()=> {navigate("/management")}}>
                 나가기
               </Button>
             </ModalFooter>
