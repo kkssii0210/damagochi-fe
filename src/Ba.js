@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import swordImage from "./칼1.png";
 import fireImage from "./불공격.gif";
 import waterImage from "./물공격.png";
@@ -15,6 +15,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { Inventory } from "./page/management/Inventory";
+import {MapListContext} from "./MapListContext";
 
 function HealthBar({ health }) {
   // 체력바 스타일을 계산하는 함수
@@ -80,6 +81,9 @@ export function Ba({ message, roomId }) {
 
   const mongAMaxHp = 100;
   const mongBMaxHp = 100;
+  //보유한 맵의 List불러오기
+  const {mapList} = useContext(MapListContext);
+  const firstMapUrl = mapList[0] || "";
 
   const handleBattleRoomsMessage = (message) => {
     const receivedMessage = message;
@@ -227,7 +231,12 @@ export function Ba({ message, roomId }) {
     const victoriousImage = winner === "A" ? imageModuleA : imageModuleB;
 
     return (
-      <Center>
+      <Center style={{
+        backgroundImage: `url(${firstMapUrl})`, // 첫 번째 URL을 배경 이미지로 설정
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        // 필요한 경우 다른 스타일을 추가합니다.
+      }}>
         <Box
           border="1px solid green"
           display="flex"
@@ -257,7 +266,12 @@ export function Ba({ message, roomId }) {
   } else {
     if (userName === userA.memberId) {
       return (
-        <div>
+        <div style={{
+          backgroundImage: `url(${firstMapUrl})`, // 첫 번째 URL을 배경 이미지로 설정
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          // 필요한 경우 다른 스타일을 추가합니다.
+        }}>
           <Center>
             <Flex
               display="flex"
@@ -415,7 +429,12 @@ export function Ba({ message, roomId }) {
       );
     } else if (userName === userB.memberId) {
       return (
-        <div>
+        <div style={{
+          backgroundImage: `url(${firstMapUrl})`, // 첫 번째 URL을 배경 이미지로 설정
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          // 필요한 경우 다른 스타일을 추가합니다.
+        }}>
           <Center>
             <Flex
               display="flex"
