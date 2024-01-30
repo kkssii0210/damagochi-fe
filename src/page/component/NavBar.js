@@ -1,4 +1,14 @@
-import { Box, Button, Progress, Text, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Drawer, DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerHeader,
+  Progress,
+  Text, useDisclosure,
+  useToast
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import axios from "axios";
@@ -17,6 +27,15 @@ export function NavBar(props) {
   const [isSocial, setIsSocial] = useState(false);
   const location = useLocation();
   const toast = useToast();
+  const [size, setSize] = useState('');
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const handleClickDrawer = (newSize) => {
+    setSize(newSize)
+    onOpen()
+  }
+
+  const sizes = [ 'full']
+
   function sendRefreshToken() {
     const refreshToken = localStorage.getItem("refreshToken");
     console.log("리프레시 토큰: ", refreshToken);
@@ -210,61 +229,62 @@ export function NavBar(props) {
   }
 
   return (
-    <>
-    <Box
-      border="1px solid black"
-      style={{
-        color:"white",
-        display: "flex",
-        border: "0px solid navy",
-        width: "100%",
-        height: "auto",
-        justifyContent: "space-evenly",
-        alignItems: "center", // Align items vertically in the center
-      }}
-    >
-      {/*홈버튼*/}
-      <Button mt="30px" color="white" variant="ghost" size="lg" onClick={() => navigate("/")}>
-        Home
-      </Button>
-      {/*포인트 표시*/}
-      <Box
-        padding="4"
-        borderWidth="1px"
-        borderRadius="lg"
-        onClick={handleClick}
-        cursor="pointer"
-      >
-        <Text mb="8px" textAlign="center">
-          <FontAwesomeIcon icon={faStore} fontSize="large" /> 내 포인트 :
-          {totalPoints}
-        </Text>
-        <Progress
-          value={filledPercentage}
-          colorScheme={filledPercentage > 50 ? "green" : "red"}
-        />
-        {/*로그인 상태에서 -- 로그아웃*/}
-        {loggedIn && (
-          <Button
-            variant="ghost"
-            size="lg"
-            fontFamily="Constantia"
-            border="0px solid red"
-            _hover={{ bg: "none" }}
-            onClick={handleLogout}
-            leftIcon={<FontAwesomeIcon icon={faRightFromBracket} />}
-          >
-            log out
-          </Button>
-          //   <KakaoLogoutComponent/>
-        )}
-      </Box>
-      {/*카카오톡 로그인 컴포넌트*/}
-      <Box>
-        <KakaoLoginComponent />
-      </Box>
+    <Box border="1px solid yellow">
+      {sizes.map((size) => (
+        <Button
+          onClick={() => handleClickDrawer(size)}
+          key={size}
+          m={4}
+        >{`Open ${size} Drawer`}</Button>
+      ))}
+
+      <Drawer placement="left" onClose={onClose} isOpen={isOpen} size={size}>
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>{`${size} drawer contents`}</DrawerHeader>
+          <DrawerBody>
+            <Button mt="30px" color="white" variant="ghost" size="lg" onClick={() => navigate("/")}>
+              Home
+            </Button>
+            {/*포인트 표시*/}
+            <Box
+              padding="4"
+              borderWidth="1px"
+              borderRadius="lg"
+              onClick={handleClick}
+              cursor="pointer"
+            >
+              <Text mb="8px" textAlign="center">
+                <FontAwesomeIcon icon={faStore} fontSize="large" /> 내 포인트 :
+                {totalPoints}
+              </Text>
+              <Progress
+                value={filledPercentage}
+                colorScheme={filledPercentage > 50 ? "green" : "red"}
+              />
+              {/*로그인 상태에서 -- 로그아웃*/}
+              {loggedIn && (
+                <Button
+                  variant="ghost"
+                  size="lg"
+                  fontFamily="Constantia"
+                  border="0px solid red"
+                  _hover={{ bg: "none" }}
+                  onClick={handleLogout}
+                  leftIcon={<FontAwesomeIcon icon={faRightFromBracket} />}
+                >
+                  log out
+                </Button>
+                //   <KakaoLogoutComponent/>
+              )}
+            </Box>
+            <Box>
+              <KakaoLoginComponent />
+            </Box>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </Box>
-    </>
   );
 }
 export default NavBar;
