@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 import NavBar from "../page/component/NavBar";
-import { Outlet } from "react-router";
-import home from "./../homeLayout.module.css";
-export function HomeLayout(props) {
-  return (
-    <div className={home.homelayout}>
+import {Outlet} from "react-router";
 
-      <Outlet />
+function HomeLayout(props) {
+  return (
+    <div>
+      <NavBar/>
+      <Outlet/>
     </div>
   );
 }

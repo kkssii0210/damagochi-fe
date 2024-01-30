@@ -25,18 +25,23 @@
 }
 
 .logo {
+    border: 0px solid white;
     font-family: 'DungGeunMo';
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    font-size: 10em; /* 로고 크기 */
+    font-size: 15em; /* 로고 크기 */
     color: #FFFFFF; /* 로고 색상 */
     text-transform: uppercase; /* 대문자 변환 */
     margin-top: 2rem;
 }
 
 .character {
-    border: 0px solid white;
-    width: 300px; /* 캐릭터 크기 */
+    border: 1px solid white;
+    width: 400px; /* 캐릭터 크기 */
     margin-top:-10em; /* 로고와 겹치도록 위치 조정 */
+}
+
+.divcss{
+    border: 1px solid red;
 }
 
 .guideText {
