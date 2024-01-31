@@ -273,7 +273,7 @@ export function NavBar(props) {
             <Card
               m="10%"
               w="85%"
-              h="90%"
+              h={loggedIn ? "90%" : "50%"}
               backgroundColor="rgba(255, 255, 255, 0.5)"
             >
               <Text
@@ -285,16 +285,16 @@ export function NavBar(props) {
               >
                 다마고찌
               </Text>
+
+              {/*{loggedIn && (*/}
               <CardBody
                 display={"flex"}
                 justifyContent={"center"}
-                w="100%"
-                h="140px"
+                h={"140px"}
                 border="0px solid green"
               >
                 <Image w={"50%"} src={Step3Damagochi} />
               </CardBody>
-
               <Stack
                 w="80%"
                 m="10%"
@@ -335,6 +335,7 @@ export function NavBar(props) {
                   }}
                   size="lg"
                   onClick={() => navigate("/")}
+                  mb={loggedIn ? "none" : "50px"}
                 >
                   🏠 홈
                 </Button>
