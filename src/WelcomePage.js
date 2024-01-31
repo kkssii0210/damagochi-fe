@@ -42,7 +42,7 @@ export function WelcomePage() {
             <Box mt={12} w="90%" h="90%" mr="25px" padding="5" display="flex" border="0px solid white">
                 {/* 첫 번째 박스 */}
                 <Box w="5%" h="100%" border="0px solid red" marginRight="1">
-                    <NavBar/>
+                    {/*<NavBar/>*/}
                     {/*<ButtonGroup h="100%" justifyContent="center" flexDirection="column" display="flex" >*/}
                     {/*    <Button><FontAwesomeIcon icon={faHouseChimney} style={{color: "#9abffe",}} /></Button>*/}
                     {/*    <Button><FontAwesomeIcon icon={faGear} style={{color: "#74C0FC",}} /></Button>*/}
