@@ -7,7 +7,7 @@ export function HomeLayout() {
   return (
     <div
       className={home.homelayout}>
-      <NavBar />
+      {/*<NavBar />*/}
       <Outlet />
     </div>
 

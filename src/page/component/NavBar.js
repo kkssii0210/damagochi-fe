@@ -1,6 +1,6 @@
 import {
   Box,
-  Button,
+  Button, ButtonGroup, Card,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -22,6 +22,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import KakaoLoginComponent from "../../KakaoLoginComponent";
 import { getKakaoLogoutLink } from "../api/kakaoApi";
+import nav from "../../TutorialPage.module.css";
+
 
 export function NavBar(props) {
   const [currentPoints, setCurrentPoints] = useState(0);
@@ -40,7 +42,7 @@ export function NavBar(props) {
     onOpen();
   };
 
-  const sizes = ["sm"];
+  const sizes = ["xl"];
 
   function sendRefreshToken() {
     const refreshToken = localStorage.getItem("refreshToken");
@@ -236,7 +238,7 @@ export function NavBar(props) {
   }
 
   return (
-    <Box border="0px solid yellow">
+    <Box border="0px solid yellow" bg="black">
 
       {sizes.map((size) => (
         <Button
@@ -253,59 +255,105 @@ export function NavBar(props) {
       ))}
 
       <Drawer
-        backgroundColor="rgba(255, 255, 255, 0.3)"
-        placement="right"
+        placement="left"
         onClose={onClose}
         isOpen={isOpen}
         size={size}
       >
-        <DrawerContent>
+        <DrawerContent >
           <DrawerCloseButton />
-          <DrawerBody>
-            <Button
-              mt="30px"
-              color="white"
-              variant="ghost"
-              size="lg"
-              onClick={() => navigate("/")}
-            >
-              Home
-            </Button>
-            {/*포인트 표시*/}
-            <Box
-              padding="4"
-              borderWidth="1px"
-              borderRadius="lg"
-              onClick={handleClick}
-              cursor="pointer"
-            >
-              <Text mb="8px" textAlign="center">
-                <FontAwesomeIcon icon={faStore} fontSize="large" /> 내 포인트 :
-                {totalPoints}
-              </Text>
-              <Progress
-                value={filledPercentage}
-                colorScheme={filledPercentage > 50 ? "green" : "red"}
-              />
+          <DrawerBody className={nav.status1} color="white">
+            <Card m={10} w="80%" h="100%" backgroundColor="rgba(255, 255, 255, 0.3)">
+              <Text textAlign="Center" fontSize="4rem" fontFamily="DungGeunMo">DAMAGOCHI</Text>
+              <Text ></Text>
+              <Box
+                  padding="4"
+                  borderWidth="1px"
+                  borderRadius="lg"
+                  border="1px solid blue"
+                  onClick={handleClick}
+                  cursor="pointer"
+              >
+                <Text mb="8px" textAlign="center">
+                  <FontAwesomeIcon icon={faStore} fontSize="large" /> 내 포인트 :
+                  {totalPoints}
+                </Text>
+                <Progress
+                    value={filledPercentage}
+                    colorScheme={filledPercentage > 50 ? "green" : "yellow"}
+                />
+              </Box>
               {/*로그인 상태에서 -- 로그아웃*/}
               {loggedIn && (
-                <Button
+                  <Button
+                      variant="ghost"
+                      size="lg"
+                      fontFamily="Constantia"
+                      border="1px solid red"
+                      _hover={{ bg: "none" }}
+                      onClick={handleLogout}
+                      leftIcon={<FontAwesomeIcon icon={faRightFromBracket} />}
+                  >
+                    log out
+                  </Button>
+                  //   <KakaoLogoutComponent/>
+              )}
+              <Box>
+                <KakaoLoginComponent />
+              </Box>
+              <ButtonGroup>
+              <Button
+                  mt="30px"
+                  color="black"
+                  size="lg"
+                  onClick={() => navigate("/")}
+              >
+                Home
+              </Button>
+              <Button
+
+                  mt="30px"
+                  color="black"
                   variant="ghost"
                   size="lg"
-                  fontFamily="Constantia"
-                  border="0px solid red"
-                  _hover={{ bg: "none" }}
-                  onClick={handleLogout}
-                  leftIcon={<FontAwesomeIcon icon={faRightFromBracket} />}
+                  onClick={() => navigate("/")}
+              >
+                Battle Game
+              </Button>
+
+                <Button
+
+                    mt="30px"
+                    color="black"
+                    variant="ghost"
+                    size="lg"
+                    onClick={() => navigate("/")}
                 >
-                  log out
-                </Button>
-                //   <KakaoLogoutComponent/>
-              )}
-            </Box>
-            <Box>
-              <KakaoLoginComponent />
-            </Box>
+                  Mong's Evolution Level              </Button>
+              <Button
+                  mt="30px"
+                  color="black"
+                  variant="ghost"
+                  size="lg"
+                  onClick={() => navigate("/")}
+              >
+                My Mong Status Information
+              </Button>
+              <Button
+                  mt="30px"
+                  color="black"
+                  variant="ghost"
+                  size="lg"
+                  onClick={() => navigate("/")}
+              >
+                Settings
+              </Button>
+            </ButtonGroup>
+              {/*포인트 표시*/}
+
+            </Card>
+
+
           </DrawerBody>
         </DrawerContent>
       </Drawer>
