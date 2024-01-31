@@ -238,7 +238,12 @@ export function NavBar(props) {
       });
   }
 
+  function handleContainerClick() {
+    onClose(); // NavBar 닫기
+  }
+
   return (
+
     <Box border="0px solid yellow" ml="2%">
       {sizes.map((size) => (
         <Button onClick={() => handleClickDrawer(size)} key={size}>
@@ -251,8 +256,8 @@ export function NavBar(props) {
         </Button>
       ))}
 
-      <Drawer placement="left" onClose={onClose} isOpen={isOpen} size={size}>
-        <DrawerContent colorScheme="white">
+      <Drawer placement="left" onClose={onClose} isOpen={isOpen} size={size} onOverlayClick={onClose}>
+        <DrawerContent colorScheme="white"  onClick={handleContainerClick}>
           <DrawerCloseButton />
           <DrawerBody className={nav.status1} color="white">
             <Card

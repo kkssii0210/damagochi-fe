@@ -104,6 +104,14 @@ export function MongStatusInfo() {
       console.log(response.data);
     });
   }
+  const handleImageClick = (index) => {
+    if (index > 0) {
+      const newMapList = [...mapList];
+      const selectedMap = newMapList.splice(index, 1)[0];
+      newMapList.unshift(selectedMap);
+      setMapList(newMapList); // 상태 업데이트
+    }
+  };
 
   return (
     <div>
@@ -331,7 +339,9 @@ export function MongStatusInfo() {
               <div>
                 {mapList && mapList.map((url, index) =>
                   url ? <img key={index} src={url} alt={`Map Preview ${index}`}
-                             style={{width: '100px', height: '100px'}}/> : null
+                             style={{width: '100px', height: '100px'}}
+                             onClick={() => handleImageClick(index)}
+                  /> : null
                 )}
               </div>
             </TabPanel>

@@ -137,7 +137,7 @@ export function Ba({ message, roomId }) {
   const mongBMaxHp = 100;
   //보유한 맵의 List불러오기
   const { mapList } = useContext(MapListContext);
-  const firstMapUrl = mapList[0] || "";
+  let firstMapUrl = mapList[0] || "";
 
   const [battleLog, setBattleLog] = useState("게임 시작!!");
   const [endMessage, setEndMessage] = useState("");
@@ -148,6 +148,8 @@ export function Ba({ message, roomId }) {
   const handleBattleRoomsMessage = (message) => {
     const receivedMessage = message;
     console.log("Received message:", receivedMessage);
+    console.log("mapList",mapList);
+    console.log(firstMapUrl);
     // 원하는 작업 수행
     // 예를 들면, 상태 업데이트 등
     if (receivedMessage.battleLog) {
