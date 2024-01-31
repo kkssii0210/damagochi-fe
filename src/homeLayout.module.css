@@ -1,0 +1,13 @@
+.homelayout{
+    background: #1E1E1E; /* 배경색 */
+    background: linear-gradient(
+            180deg,
+            rgba(0,0,128,1) 0%,
+            rgba(102, 104, 129, 1) 33%,
+            rgba(71, 88, 165, 1) 66%,
+            rgba(145, 118, 198, 1) 100%
+    );
+}
+.wnavbar{
+    border: 1px solid red   ;
+}

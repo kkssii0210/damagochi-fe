@@ -330,8 +330,8 @@ export function MongStatusInfo() {
               <p>보유한 맵 종류</p>
               <div>
                 {mapList && mapList.map((url, index) =>
-                    url ? <img key={index} src={url} alt={`Map Preview ${index}`}
-                               style={{width: '100px', height: '100px'}}/> : null
+                  url ? <img key={index} src={url} alt={`Map Preview ${index}`}
+                             style={{width: '100px', height: '100px'}}/> : null
                 )}
               </div>
             </TabPanel>

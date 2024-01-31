@@ -17,17 +17,32 @@
     ); /* 그라데이션 배경 */
     font-family: 'JalnanGothic', sans-serif;
 }
+@font-face {
+    font-family: 'DungGeunMo';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 .logo {
-    font-size: 4em; /* 로고 크기 */
+    border: 0px solid white;
+    font-family: 'DungGeunMo';
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: 15em; /* 로고 크기 */
     color: #FFFFFF; /* 로고 색상 */
     text-transform: uppercase; /* 대문자 변환 */
-    margin-top: 2em;
+    margin-top: 2rem;
 }
 
 .character {
-    width: 120px; /* 캐릭터 크기 */
-    margin-top: -3em; /* 로고와 겹치도록 위치 조정 */
+    border: 0px solid white;
+    width: 400px; /* 캐릭터 크기 */
+    margin-left: 32%;
+    margin-top:-5em; /* 로고와 겹치도록 위치 조정 */
+}
+
+.divcss{
+    border: 1px solid red;
 }
 
 .guideText {
