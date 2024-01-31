@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useRef, useState, useContext} from "react";
 import swordImage from "./칼1.png";
 import fireImage from "./불공격.gif";
 import waterImage from "./물공격.png";
@@ -13,9 +13,41 @@ import {
   Image,
   Badge,
   Button,
+  Modal,
+  useDisclosure,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useToast,
 } from "@chakra-ui/react";
 import { Inventory } from "./page/management/Inventory";
 import {MapListContext} from "./MapListContext";
+import {Inventory} from "./page/management/Inventory";
+import * as PropTypes from "prop-types";
+import {useNavigate} from "react-router-dom";
+
+function ScrollableBox({ battleLog }) {
+  const boxRef = useRef();
+
+  useEffect(() => {
+    // 스크롤 위치를 항상 가장 아래로 설정
+    boxRef.current.scrollTop = boxRef.current.scrollHeight;
+  }, [battleLog]); // battleLog이 변경될 때마다 호출
+
+  return (
+      <div ref={boxRef} style={{ border: '1px solid black', width: '100%', height: '70%', overflow: 'auto' }}>
+        {battleLog.split('\n').map((line, index) => (
+            <React.Fragment key={index}>
+              {line}
+              <br />
+            </React.Fragment>
+        ))}
+      </div>
+  );
+};
 
 function HealthBar({ health }) {
   // 체력바 스타일을 계산하는 함수
@@ -39,6 +71,8 @@ function HealthBar({ health }) {
 }
 
 export function Ba({ message, roomId }) {
+  const toast = useToast();
+  const navigate = useNavigate();
   const [userA, setUserA] = useState(null);
   const [userB, setUserB] = useState(null);
   const [userName, setUserName] = useState("");
@@ -47,6 +81,7 @@ export function Ba({ message, roomId }) {
   const [imageModuleB, setImageModuleB] = useState(null);
 
   const [nowTurn, setNowTurn] = useState("");
+  const [totalTurn, setTotalTurn] = useState(0);
 
   const [mongAHp, setMongAHp] = useState(0);
   const [mongBHp, setMongBHp] = useState(0);
@@ -85,15 +120,34 @@ export function Ba({ message, roomId }) {
   const {mapList} = useContext(MapListContext);
   const firstMapUrl = mapList[0] || "";
 
+  const [battleLog, setBattleLog] = useState("게임 시작!!");
+  const [endMessage, setEndMessage] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+
   const handleBattleRoomsMessage = (message) => {
     const receivedMessage = message;
     console.log("Received message:", receivedMessage);
     // 원하는 작업 수행
     // 예를 들면, 상태 업데이트 등
+    if (receivedMessage.battleLog) {
+      setBattleLog(battleLog + '\n' + receivedMessage.battleLog);
+    }
 
     if (receivedMessage.mongAId === userAMongId) {
       setMongAHp(receivedMessage.healthA);
       setMongBHp(receivedMessage.healthB);
+
+      if (receivedMessage.healthB <= 0) {
+        if (userName === userA.memberId) {
+          setEndMessage("승리!!");
+        } else if (userName === userB.memberId) {
+          setEndMessage("패배!!");
+        }
+        setModalOpen(true);
+      }
 
       if (receivedMessage.attackBuff) {
         setAttackBuffA(receivedMessage.attackBuff);
@@ -104,6 +158,15 @@ export function Ba({ message, roomId }) {
       setMongBHp(receivedMessage.healthA);
       setMongAHp(receivedMessage.healthB);
 
+      if (receivedMessage.healthB <= 0) {
+        if (userName === userA.memberId) {
+          setEndMessage("패배!!");
+        } else if (userName === userB.memberId) {
+          setEndMessage("승리!!");
+        }
+        setModalOpen(true);
+      }
+
       if (receivedMessage.attackBuff) {
         setAttackBuffB(receivedMessage.attackBuff);
       }
@@ -113,6 +176,50 @@ export function Ba({ message, roomId }) {
       setNowTurn(receivedMessage.turn);
     }
     setNowTurn(receivedMessage.turn);
+    if (receivedMessage.totalTurn) {
+      setTotalTurn(receivedMessage.totalTurn);
+
+      if (totalTurn >= 30) {
+        setEndMessage("무승부!!");
+        setModalOpen(true);
+      }
+    }
+
+
+
+    // if ((totalTurn >= 30 || mongAHp <= 0 || mongBHp <= 0) && userA && userB) {
+    //
+    //
+    //   if (mongAHp <= 0) {
+    //     if (userName === userA.memberId) {
+    //       console.log("배틀 종료 (패배)");
+    //       setEndMessage("배틀 종료 (패배)")
+    //
+    //     } else if (userName === userB.memberId) {
+    //       console.log("배틀 죵료 (승리)")
+    //       setEndMessage("배틀 종료 (승리)")
+    //
+    //     }
+    //
+    //   } else if (mongBHp <= 0) {
+    //     if (userName === userA.memberId) {
+    //       console.log("배틀 종료 (승리)");
+    //       setEndMessage("배틀 종료 (승리)")
+    //
+    //     } else if (userName === userB.memberId) {
+    //       console.log("배틀 죵료 (패배)")
+    //       setEndMessage("배틀 종료 (패배)")
+    //     }
+    //
+    //   } else if (totalTurn >= 30) {
+    //     console.log("배틀 종료 (무승부)");
+    //     setEndMessage("배틀 종료 (무승부)")
+    //
+    //   }
+    //
+    //   setModalOpen(true);
+    // }
+
     // 배틀 종료 조건 확인
     if (receivedMessage.healthA <= 0 || receivedMessage.healthB <= 0) {
       setBattleFinished(true);
@@ -124,6 +231,7 @@ export function Ba({ message, roomId }) {
       }
     }
   };
+
   useEffect(() => {
     if (message && message.sessionIds) {
       setSessionIds(message.sessionIds);
@@ -144,6 +252,7 @@ export function Ba({ message, roomId }) {
         setUserB(data.userB);
         setUserName(data.userName);
         setNowTurn(data.userA.name);
+
         setMongAHp(data.userA.health);
         setMongBHp(data.userB.health);
 
@@ -170,10 +279,12 @@ export function Ba({ message, roomId }) {
         loadImageModule();
         handleBattleRoomsMessage(message);
       });
-  }, [message]);
+  }, [message, modalOpen]);
   useEffect(() => {
     console.log(nowTurn);
+
   }, [nowTurn]);
+  console.log(nowTurn);
   if (userAMongId === null || userBMongId === null) {
     return <div>로딩~</div>;
   }
@@ -207,7 +318,9 @@ export function Ba({ message, roomId }) {
         attackBuff,
         battleRoomId: roomId,
         sessionIds: sessionIds,
-      });
+        totalTurn
+      })
+          .then(()=> setUseItem(false));
       // 요청 성공에 대한 처리
     } catch (error) {
       // 오류 처리
@@ -218,6 +331,7 @@ export function Ba({ message, roomId }) {
     }
   }
 
+
   function handleInvenButtonClick() {
     setShowInventory(!showInventory);
   }
@@ -226,371 +340,433 @@ export function Ba({ message, roomId }) {
     setShowInventory(false);
   };
 
-  if (battleFinished) {
-    const victoriousUser = winner === "A" ? userA : userB;
-    const victoriousImage = winner === "A" ? imageModuleA : imageModuleB;
 
-    return (
-      <Center style={{
-        backgroundImage: `url(${firstMapUrl})`, // 첫 번째 URL을 배경 이미지로 설정
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        // 필요한 경우 다른 스타일을 추가합니다.
-      }}>
-        <Box
-          border="1px solid green"
-          display="flex"
-          flexDirection="column"
-          p="4"
-          borderRadius="md"
-          boxShadow="md"
-          width="auto"
-          height="auto"
-        >
-          <Text fontSize="xl" fontWeight="bold">
-            승리자: {victoriousUser.name}
-          </Text>
-          <Image
-            src={victoriousImage}
-            alt="Victorious Mong"
-            boxSize="200px"
-            objectFit="cover"
-            m="auto"
-            my="4"
-          />
-          <Text fontSize="md">Level: {victoriousUser.level}</Text>
-          <Text fontSize="md">Type: {victoriousUser.attribute}</Text>
-        </Box>
-      </Center>
-    );
-  } else {
-    if (userName === userA.memberId) {
-      return (
-        <div style={{
-          backgroundImage: `url(${firstMapUrl})`, // 첫 번째 URL을 배경 이미지로 설정
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          // 필요한 경우 다른 스타일을 추가합니다.
-        }}>
-          <Center>
-            <Flex
-              display="flex"
-              flexDirection="row"
-              border="1px solid black"
-              width="70%"
-              height="700px"
-              p="4"
-              borderRadius="md"
-              boxShadow="md"
-              justifyContent="space-between"
-            >
-              <Box
-                border="1px solid red"
-                display="flex"
-                width="30%"
-                height="100%"
-                p="2"
-                borderRadius="md"
-                boxShadow="sm"
-                flexDirection="column"
-                justifyContent="end"
-              >
-                <Box
-                  width="100%"
-                  height="70%"
-                  border="1px solid black"
-                  textAlign="center"
-                >
-                  <HealthBar health={mongAHp} />
-                  <Text fontSize="sm" mt="2" noOfLines={2}>
-                    {mongAHp} / 100
-                  </Text>
-                  <Image
-                    src={imageModuleA}
-                    alt=""
-                    w="70%"
-                    h="70%"
-                    m="auto"
-                    mb="2"
-                  />
-                  <Text fontSize="lg" fontWeight="bold" noOfLines={2}>
-                    {userA.name}
-                  </Text>
-                  <Badge colorScheme="red" borderRadius="full" px="2" mb="2">
-                    Lv. {userA.level}
-                  </Badge>
-                  <Text fontSize="sm" noOfLines={2}>
-                    Type: {userA.attribute}
-                  </Text>
-                </Box>
-                <Box>
-                  {isAnimating && (
-                    <Image
-                      src={attributeImage}
-                      className="sword-animation"
-                      position="absolute"
-                    />
-                  )}
-                </Box>
-              </Box>
-              <Box
-                border="1px solid green"
-                display="flex"
-                width="35%"
-                height="100%"
-                p="2"
-                borderRadius="md"
-                boxShadow="sm"
-                flexDirection="column"
-                justifyContent="end"
-              >
-                {nowTurn === userA.name && (
-                  <div>
-                    <Button
-                      onClick={() =>
-                        handleAttackClick(
-                          userA,
-                          userB,
-                          mongAHp,
-                          mongBHp,
-                          attackBuffA,
-                        )
-                      }
-                    >
-                      공격
-                    </Button>
-                    <Button onClick={handleInvenButtonClick}>인벤토리</Button>
-                    <div style={{ position: "relative" }}>
-                      {showInventory && (
-                        <Inventory
-                          memberId={userA.memberId}
-                          mystyle={{ border: "10px solid green" }}
-                          onClose={handleInventoryClose}
-                          onClick={(item) => {
-                            console.log(item.name + "사용");
-                            axios.put("/api/manage/mong/useItem", {
-                              itemId: item.id,
-                              mongAId: userA.id,
-                              mongBId: userB.id,
-                              healthA: mongAHp,
-                              healthB: mongBHp,
-                              battleRoomId: roomId,
-                              sessionIds: sessionIds,
-                            });
-                          }}
-                        />
-                      )}
-                    </div>
-                  </div>
-                )}
-              </Box>
-              <Box
-                border="1px solid blue"
-                display="flex"
-                width="30%"
-                height="100%"
-                p="2"
-                borderRadius="md"
-                boxShadow="sm"
-                flexDirection="column"
-              >
-                <Box
-                  width="100%"
-                  height="70%"
-                  border="1px solid black"
-                  textAlign="center"
-                >
-                  <HealthBar health={mongBHp} />
-                  <Text fontSize="sm" mt="2" noOfLines={2}>
-                    {mongBHp} / 100
-                  </Text>
-                  <Image
-                    src={imageModuleB}
-                    alt=""
-                    w="70%"
-                    h="70%"
-                    m="auto"
-                    mb="2"
-                  />
-                  <Text fontSize="lg" fontWeight="bold" noOfLines={2}>
-                    {userB.name}
-                  </Text>
-                  <Badge colorScheme="blue" borderRadius="full" px="2" mb="2">
-                    Lv. {userB.level}
-                  </Badge>
-                  <Text fontSize="sm" noOfLines={2}>
-                    Type: {userB.attribute}
-                  </Text>
-                </Box>
-              </Box>
-            </Flex>
-          </Center>
-        </div>
-      );
-    } else if (userName === userB.memberId) {
-      return (
-        <div style={{
-          backgroundImage: `url(${firstMapUrl})`, // 첫 번째 URL을 배경 이미지로 설정
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          // 필요한 경우 다른 스타일을 추가합니다.
-        }}>
-          <Center>
-            <Flex
-              display="flex"
-              flexDirection="row"
-              border="1px solid black"
-              width="70%"
-              height="700px"
-              p="4"
-              borderRadius="md"
-              boxShadow="md"
-              justifyContent="space-between"
-            >
-              <Box
-                border="1px solid red"
-                display="flex"
-                width="30%"
-                height="100%"
-                p="2"
-                borderRadius="md"
-                boxShadow="sm"
-                flexDirection="column"
-                justifyContent="end"
-              >
-                <Box
-                  width="100%"
-                  height="70%"
-                  border="1px solid black"
-                  textAlign="center"
-                >
-                  <HealthBar health={mongBHp} />
-                  <Text fontSize="sm" mt="2" noOfLines={2}>
-                    {mongBHp} / 100
-                  </Text>
-                  <Image
-                    src={imageModuleB}
-                    alt=""
-                    w="70%"
-                    h="70%"
-                    m="auto"
-                    mb="2"
-                  />
-                  <Text fontSize="lg" fontWeight="bold" noOfLines={2}>
-                    {userB.name}
-                  </Text>
-                  <Badge colorScheme="red" borderRadius="full" px="2" mb="2">
-                    Lv. {userB.level}
-                  </Badge>
-                  <Text fontSize="sm" noOfLines={2}>
-                    Type: {userB.attribute}
-                  </Text>
-                </Box>
-                <Box>
-                  {isAnimating && (
-                    <Image
-                      src={attributeImage}
-                      className="sword-animation"
-                      position="absolute"
-                    />
-                  )}
-                </Box>
-              </Box>
-              <Box
-                border="1px solid green"
-                display="flex"
-                width="35%"
-                height="100%"
-                p="2"
-                borderRadius="md"
-                boxShadow="sm"
-                flexDirection="column"
-                justifyContent="end"
-              >
-                {nowTurn === userB.name && (
-                  <div>
-                    <Button
-                      onClick={() =>
-                        handleAttackClick(
-                          userB,
-                          userA,
-                          mongBHp,
-                          mongAHp,
-                          attackBuffB,
-                        )
-                      }
-                    >
-                      공격
-                    </Button>
-                    <Button onClick={handleInvenButtonClick}>인벤토리</Button>
+  // battle 종료
 
-                    <div style={{ position: "relative" }}>
-                      {showInventory && (
-                        <Inventory
-                          memberId={userB.memberId}
-                          mystyle={{ border: "10px solid green" }}
-                          onClose={handleInventoryClose}
-                          onClick={(item) => {
-                            console.log(item.name + "사용");
-                            axios.put("/api/manage/mong/useItem", {
-                              itemId: item.id,
-                              mongAId: userB.id,
-                              mongBId: userA.id,
-                              healthA: mongBHp,
-                              healthB: mongAHp,
-                              battleRoomId: roomId,
-                              sessionIds: sessionIds,
-                            });
-                          }}
-                        />
-                      )}
-                    </div>
-                  </div>
-                )}
-              </Box>
-              <Box
-                border="1px solid blue"
-                display="flex"
-                width="30%"
-                height="100%"
-                p="2"
-                borderRadius="md"
-                boxShadow="sm"
-                flexDirection="column"
-              >
+
+
+
+
+  console.log("modal : " + modalOpen);
+
+    if (battleFinished) {
+        const victoriousUser = winner === "A" ? userA : userB;
+        const victoriousImage = winner === "A" ? imageModuleA : imageModuleB;
+
+        return (
+            <Center style={{
+                backgroundImage: `url(${firstMapUrl})`, // 첫 번째 URL을 배경 이미지로 설정
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                // 필요한 경우 다른 스타일을 추가합니다.
+            }}>
                 <Box
-                  width="100%"
-                  height="70%"
-                  border="1px solid black"
-                  textAlign="center"
+                    border="1px solid green"
+                    display="flex"
+                    flexDirection="column"
+                    p="4"
+                    borderRadius="md"
+                    boxShadow="md"
+                    width="auto"
+                    height="auto"
                 >
-                  <HealthBar health={mongAHp} />
-                  <Text fontSize="sm" mt="2" noOfLines={2}>
-                    {mongAHp} / 100
-                  </Text>
-                  <Image
-                    src={attacked ? attackedImage : imageModuleA}
-                    alt=""
-                    w="70%"
-                    h="70%"
-                    m="auto"
-                    mb="2"
-                  />
-                  <Text fontSize="lg" fontWeight="bold" noOfLines={2}>
-                    {userA.name}
-                  </Text>
-                  <Badge colorScheme="blue" borderRadius="full" px="2" mb="2">
-                    Lv. {userA.level}
-                  </Badge>
-                  <Text fontSize="sm" noOfLines={2}>
-                    Type: {userA.attribute}
-                  </Text>
+                    <Text fontSize="xl" fontWeight="bold">
+                        승리자: {victoriousUser.name}
+                    </Text>
+                    <Image
+                        src={victoriousImage}
+                        alt="Victorious Mong"
+                        boxSize="200px"
+                        objectFit="cover"
+                        m="auto"
+                        my="4"
+                    />
+                    <Text fontSize="md">Level: {victoriousUser.level}</Text>
+                    <Text fontSize="md">Type: {victoriousUser.attribute}</Text>
                 </Box>
-              </Box>
-            </Flex>
-          </Center>
-        </div>
-      );
+            </Center>
+        );
+    } else if (userName === userA.memberId) {
+        return (
+            <div style={{
+                backgroundImage: `url(${firstMapUrl})`, // 첫 번째 URL을 배경 이미지로 설정
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                // 필요한 경우 다른 스타일을 추가합니다.
+            }}>
+                <Center>
+                    <Flex
+                        display="flex"
+                        flexDirection="row"
+                        border="1px solid black"
+                        width="70%"
+                        height="700px"
+                        p="4"
+                        borderRadius="md"
+                        boxShadow="md"
+                        justifyContent="space-between"
+                    >
+                        <Box
+                            border="1px solid red"
+                            display="flex"
+                            width="30%"
+                            height="100%"
+                            p="2"
+                            borderRadius="md"
+                            boxShadow="sm"
+                            flexDirection="column"
+                            justifyContent="end"
+                        >
+                            <Box
+                                width="100%"
+                                height="70%"
+                                border="1px solid black"
+                                textAlign="center"
+                            >
+                                <HealthBar health={mongAHp}/>
+                                <Text fontSize="sm" mt="2" noOfLines={2}>
+                                    {mongAHp} / 100
+                                </Text>
+                                <Image
+                                    src={imageModuleA}
+                                    alt=""
+                                    w="70%"
+                                    h="70%"
+                                    m="auto"
+                                    mb="2"
+                                />
+                                <Text fontSize="lg" fontWeight="bold" noOfLines={2}>
+                                    {userA.name}
+                                </Text>
+                                <Badge colorScheme="red" borderRadius="full" px="2" mb="2">
+                                    Lv. {userA.level}
+                                </Badge>
+                                <Text fontSize="sm" noOfLines={2}>
+                                    Type: {userA.attribute}
+                                </Text>
+                            </Box>
+                            <Box>
+                                {isAnimating && (
+                                    <Image
+                                        src={attributeImage}
+                                        className="sword-animation"
+                                        position="absolute"
+                                    />
+                                )}
+                            </Box>
+                        </Box>
+                        <Box
+                            border="1px solid green"
+                            display="flex"
+                            width="35%"
+                            height="100%"
+                            p="2"
+                            borderRadius="md"
+                            boxShadow="sm"
+                            flexDirection="column"
+                            justifyContent="space-between"
+                        >
+                            <ScrollableBox battleLog={battleLog}/>
+
+                            {nowTurn === userA.name && (
+                                <div>
+                                    <Button
+                                        onClick={() =>
+                                            handleAttackClick(
+                                                userA,
+                                                userB,
+                                                mongAHp,
+                                                mongBHp,
+                                                attackBuffA,
+                                            )
+                                        }
+                                    >
+                                        공격
+                                    </Button>
+                                    <Button onClick={handleInvenButtonClick}>인벤토리</Button>
+                                    <div style={{position: "relative"}}>
+                                        {showInventory &&
+                                            <Inventory memberId={userA.memberId} mystyle={{border: "10px solid green"}}
+                                                       onClose={handleInventoryClose} onClick={(item) => {
+                                                console.log(item.name + "사용")
+                                                if (!useItem) {
+                                                    axios.put("/api/manage/mong/useItem", {
+                                                        itemId: item.id,
+                                                        mongAId: userA.id,
+                                                        mongBId: userB.id,
+                                                        healthA: mongAHp,
+                                                        healthB: mongBHp,
+                                                        battleRoomId: roomId,
+                                                        sessionIds: sessionIds,
+                                                    }).then(() => setUseItem(true));
+                                                } else {
+                                                    console.log("아이템은 하나만 사용 가능")
+                                                    toast({
+                                                        description: "아이템은 하나만 사용 가능",
+                                                        status: "warning"
+                                                    })
+                                                }
+                                            }}/>}
+                                    </div>
+                                </div>
+                            )}
+                        </Box>
+                        <Box
+                            border="1px solid blue"
+                            display="flex"
+                            width="30%"
+                            height="100%"
+                            p="2"
+                            borderRadius="md"
+                            boxShadow="sm"
+                            flexDirection="column"
+                        >
+                            <Box
+                                width="100%"
+                                height="70%"
+                                border="1px solid black"
+                                textAlign="center"
+                            >
+                                <HealthBar health={mongBHp}/>
+                                <Text fontSize="sm" mt="2" noOfLines={2}>
+                                    {mongBHp} / 100
+                                </Text>
+                                <Image
+                                    src={imageModuleB}
+                                    alt=""
+                                    w="70%"
+                                    h="70%"
+                                    m="auto"
+                                    mb="2"
+                                />
+                                <Text fontSize="lg" fontWeight="bold" noOfLines={2}>
+                                    {userB.name}
+                                </Text>
+                                <Badge colorScheme="blue" borderRadius="full" px="2" mb="2">
+                                    Lv. {userB.level}
+                                </Badge>
+                                <Text fontSize="sm" noOfLines={2}>
+                                    Type: {userB.attribute}
+                                </Text>
+                            </Box>
+                        </Box>
+                    </Flex>
+                </Center>
+                <Modal closeOnOverlayClick={false} isOpen={modalOpen} onClose={onClose}>
+                    <ModalOverlay/>
+                    <ModalContent>
+                        <ModalHeader>Create your account</ModalHeader>
+                        <ModalCloseButton/>
+                        <ModalBody pb={6}>
+                            {endMessage}
+                        </ModalBody>
+
+                        <ModalFooter>
+                            <Button colorScheme='blue' mr={3} onClick={() => {
+                                axios.put("/api/manage/mong/battleEnd", {
+                                    endMessage: endMessage,
+                                    memberId: userA.memberId
+                                });
+                                navigate("/management")
+                            }}>
+                                나가기
+                            </Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+            </div>
+        );
+    } else {
+        return (
+            <div style={{
+                backgroundImage: `url(${firstMapUrl})`, // 첫 번째 URL을 배경 이미지로 설정
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                // 필요한 경우 다른 스타일을 추가합니다.
+            }}>
+
+                <Center>
+                    <Flex
+                        display="flex"
+                        flexDirection="row"
+                        border="1px solid black"
+                        width="70%"
+                        height="700px"
+                        p="4"
+                        borderRadius="md"
+                        boxShadow="md"
+                        justifyContent="space-between"
+                    >
+                        <Box
+                            border="1px solid red"
+                            display="flex"
+                            width="30%"
+                            height="100%"
+                            p="2"
+                            borderRadius="md"
+                            boxShadow="sm"
+                            flexDirection="column"
+                            justifyContent="end"
+                        >
+                            <Box
+                                width="100%"
+                                height="70%"
+                                border="1px solid black"
+                                textAlign="center"
+                            >
+                                <HealthBar health={mongBHp}/>
+                                <Text fontSize="sm" mt="2" noOfLines={2}>
+                                    {mongBHp} / 100
+                                </Text>
+                                <Image
+                                    src={imageModuleB}
+                                    alt=""
+                                    w="70%"
+                                    h="70%"
+                                    m="auto"
+                                    mb="2"
+                                />
+                                <Text fontSize="lg" fontWeight="bold" noOfLines={2}>
+                                    {userB.name}
+                                </Text>
+                                <Badge colorScheme="red" borderRadius="full" px="2" mb="2">
+                                    Lv. {userB.level}
+                                </Badge>
+                                <Text fontSize="sm" noOfLines={2}>
+                                    Type: {userB.attribute}
+                                </Text>
+                            </Box>
+                            <Box>
+                                {isAnimating && (
+                                    <Image
+                                        src={attributeImage}
+                                        className="sword-animation"
+                                        position="absolute"
+                                    />
+                                )}
+                            </Box>
+                        </Box>
+                        <Box
+                            border="1px solid green"
+                            display="flex"
+                            width="35%"
+                            height="100%"
+                            p="2"
+                            borderRadius="md"
+                            boxShadow="sm"
+                            flexDirection="column"
+                            justifyContent="space-between"
+                        >
+                            <ScrollableBox battleLog={battleLog}/>
+                            {nowTurn === userB.name && (
+                                <div>
+                                    <Button
+                                        onClick={() =>
+                                            handleAttackClick(
+                                                userB,
+                                                userA,
+                                                mongBHp,
+                                                mongAHp,
+                                                attackBuffB,
+                                            )
+                                        }
+                                    >
+                                        공격
+                                    </Button>
+                                    <Button onClick={handleInvenButtonClick}>인벤토리</Button>
+
+                                    <div style={{position: "relative"}}>
+                                        {showInventory &&
+                                            <Inventory memberId={userB.memberId} mystyle={{border: "10px solid green"}}
+                                                       onClose={handleInventoryClose} onClick={(item) => {
+                                                console.log(item.name + "사용")
+                                                if (!useItem) {
+                                                    axios.put("/api/manage/mong/useItem", {
+                                                        itemId: item.id,
+                                                        mongAId: userB.id,
+                                                        mongBId: userA.id,
+                                                        healthA: mongBHp,
+                                                        healthB: mongAHp,
+                                                        battleRoomId: roomId,
+                                                        sessionIds: sessionIds,
+                                                    })
+                                                        .then(() => setUseItem(true));
+                                                } else {
+                                                    console.log("아이템은 하나만 사용 가능")
+                                                    toast({
+                                                        description: "아이템은 하나만 사용 가능",
+                                                        status: "warning"
+                                                    })
+                                                }
+                                            }}/>}
+                                    </div>
+                                </div>
+                            )}
+                        </Box>
+                        <Box
+                            border="1px solid blue"
+                            display="flex"
+                            width="30%"
+                            height="100%"
+                            p="2"
+                            borderRadius="md"
+                            boxShadow="sm"
+                            flexDirection="column"
+                        >
+                            <Box
+                                width="100%"
+                                height="70%"
+                                border="1px solid black"
+                                textAlign="center"
+                            >
+                                <HealthBar health={mongAHp}/>
+                                <Text fontSize="sm" mt="2" noOfLines={2}>
+                                    {mongAHp} / 100
+                                </Text>
+                                <Image
+                                    src={attacked ? attackedImage : imageModuleA}
+                                    alt=""
+                                    w="70%"
+                                    h="70%"
+                                    m="auto"
+                                    mb="2"
+                                />
+                                <Text fontSize="lg" fontWeight="bold" noOfLines={2}>
+                                    {userA.name}
+                                </Text>
+                                <Badge colorScheme="blue" borderRadius="full" px="2" mb="2">
+                                    Lv. {userA.level}
+                                </Badge>
+                                <Text fontSize="sm" noOfLines={2}>
+                                    Type: {userA.attribute}
+                                </Text>
+                            </Box>
+                        </Box>
+                    </Flex>
+                </Center>
+                <Modal closeOnOverlayClick={false} isOpen={modalOpen} onClose={onClose}>
+                    <ModalOverlay/>
+                    <ModalContent>
+                        <ModalHeader>Create your account</ModalHeader>
+                        <ModalCloseButton/>
+                        <ModalBody pb={6}>
+                            {endMessage}
+                        </ModalBody>
+
+                        <ModalFooter>
+                            <Button colorScheme='blue' mr={3} onClick={() => {
+                                axios.put("/api/manage/mong/battleEnd", {
+                                    endMessage: endMessage,
+                                    memberId: userB.memberId
+                                });
+                                navigate("/management")
+                            }}>
+                                나가기
+                            </Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+            </div>
+        );
     }
-  }
 }
