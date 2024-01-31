@@ -4,13 +4,9 @@ import {
   Box,
   Button,
   Center,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
+  Container,
+  Flex,
+  Image,
   Input,
   Spacer,
   useDisclosure,
@@ -18,13 +14,15 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { CountdownButton } from "./CountdownButton";
-import Step1Damagochi from "../../알.gif";
 import fireAtt from "../../img/fireAtt.png";
 import warterAtt from "../../img/waterAtt.png";
 import elecAtt from "../../img/elecAtt.png";
 import bg from "../../img/bg.jpg";
 import food from "../../img/food.png";
 import { Inventory } from "./Inventory";
+import Step1Damagochi from "../../알.gif";
+import waterMong from "../../불몽.gif";
+import yellowMong from "../../자아생성시기.gif";
 
 export function Management({ reload2 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -112,16 +110,59 @@ export function Management({ reload2 }) {
   }
   if (!mong.name) {
     return (
-      <div>
-        몽이 없습니다
-        <input
-          type="text"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-        />
-        <button onClick={handleAddMongClick}>몽 획득하기</button>
+      <Container
+        p={50}
+        h={"400px"}
+        mt={100}
+        textAlign={"center"}
+        border={"4px solid #B893BA"}
+        boxShadow={"0 0 10px rgba(121, 40, 202, 0.5)"}
+        borderRadius={20}
+      >
+        <p
+          style={{
+            fontSize: "20px",
+            marginBottom: "15px",
+            color: "rebeccapurple",
+          }}
+        >
+          현재 보유한 다마고찌가 없습니다.
+        </p>
+        <p
+          style={{
+            fontSize: "20px",
+            marginBottom: "40px",
+            color: "rebeccapurple",
+          }}
+        >
+          다양한 다마고찌를 만나보세요 !
+        </p>
+        <Flex mb={10}>
+          <Input
+            type="text"
+            maxW={"350px"}
+            mr={5}
+            border={"3px solid purple"}
+            value={inputValue}
+            placeholder={"생성할 다마고찌의 닉네임을 써주세요"}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+          <Button colorScheme={"purple"} onClick={handleAddMongClick}>
+            다마고찌 생성하기
+          </Button>
+        </Flex>
         {warningMessage && <p style={{ color: "red" }}>{warningMessage}</p>}
-      </div>
+
+        <Box
+          display={"flex"}
+          justifyContent={"center"}
+          h={"140px"}
+          border="0px solid green"
+        >
+          <Image w={"30%"} h={"70%"} mr={10} src={waterMong} />
+          <Image w={"30%"} h={"70%"} src={yellowMong} />
+        </Box>
+      </Container>
     );
   }
 

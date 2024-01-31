@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  ButtonGroup,
   Card,
   CardBody,
   Drawer,
@@ -10,7 +9,6 @@ import {
   DrawerContent,
   Flex,
   Image,
-  Progress,
   Stack,
   Text,
   useDisclosure,
@@ -21,19 +19,11 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBars,
-  faMoneyBill1,
-  faPlay,
-  faRightFromBracket,
-  faSackDollar,
-  faStore,
-  faWonSign,
-} from "@fortawesome/free-solid-svg-icons";
-import KakaoLoginComponent from "../../KakaoLoginComponent";
+import { faBars, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { getKakaoLogoutLink } from "../api/kakaoApi";
 import nav from "../../TutorialPage.module.css";
-import Step1Damagochi from "../../알.gif";
+import fireMong from "../../다큼.gif";
+
 import Step3Damagochi from "../../사춘기.gif";
 import { NavLink } from "react-router-dom";
 
@@ -331,7 +321,13 @@ export function NavBar(props) {
                 {!loggedIn && (
                   <VStack>
                     <Text>로그인 후 다마고찌를 시작해보세요 !</Text>
-                    <Button colorScheme={"yellow"} mb={10} w={"100%"}>
+                    <Button
+                      color={"hotpink"}
+                      border={"3px solid pink"}
+                      bg={"white"}
+                      mb={10}
+                      w={"100%"}
+                    >
                       <NavLink to={"/login"}>로그인 하러 가기</NavLink>
                     </Button>
                   </VStack>
