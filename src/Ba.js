@@ -9,7 +9,16 @@ import {
   Text,
   Image,
   Badge,
-  Button, Modal, useDisclosure, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter,
+  Button,
+  Modal,
+  useDisclosure,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useToast,
 } from "@chakra-ui/react";
 import {Inventory} from "./page/management/Inventory";
 import * as PropTypes from "prop-types";
@@ -63,6 +72,7 @@ function Lorem(props) {
 Lorem.propTypes = {count: PropTypes.number};
 
 export function Ba({ message, roomId }) {
+  const toast = useToast();
   const navigate = useNavigate();
   const [userA, setUserA] = useState(null);
   const [userB, setUserB] = useState(null);
@@ -407,6 +417,10 @@ export function Ba({ message, roomId }) {
                         }).then(() => setUseItem(true));
                       } else {
                         console.log("아이템은 하나만 사용 가능")
+                        toast({
+                          description : "아이템은 하나만 사용 가능",
+                          status : "warning"
+                        })
                       }
                     }}/>}
                     </div>
@@ -464,7 +478,9 @@ export function Ba({ message, roomId }) {
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme='blue' mr={3} onClick={()=> {navigate("/management")}}>
+              <Button colorScheme='blue' mr={3} onClick={()=> {
+                axios.put("/api/manage/mong/battleEnd", {endMessage: endMessage, memberId : userA.memberId});
+                navigate("/management")}}>
                 나가기
               </Button>
             </ModalFooter>
@@ -576,6 +592,10 @@ export function Ba({ message, roomId }) {
                             .then(() => setUseItem(true));
                       } else {
                         console.log("아이템은 하나만 사용 가능")
+                        toast({
+                          description : "아이템은 하나만 사용 가능",
+                          status : "warning"
+                        })
                       }
                     }} />}
                     </div>
@@ -633,7 +653,10 @@ export function Ba({ message, roomId }) {
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme='blue' mr={3} onClick={()=> {navigate("/management")}}>
+              <Button colorScheme='blue' mr={3} onClick={()=> {
+                axios.put("/api/manage/mong/battleEnd", {endMessage: endMessage, memberId : userB.memberId});
+                navigate("/management")
+              }}>
                 나가기
               </Button>
             </ModalFooter>

@@ -16,7 +16,7 @@ import {CountdownButton} from "./CountdownButton";
 import Step1Damagochi from "../../알.gif";
 import fireAtt from "../../img/fireAtt.png";
 import warterAtt from "../../img/waterAtt.png";
-import  grassAtt from "../../img/grassAtt.png";
+import elecAtt from "../../img/elecAtt.png";
 import bg from "../../img/bg.jpg";
 import food from "../../img/food.png"
 import {Inventory} from "./Inventory";
@@ -67,8 +67,8 @@ export function Management({reload2}) {
                     setImgSrc(warterAtt);
                 } else if (data.attribute === "불") {
                     setImgSrc(fireAtt)
-                } else if (data.attribute === "풀") {
-                    setImgSrc(grassAtt)
+                } else if (data.attribute === "전기") {
+                    setImgSrc(elecAtt)
                 }
 
                 const loadImageModule = async () => {

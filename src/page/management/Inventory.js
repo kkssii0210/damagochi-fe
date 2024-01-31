@@ -6,12 +6,13 @@ import {Box, Button, CloseButton, SimpleGrid} from "@chakra-ui/react";
 
 export function Inventory({memberId, mystyle, onClick, onClose}) {
     const [items, setItems] = useState(null);
+    const [reload, setReload] = useState(0);
 
 
     useEffect(() => {
         axios.get("/api/inventory?memberId=" + memberId)
             .then(({data}) => setItems(data));
-    }, []);
+    }, [reload]);
 
     const handleClickDefault = (item) => {
         if (onClick) {
@@ -19,6 +20,7 @@ export function Inventory({memberId, mystyle, onClick, onClose}) {
         } else {
             console.log(item.name + " 보기");
         }
+        setReload(reload + 1);
     }
 
     const handleClick = onClick || handleClickDefault;
