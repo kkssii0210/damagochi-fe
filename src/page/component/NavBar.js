@@ -15,6 +15,7 @@ import {
   Text,
   useDisclosure,
   useToast,
+  VStack,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
@@ -34,6 +35,7 @@ import { getKakaoLogoutLink } from "../api/kakaoApi";
 import nav from "../../TutorialPage.module.css";
 import Step1Damagochi from "../../알.gif";
 import Step3Damagochi from "../../사춘기.gif";
+import { NavLink } from "react-router-dom";
 
 export function NavBar(props) {
   const [currentPoints, setCurrentPoints] = useState(0);
@@ -273,7 +275,7 @@ export function NavBar(props) {
             <Card
               m="10%"
               w="85%"
-              h={loggedIn ? "90%" : "50%"}
+              h={loggedIn ? "90%" : "60%"}
               backgroundColor="rgba(255, 255, 255, 0.5)"
             >
               <Text
@@ -326,6 +328,14 @@ export function NavBar(props) {
                 marginInline="10%"
                 flexDirection="column"
               >
+                {!loggedIn && (
+                  <VStack>
+                    <Text>로그인 후 다마고찌를 시작해보세요 !</Text>
+                    <Button colorScheme={"yellow"} mb={10} w={"100%"}>
+                      <NavLink to={"/login"}>로그인 하러 가기</NavLink>
+                    </Button>
+                  </VStack>
+                )}
                 <Button
                   bg={"#9F60B8"}
                   color={"white"}
@@ -335,10 +345,11 @@ export function NavBar(props) {
                   }}
                   size="lg"
                   onClick={() => navigate("/")}
-                  mb={loggedIn ? "none" : "50px"}
+                  mb={loggedIn ? "none" : "100px"}
                 >
                   🏠 홈
                 </Button>
+
                 {loggedIn && (
                   <Button
                     bg={"#9F60B8"}
