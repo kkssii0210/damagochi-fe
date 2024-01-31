@@ -1,33 +1,30 @@
-import React, {useEffect, useRef, useState, useContext} from "react";
-import swordImage from "./칼1.png";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import fireImage from "./불공격.gif";
 import waterImage from "./물공격.png";
 import attackedImage from "./피격몽.gif";
 import "./AttackAnimation.css";
 import axios from "axios";
 import {
+  Badge,
   Box,
+  Button,
   Center,
   Flex,
-  Text,
   Image,
-  Badge,
-  Button,
   Modal,
-  useDisclosure,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
   ModalBody,
+  ModalCloseButton,
+  ModalContent,
   ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { Inventory } from "./page/management/Inventory";
-import {MapListContext} from "./MapListContext";
-import {Inventory} from "./page/management/Inventory";
-import * as PropTypes from "prop-types";
-import {useNavigate} from "react-router-dom";
+import { MapListContext } from "./MapListContext";
+import { useNavigate } from "react-router-dom";
 
 function ScrollableBox({ battleLog }) {
   const boxRef = useRef();
