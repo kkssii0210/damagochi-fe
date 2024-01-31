@@ -260,10 +260,10 @@ export function NavBar(props) {
         isOpen={isOpen}
         size={size}
       >
-        <DrawerContent >
+        <DrawerContent colorScheme="white">
           <DrawerCloseButton />
           <DrawerBody className={nav.status1} color="white">
-            <Card m={10} w="80%" h="100%" backgroundColor="rgba(255, 255, 255, 0.3)">
+            <Card w="80%"  backgroundColor="rgba(255, 255, 255, 0.3)">
               <Text textAlign="Center" fontSize="4rem" fontFamily="DungGeunMo">DAMAGOCHI</Text>
               <Text ></Text>
               <Box
