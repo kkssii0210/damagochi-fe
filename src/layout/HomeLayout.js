@@ -5,8 +5,7 @@ import home from "../homeLayout.module.css";
 
 export function HomeLayout() {
   return (
-    <div
-       >
+    <div>
       <NavBar />
       <Outlet />
     </div>

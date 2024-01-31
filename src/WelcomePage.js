@@ -39,22 +39,14 @@ export function WelcomePage() {
         //     </Box>
         // </div>
         <div className={styles.container}>
-            <Box mt={12} w="90%" h="90%" mr="25px" padding="5" display="flex" border="0px solid white">
                 {/* 첫 번째 박스 */}
-                <Box w="5%" h="100%" border="0px solid red" marginRight="1">
-                    {/*<NavBar/>*/}
-                    {/*<ButtonGroup h="100%" justifyContent="center" flexDirection="column" display="flex" >*/}
-                    {/*    <Button><FontAwesomeIcon icon={faHouseChimney} style={{color: "#9abffe",}} /></Button>*/}
-                    {/*    <Button><FontAwesomeIcon icon={faGear} style={{color: "#74C0FC",}} /></Button>*/}
 
-                    {/*</ButtonGroup>*/}
-                </Box>
 
                 {/* 두 번째 박스와 세 번째 박스를 포함하는 컨테이너 */}
                 <Box w="100%" display="flex" flexDirection="column">
 
                     {/* 두 번째 박스 */}
-                    <Box w="100%" textAlign="center "  mt ="-5.5rem" border="0px solid red" marginBottom="1">
+                    <Box w="100%" textAlign="center " border="0px solid red" marginBottom="1">
                         <div fontFamily="DungGeunMo" className={styles.logo}>
                             Damagochi
                         </div>
@@ -62,7 +54,7 @@ export function WelcomePage() {
                     <img src={TamagotchiImage} border="0px solid red" alt="캐릭터" className={styles.character}/>
 
                     {/* 세 번째 박스 */}
-                    <Box w="40%" textAlign="center" ml="25%" mt="5%" border="0px solid red"><Button
+                    <Box textAlign="center"  mt="5%" border="0px solid red"><Button
                         className={`${styles.button} ${isTokenPresent ? styles.hidden : ""}`}
                         onClick={handleClick}
                     >
@@ -71,7 +63,7 @@ export function WelcomePage() {
 
 
                 </Box>
-            </Box>
+
         </div>
 
 
