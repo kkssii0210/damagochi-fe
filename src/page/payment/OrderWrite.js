@@ -7,6 +7,7 @@ import {
   HStack,
   VStack,
   Text,
+  Flex,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
 import axios from "axios";
@@ -63,39 +64,62 @@ function OrderWrite(props) {
     }
   };
   return (
-    <Container maxW="container.sm" centerContent>
-      <Box padding="4" boxShadow="md" borderRadius="lg">
+    <Container maxW="container.sm" centerContent p={120}>
+      <Box
+        padding="4"
+        boxShadow="md"
+        borderRadius="lg"
+        border="4px solid #B893BA"
+      >
         <VStack spacing={4}>
-          <Heading as="h1" size="lg">
+          <Heading as="h1" size="lg" mb={8}>
             포인트 상점
           </Heading>
-          <HStack>
+          <Text fontSize={"large"}>결제하실 금액을 선택하세요</Text>
+          <HStack p={5}>
             <Button
-              colorScheme="blue"
+              colorScheme={amount === 10000 ? "purple" : undefined}
               onClick={() => handleSelectAmount(10000)}
             >
               10,000원 결제
             </Button>
             <Button
-              colorScheme="green"
+              colorScheme={amount === 20000 ? "purple" : undefined}
               onClick={() => handleSelectAmount(20000)}
             >
               20,000원 결제
             </Button>
-            <Button colorScheme="red" onClick={() => handleSelectAmount(40000)}>
+            <Button
+              colorScheme={amount === 40000 ? "purple" : undefined}
+              onClick={() => handleSelectAmount(40000)}
+            >
               40,000원 결제
             </Button>
           </HStack>
-          <Box p={5} shadow="md" borderWidth="1px">
-            <Text>선택한 금액: {amount}원</Text>
-            <Text>적립될 포인트: {points}P</Text>
-          </Box>
-          <Box p={5} shadow="md" borderWidth="1px">
-            <Button colorScheme={"orange"} onClick={handleSubmit} mr={2}>
+          <VStack p={5} mb={15}>
+            <Text>선택한 금액 : {amount}원</Text>
+            <HStack>
+              <Text>적립될 포인트 : </Text>
+              <Text color={"#C00"}>{points} P</Text>
+            </HStack>
+          </VStack>
+          <Flex>
+            <Button
+              bgGradient="linear(to-l, #7928CA, #FF0080)"
+              color={"white"}
+              _hover={{
+                bgGradient: "linear(to-l, #AB47BC, #FF4081)",
+                color: "white",
+              }}
+              onClick={handleSubmit}
+              mr={2}
+            >
               포인트 결제하기
             </Button>
-            <Button onClick={() => navigate(-1)}>취소</Button>
-          </Box>
+            <Button colorScheme={"red"} onClick={() => navigate(-1)}>
+              취소
+            </Button>
+          </Flex>
         </VStack>
       </Box>
     </Container>

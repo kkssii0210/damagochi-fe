@@ -3,7 +3,7 @@ import SockJS from "sockjs-client";
 import * as StompJS from "@stomp/stompjs";
 import axios from "axios";
 import { Ba } from "../../Ba";
-import { Button, Spinner } from "@chakra-ui/react";
+import { Button, Flex, Spinner, Text } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
@@ -14,7 +14,6 @@ const BattleRoom = () => {
   const [battleRooms, setBattleRooms] = useState([]);
   const [battleMessage, setBattleMessage] = useState(null);
   const navigate = useNavigate();
-
 
   const connectWebSocket = () => {
     const client = new StompJS.Client({
@@ -59,7 +58,6 @@ const BattleRoom = () => {
       console.error("WebSocket Client is not connected.");
     }
   };
-
 
   useEffect(() => {
     console.log(battleMessage);
@@ -156,13 +154,17 @@ const BattleRoom = () => {
   // 서버로부터 응답을 받는 부분 구현 필요
 
   return (
-    <div>
-      <button onClick={connectWebSocket}>Create Battle Room</button>
-      {currentRoom && <div>Current Battle Room ID: {currentRoom}</div>}
-      <h2>Available Battle Rooms</h2>
-      <Button onClick={() => fetchBattleRooms(currentRoom, setBattleRooms)}>
-        <FontAwesomeIcon icon={faRotateRight} />
+    <div align={"center"}>
+      <Button onClick={connectWebSocket} p={8} mt={10} colorScheme={"yellow"}>
+        배틀 방 만들기
       </Button>
+      {currentRoom && <div>Current Battle Room ID: {currentRoom}</div>}
+      <Flex p={10} justify={"center"}>
+        <Text mr={3}>이용 가능한 배틀룸</Text>
+        <Button onClick={() => fetchBattleRooms(currentRoom, setBattleRooms)}>
+          <FontAwesomeIcon icon={faRotateRight} />
+        </Button>
+      </Flex>
       <ul>
         {battleRooms.map((room) => {
           // 현재 참여 중인 플레이어 수 계산
