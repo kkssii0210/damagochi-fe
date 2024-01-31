@@ -11,6 +11,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Spacer,
   Table,
   Td,
   Th,
@@ -132,9 +133,10 @@ export function ItemPurchase() {
       borderRadius="20px"
       variant="ghost"
     >
+      <Spacer h={30} />
       <VStack>
         <Heading mt={8} mb={20}>
-          {playerIdWithoutAt}님의 구매 목록
+          🧺 {playerIdWithoutAt}님의 구매 목록
         </Heading>
 
         <Table mb={5} border={"0px solid blue"} width={"130%"}>
@@ -274,6 +276,7 @@ export function ItemPurchase() {
           </ModalFooter>
         </ModalContent>
       </Modal>
+      <Spacer h={100} />
     </Container>
   );
 }
