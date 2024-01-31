@@ -28,7 +28,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Cart } from "./Cart";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLocationPinLock,
+  faMinus,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
 
 function ItemView(props) {
   const { storeId } = useParams(); //URL에서 동적인 값을 컴포넌트 내에서 쓸때 사용. <Route>컴포넌트 내에서 렌더링되는 컴포넌트에서만 사용가능
@@ -160,10 +164,21 @@ function ItemView(props) {
   return (
     <>
       <Cart cartItems={cartItem} storeId={item.storeId} />
-      <Container border="0px solid black" w="40%" h="70%" mt="10%" mb="5%">
-        <Card border="0px solid black" mr="15%">
+
+      <Container border="0px solid black" w="40%" h="70%" mt="5%" mb="5%">
+        <Card
+          // border="6px solid #B893BA"
+
+          border="5px solid #B893BA"
+          borderRadius={"5%"}
+          bgGradient="linear(to-l, #7928CA, #FF0080)"
+          bgClip="text"
+          boxShadow={"0 0 10px rgba(121, 40, 202, 0.5)"}
+          mr="15%"
+          width={"65%"}
+        >
           <CardHeader>
-            <Flex mb={3}>
+            <Flex mb={3} justify={"right"}>
               <Button
                 colorScheme="purple"
                 mr={1}
@@ -191,7 +206,7 @@ function ItemView(props) {
             </Flex>
           </CardHeader>
           <CardBody>
-            <Box mb={2} fontWeight="bold">
+            <Box mb={2} fontWeight="bold" fontSize={"lg"}>
               {item.itemName}
             </Box>
             <Box mb={2}>분 류 : {item.itemCategory}</Box>
@@ -202,6 +217,15 @@ function ItemView(props) {
             <ButtonGroup>
               {/* 아이템 갯수 증감 */}
               <Button
+                borderRadius={"50%"}
+                width={"40px"}
+                mr={1}
+                bg={"#F2AE39"}
+                color={"white"}
+                _hover={{
+                  bg: "#E57A08",
+                  color: "white",
+                }}
                 onClick={() => {
                   if (itemCount > 1) {
                     setItemCount(itemCount - 1);
@@ -212,6 +236,15 @@ function ItemView(props) {
               </Button>
               <Text mt={1}>{itemCount}</Text>
               <Button
+                borderRadius={"50%"}
+                width={"40px"}
+                mr={2}
+                bg={"#E5507D"}
+                color={"white"}
+                _hover={{
+                  bg: "#E5087E",
+                  color: "white",
+                }}
                 onClick={() => {
                   if (itemCount > 0) {
                     setItemCount(itemCount + 1);
@@ -231,7 +264,12 @@ function ItemView(props) {
               <Button
                 onClick={() => navigate(`/purchase/${item.storeId}`)}
                 variant="solid"
-                colorScheme="purple"
+                bgGradient="linear(to-l, #7928CA, #FF0080)"
+                color={"white"}
+                _hover={{
+                  bgGradient: "linear(to-l, #AB47BC, #FF4081)",
+                  color: "white",
+                }}
               >
                 구매
               </Button>

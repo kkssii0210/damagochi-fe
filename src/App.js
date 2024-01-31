@@ -25,6 +25,7 @@ import WebSocketComponent from "./page/management/WebSocketComponent";
 import KakaoRedirectPage from "./KakaoRedirectPage";
 import { Ba } from "./Ba";
 import BattleRoom from "./page/battle/BattleRoom";
+import {MapListProvider} from "./MapListContext";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -55,9 +56,9 @@ const routes = createBrowserRouter(
 );
 function App() {
   return (
-    <div>
+      <MapListProvider>
       <RouterProvider router={routes} />
-    </div>
+      </MapListProvider>
   );
 }
 
