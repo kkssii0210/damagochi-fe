@@ -268,7 +268,7 @@ export function Management({reload2}) {
             <div style={{border : "1px solid blue", height : "5%"}}>상태 : {condition}</div>
             <div style={{border : "1px solid blue", height : "5%"}}>포만감 : {mong.feed}</div>
             <div style={{border : "1px solid blue", height : "5%"}}>피로도 : {mong.tired}</div>
-            <Inventory mystyle={{border : "1px solid green", height : "60%"}} memberId={mong.memberId} onClose={handleInventoryClose}/>
+            <Inventory mystyle={{border : "1px solid green", height : "60%"}} memberId={mong.id} onClose={handleInventoryClose}/>
         </div>
 
     </Box>
