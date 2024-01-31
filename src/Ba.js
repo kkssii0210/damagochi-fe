@@ -10,7 +10,10 @@ import {
   Button,
   Center,
   Flex,
+  Text,
   Image,
+  Badge,
+  Button,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -205,6 +208,8 @@ export function Ba({ message, roomId }) {
       }
     }
 
+
+
     // if ((totalTurn >= 30 || mongAHp <= 0 || mongBHp <= 0) && userA && userB) {
     //
     //
@@ -249,6 +254,7 @@ export function Ba({ message, roomId }) {
       }
     }
   };
+
   useEffect(() => {
     if (message && message.sessionIds) {
       setSessionIds(message.sessionIds);
@@ -269,6 +275,7 @@ export function Ba({ message, roomId }) {
         setUserB(data.userB);
         setUserName(data.userName);
         setNowTurn(data.userA.name);
+
         setMongAHp(data.userA.health);
         setMongBHp(data.userB.health);
 
@@ -310,7 +317,9 @@ export function Ba({ message, roomId }) {
   }, [message, modalOpen]);
   useEffect(() => {
     console.log(nowTurn);
+
   }, [nowTurn]);
+  console.log(nowTurn);
   if (userAMongId === null || userBMongId === null) {
     return <div>로딩~</div>;
   }
@@ -358,6 +367,7 @@ export function Ba({ message, roomId }) {
     }
   }
 
+
   function handleInvenButtonClick() {
     setShowInventory(!showInventory);
   }
@@ -366,7 +376,13 @@ export function Ba({ message, roomId }) {
     setShowInventory(false);
   };
 
+
   // battle 종료
+
+
+
+
+
   console.log("modal : " + modalOpen);
 
   if (battleFinished) {
