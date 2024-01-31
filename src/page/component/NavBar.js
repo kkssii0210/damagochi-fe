@@ -255,7 +255,12 @@ export function NavBar(props) {
         <DrawerContent colorScheme="white">
           <DrawerCloseButton />
           <DrawerBody className={nav.status1} color="white">
-            <Card m="10%" w="80%" h="90%" backgroundColor="rgba(255, 255, 255, 0.5)">
+            <Card
+              m="10%"
+              w="80%"
+              h="90%"
+              backgroundColor="rgba(255, 255, 255, 0.5)"
+            >
               <Text textAlign="Center" fontSize="4rem" fontFamily="DungGeunMo">
                 DAMAGOCHI
               </Text>
@@ -285,7 +290,6 @@ export function NavBar(props) {
                     colorScheme={filledPercentage > 50 ? "green" : "yellow"}
                   />
                 </Box>
-
                 {/*로그인 상태에서 -- 로그아웃*/}
                 {loggedIn && (
                   <Button
@@ -298,14 +302,9 @@ export function NavBar(props) {
                   >
                     log out
                   </Button>
-                  //   <KakaoLogoutComponent/>
                 )}
-                <Box>
-                  <KakaoLoginComponent />
-                </Box>
               </Stack>
               <Stack
-
                 variant="ghost"
                 border="0px solid white"
                 w="80%"

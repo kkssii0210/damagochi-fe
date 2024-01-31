@@ -106,7 +106,6 @@ export function Payment() {
                 console.log(err);
               }
             }}
-            colorScheme={"purple"}
           >
             결제하기
           </Button>
