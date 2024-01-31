@@ -89,7 +89,7 @@ export function Payment() {
           </div>
         </div>
         <div className="result wrapper">
-          <p>총액 {price}원</p>
+          <p>결제 총 금액 : {price}원</p>
           <Button
             onClick={async () => {
               const paymentWidget = paymentWidgetRef.current;
@@ -106,6 +106,7 @@ export function Payment() {
                 console.log(err);
               }
             }}
+            colorScheme={"purple"}
           >
             결제하기
           </Button>

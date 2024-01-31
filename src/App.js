@@ -25,6 +25,7 @@ import WebSocketComponent from "./page/management/WebSocketComponent";
 import KakaoRedirectPage from "./KakaoRedirectPage";
 import { Ba } from "./Ba";
 import BattleRoom from "./page/battle/BattleRoom";
+import { Management } from "./page/management/Management";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -48,8 +49,9 @@ const routes = createBrowserRouter(
       <Route path="store/item/view/id/:storeId" element={<ItemView />} />
       <Route path="store/item/edit/id/:storeId" element={<ItemEdit />} />
       <Route path="purchase/:storeId" element={<ItemPurchase />} />
-      <Route path={"ba"} element={<Ba />}/>
+      <Route path={"ba"} element={<Ba />} />
       <Route path="battle" element={<BattleRoom />} />
+      <Route path="management" element={<Management />} />
     </Route>,
   ),
 );

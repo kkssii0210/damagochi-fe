@@ -138,20 +138,22 @@ export function ItemPurchase() {
         </Heading>
 
         <Table mb={5} border={"0px solid blue"} width={"130%"}>
-          <Tr>
+          <Tr h="50px">
             <Th
               textAlign={"center"}
               fontSize={"medium"}
-              borderBottom={"3px solid darkGray"}
               width={"15%"}
+              bg={"rebeccapurple"}
+              color={"white"}
             >
               목록
             </Th>
             <Th
               textAlign={"center"}
               fontSize={"medium"}
-              borderBottom={"3px solid darkGray"}
               width={"20%"}
+              bg={"rebeccapurple"}
+              color={"white"}
             >
               아이템명
             </Th>
@@ -159,16 +161,18 @@ export function ItemPurchase() {
             <Th
               textAlign={"center"}
               fontSize={"medium"}
-              borderBottom={"3px solid darkGray"}
               width={"20%"}
+              bg={"rebeccapurple"}
+              color={"white"}
             >
               아이템 수량
             </Th>
             <Th
               textAlign={"center"}
               fontSize={"medium"}
-              borderBottom={"3px solid darkGray"}
               width={"20%"}
+              bg={"rebeccapurple"}
+              color={"white"}
             >
               아이템 가격
             </Th>
@@ -199,14 +203,34 @@ export function ItemPurchase() {
         </HStack>
 
         <Table mb={10} mt={5} border="0px solid blue">
-          <Tr>
-            <Th fontSize="large" padding="5px" textAlign="center">
-              현재 내 포인트 <FontAwesomeIcon icon={faCircleMinus} />
+          <Tr h="50px">
+            <Th
+              fontSize="large"
+              padding="5px"
+              textAlign="center"
+              bg={"rebeccapurple"}
+              color={"white"}
+            >
+              현재 내 포인트{" "}
+              <FontAwesomeIcon icon={faCircleMinus} color={"#E5507D"} />
             </Th>
-            <Th fontSize="large" padding="5px" textAlign="center">
-              아이템의 총 가격 <FontAwesomeIcon icon={faEquals} />
+            <Th
+              fontSize="large"
+              padding="5px"
+              textAlign="center"
+              bg={"rebeccapurple"}
+              color={"white"}
+            >
+              아이템의 총 금액{" "}
+              <FontAwesomeIcon icon={faEquals} color={"#E5507D"} />
             </Th>
-            <Th fontSize="large" padding="5px" textAlign="center">
+            <Th
+              fontSize="large"
+              padding="5px"
+              textAlign="center"
+              bg={"rebeccapurple"}
+              color={"white"}
+            >
               구매 후 포인트
             </Th>
           </Tr>
@@ -217,7 +241,16 @@ export function ItemPurchase() {
           </Tr>
         </Table>
 
-        <Button colorScheme="purple" mb={20} onClick={handlePurchaseItem}>
+        <Button
+          bg={"#E5507D"}
+          color={"white"}
+          _hover={{
+            bg: "#E5087E",
+            color: "white",
+          }}
+          mb={20}
+          onClick={handlePurchaseItem}
+        >
           아이템 구매하기
         </Button>
       </VStack>

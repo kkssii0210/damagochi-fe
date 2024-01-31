@@ -12,6 +12,7 @@ import {
   Heading,
   HStack,
   Input,
+  Spacer,
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
@@ -74,14 +75,14 @@ function ItemRegister(props) {
 
   return (
     <Center>
-      <Card w={"lg"}>
+      <Card w={"lg"} mt={20} mb={300} w={"35%"}>
         <CardHeader>
-          <Heading>아이템 등록</Heading>
+          <Heading color={"#66349C"}>새 아이템 등록</Heading>
         </CardHeader>
 
         <CardBody>
-          <FormControl mb={5}>
-            <FormLabel>아이템 이미지</FormLabel>
+          <FormControl mb={8}>
+            <FormLabel>1. 아이템 이미지</FormLabel>
             <Input
               type="file"
               accept="image/*"
@@ -91,27 +92,34 @@ function ItemRegister(props) {
             ></Input>
           </FormControl>
 
-          <FormControl mb={5}>
-            <FormLabel>아이템 분류</FormLabel>
+          <FormControl mb={8}>
+            <FormLabel>2. 아이템 분류</FormLabel>
             <ButtonGroup>
               <HStack mr={3}>
                 <Button
+                  colorScheme={itemCategory === "food" ? "purple" : undefined}
+                  color={itemCategory === "food" ? "white" : undefined}
                   isActive={itemCategory === "food"}
-                  // value={food}
                   onClick={() => handleCategoryChange("food")}
                 >
                   음식
                 </Button>
                 <Button
+                  colorScheme={
+                    itemCategory === "liquidMedicine" ? "purple" : undefined
+                  }
+                  color={
+                    itemCategory === "liquidMedicine" ? "white" : undefined
+                  }
                   isActive={itemCategory === "liquidMedicine"}
-                  // value={liquidMedicine}
                   onClick={() => handleCategoryChange("liquidMedicine")}
                 >
                   물약
                 </Button>
                 <Button
+                  colorScheme={itemCategory === "map" ? "purple" : undefined}
+                  color={itemCategory === "map" ? "white" : undefined}
                   isActive={itemCategory === "map"}
-                  // value={map}
                   onClick={() => handleCategoryChange("map")}
                 >
                   맵
@@ -120,8 +128,8 @@ function ItemRegister(props) {
             </ButtonGroup>
           </FormControl>
 
-          <FormControl mb={5}>
-            <FormLabel>아이템명</FormLabel>
+          <FormControl mb={8}>
+            <FormLabel>3. 아이템명</FormLabel>
             <Input
               value={itemName}
               placeholder="아이템 이름을 입력하세요"
@@ -129,8 +137,8 @@ function ItemRegister(props) {
             />
           </FormControl>
 
-          <FormControl mb={5}>
-            <FormLabel>아이템 기능</FormLabel>
+          <FormControl mb={8}>
+            <FormLabel>4. 아이템 기능</FormLabel>
             <Input
               value={itemFunction}
               type="text"
@@ -139,8 +147,8 @@ function ItemRegister(props) {
             />
           </FormControl>
 
-          <FormControl mb={5}>
-            <FormLabel>아이템 가격</FormLabel>
+          <FormControl mb={8}>
+            <FormLabel>5. 아이템 가격</FormLabel>
             <Input
               value={itemPrice}
               onChange={(e) => setItemPrice(e.target.value)}
@@ -151,7 +159,7 @@ function ItemRegister(props) {
           </FormControl>
 
           <FormControl mb={5}>
-            <FormLabel>아이템 코드</FormLabel>
+            <FormLabel>6. 아이템 코드</FormLabel>
             <Input
               value={itemCode}
               onChange={(e) => setItemCode(e.target.value)}
@@ -164,9 +172,13 @@ function ItemRegister(props) {
           <Button
             isDisabled={isSubmitting}
             onClick={handleSubmit}
-            colorScheme="pink"
+            colorScheme="purple"
+            mr={2}
           >
             등록
+          </Button>
+          <Button onClick={() => navigate(-1)} colorScheme="red">
+            취소
           </Button>
         </CardFooter>
       </Card>

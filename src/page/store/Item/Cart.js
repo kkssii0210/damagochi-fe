@@ -1,4 +1,12 @@
-import { Box, Button, Flex, Text, useToast, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Text,
+  useToast,
+  VStack,
+} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
 import axios from "axios";
@@ -12,7 +20,7 @@ export function Cart({ cartItems, storeId }) {
   const toast = useToast();
   const [member, setMember] = useState({ playerId: "" });
   const [cartItem, setCartItem] = useState([]);
-  const [boxHeight, setBoxHeight] = useState(0);
+  const [boxHeight, setBoxHeight] = useState(10);
 
   //member.playerId를 이용하기 위해 중간에 axios요청을 함.
   useEffect(() => {
@@ -42,7 +50,7 @@ export function Cart({ cartItems, storeId }) {
       })
       .then((response) => {
         setCartItem(response.data);
-        setBoxHeight(12 + response.data.length * 10);
+        setBoxHeight(15 + response.data.length * 7);
       })
       .catch((error) => {
         console.log("카트 아이템의 정보를 가져오는데 실패하였습니다.");
@@ -83,20 +91,20 @@ export function Cart({ cartItems, storeId }) {
   return (
     <>
       <Box
-        border="2px solid gray"
+        border="4px solid #B893BA"
         borderRadius={20}
-        width="15%"
+        width="18%"
         height={`${boxHeight}%`}
         bg="rgba(255, 255, 255, 0.8)"
         opacity={0.8}
         zIndex={50}
         position="fixed"
         right={15}
-        top="20%"
+        top="25%"
         textAlign="center"
         p={4}
       >
-        <VStack spacing={2}>
+        <VStack spacing={4}>
           <Text fontSize="lg" fontWeight="bold" mb={5} color="black">
             {playerIdWithoutAt}님의 장바구니
           </Text>
@@ -105,7 +113,7 @@ export function Cart({ cartItems, storeId }) {
               <Text mr={2} color="black">
                 {cartItem.cartItemName}
               </Text>
-              <Text mr={2} color="gray" fontSize="sm">
+              <Text mr={2} color="#B893BA" fontSize="sm">
                 {cartItem.cartItemPrice}포인트
               </Text>
               <Text fontSize="sm" mr={4} color="black">
@@ -115,17 +123,21 @@ export function Cart({ cartItems, storeId }) {
                 <FontAwesomeIcon
                   icon={faRectangleXmark}
                   onClick={() => handleDeleteItem(index)}
-                  color="black"
+                  color="#AFAFB8"
                 />
               </Text>
             </Flex>
           ))}
+          <Divider border={"1px solid gray"} />
           {cartItem.length > 0 && (
             <Button
               mt={5}
-              colorScheme="gray.500"
-              bg="black"
-              color="white"
+              bg={"palevioletred"}
+              color={"white"}
+              _hover={{
+                bg: "#E5087E",
+                color: "white",
+              }}
               onClick={() => navigate("/purchase/" + storeId)}
             >
               아이템 구매
