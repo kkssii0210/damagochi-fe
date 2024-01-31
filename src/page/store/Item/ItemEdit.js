@@ -89,13 +89,13 @@ function ItemEdit(props) {
   }
 
   return (
-    <Container>
-      <Heading mt={7} mb={10}>
+    <Container mt={20} mb={200}>
+      <Heading mt={7} mb={10} color={"#66349C"}>
         {item.storeId}. {item.itemName} 아이템 수정
       </Heading>
 
       <FormControl mb={10}>
-        <FormLabel>아이템 이미지</FormLabel>
+        <FormLabel fontSize="large">1. 아이템 이미지</FormLabel>
         <Flex>
           {item.itemFiles.map((e, index) => (
             <Box key={e.id} border={"0px solid green"} mb={10}>
@@ -126,10 +126,11 @@ function ItemEdit(props) {
         </Flex>
       </FormControl>
 
-      <FormControl mb={4}>
-        <FormLabel>아이템 분류</FormLabel>
+      <FormControl mb={7}>
+        <FormLabel fontSize="large">2. 아이템 분류</FormLabel>
         <Input
           value={item.itemCategory}
+          color="#66349C"
           onChange={(e) => {
             updateItem((draft) => {
               draft.itemCategory = e.target.value;
@@ -137,10 +138,11 @@ function ItemEdit(props) {
           }}
         />
       </FormControl>
-      <FormControl mb={4}>
-        <FormLabel>아이템명</FormLabel>
+      <FormControl mb={7}>
+        <FormLabel fontSize="large">3. 아이템명</FormLabel>
         <Input
           value={item.itemName}
+          color="#66349C"
           onChange={(e) => {
             updateItem((draft) => {
               draft.itemName = e.target.value;
@@ -149,10 +151,11 @@ function ItemEdit(props) {
           v
         />
       </FormControl>
-      <FormControl mb={4}>
-        <FormLabel>아이템 기능</FormLabel>
+      <FormControl mb={7}>
+        <FormLabel fontSize="large">4. 아이템 기능</FormLabel>
         <Input
           value={item.itemFunction}
+          color="#66349C"
           onChange={(e) => {
             updateItem((draft) => {
               draft.itemFunction = e.target.value;
@@ -160,10 +163,11 @@ function ItemEdit(props) {
           }}
         />
       </FormControl>
-      <FormControl mb={4}>
-        <FormLabel>아이템 가격</FormLabel>
+      <FormControl mb={5}>
+        <FormLabel fontSize="large">5. 아이템 가격</FormLabel>
         <Input
           value={item.itemPrice}
+          color="#66349C"
           onChange={(e) => {
             updateItem((draft) => {
               draft.itemPrice = e.target.value;
@@ -175,7 +179,7 @@ function ItemEdit(props) {
         <Button onClick={handleSubmit} colorScheme="purple">
           수정
         </Button>
-        <Button onClick={() => navigate(-1)} colorScheme="purple">
+        <Button onClick={() => navigate(-1)} colorScheme="red">
           취소
         </Button>
       </ButtonGroup>

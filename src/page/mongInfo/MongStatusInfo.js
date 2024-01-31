@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {
   Box,
   Circle,
@@ -27,16 +27,18 @@ import level2 from "../../자아생성시기.gif";
 import level3 from "../../사춘기.gif";
 import level4 from "../../다큼.gif";
 import MongTutorial from "./MongTutorial";
+import {MapListContext} from "../../MapListContext";
 
 const statusCss = {
   background:
     "linear-gradient(45deg, rgba(255,0,0,1) 0%, rgba(0,255,0,1) 50%, rgba(0,0,255,1) 100%)",
 };
 
-
 export function MongStatusInfo() {
   const navigate = useNavigate();
   const [mong_id, setMong_id] = useState("");
+  const [memberId, setMemberId] = useState(null);
+  const {mapList, setMapList} = useContext(MapListContext);
   //Mong 갹체의 초기 상태를 미리 설정
   const [mong, setMong] = useState({
     level: 1,
@@ -55,13 +57,15 @@ export function MongStatusInfo() {
   // );
   useEffect(() => {
     axios
-      .get(`/api/monginfo/${mong_id}`, {
+      .get(`/api/monginfo/id`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       })
       .then((response) => {
-        setMong_id(response.data);
+        console.log(response);
+        setMong_id(response.data.id);
+        setMemberId(response.data.memberId);
       })
       .catch((error) => console.log(error));
   }, [mong_id]);
@@ -84,10 +88,26 @@ export function MongStatusInfo() {
     }
   }
 
-  console.log(level1);
+  function takeMapList() {
+    axios.get("/api/purchase/myMapList",{
+      headers: {
+        MemberId: memberId,
+      }
+    }).then((response) => {
+      // response.data.mapCode가 배열인지 확인
+      if (Array.isArray(response.data.mapCode)) {
+        setMapList(response.data.mapCode);
+      } else {
+        // response.data.mapCode가 배열이 아닐 경우의 처리
+        console.error('mapCode is not an array:', response.data.mapCode);
+      }
+      console.log(response.data);
+    });
+  }
+
   return (
     <div>
-      <Box border="1px solid black">
+      <Box margin="30px" border="1px solid black">
         <Tabs
           mt="20px"
           colorScheme="red"
@@ -107,18 +127,16 @@ export function MongStatusInfo() {
           >
             <Tab>My Mong Status</Tab>
             <Tab>Mong Evolution Info</Tab>
-            <Tab>My Account</Tab>
+            <Tab onClick={takeMapList}>My Account</Tab>
           </TabList>
-          <TabPanels >
-            <TabPanel border="5px solid red" >
-              <Box border="4px solid black" >
+          <TabPanels>
+            <TabPanel border="1px solid red">
+              <div border="0px solid black">
                 <SimpleGrid
                   border="0px solid red"
-                  justifyContent="space-between"
                   ml="10%"
                   display="flex"
-                  columns={2}
-                  spacing={4}
+                  columns={1}
                   w="80%"
                 >
                   <Box
@@ -129,7 +147,7 @@ export function MongStatusInfo() {
                     mb={500}
                     w="sm"
                     bg="rgba(255, 255, 255, 0.3)"
-                    border="1px solid red"
+                    border="0px solid red"
                   >
                     <img
                       src={getImage(mong.level)}
@@ -155,13 +173,13 @@ export function MongStatusInfo() {
                     mb={500}
                     w="300px"
                     h="300px"
-                    border="1px solid yellow"
+                    border="0px solid yellow"
                   >
                     <Box
                       position="relative"
                       mt={150}
                       mr={300}
-                      border="1px solid red"
+                      border="0px solid yellow"
                     >
                       <Box
                         border="0px solid yellow"
@@ -285,24 +303,37 @@ export function MongStatusInfo() {
                       </Box>
                     </Box>
                   </Box>
-                  <Box border="1px solid" fontSize="1.8rem" mt={50} mb={-500} ml={0} w="800px" h="300px">
-                    <p> 몽 이름: {mong.name}</p>
-                    <p> 레벨: {mong.level}</p>
-                    <p>피로도 : {mong.tired}</p>
-                    <p>근력 : {mong.strength}</p>
-                    <p>수면 : {mong.sleep}</p>
-                    <p>배고픔 : {mong.feed}</p>
-                    <p>청소 : {mong.clean}</p>
-                  </Box>
-                  <Box border="1px solid"></Box>
                 </SimpleGrid>
-              </Box>
+                <Box
+                  border="1px solid"
+                  fontSize="1.8rem"
+                  mt={50}
+                  mb={500}
+                  ml={0}
+                  w="800px"
+                  h="300px"
+                >
+                  <p> 몽 이름: {mong.name}</p>
+                  <p> 레벨: {mong.level}</p>
+                  <p>피로도 : {mong.tired}</p>
+                  <p>근력 : {mong.strength}</p>
+                  <p>수면 : {mong.sleep}</p>
+                  <p>배고픔 : {mong.feed}</p>
+                  <p>청소 : {mong.clean}</p>
+                </Box>
+              </div>
             </TabPanel>
             <TabPanel>
               <MongTutorial />
             </TabPanel>
             <TabPanel>
-              <p>two!</p>
+              <p>보유한 맵 종류</p>
+              <div>
+                {mapList && mapList.map((url, index) =>
+                  url ? <img key={index} src={url} alt={`Map Preview ${index}`}
+                             style={{width: '100px', height: '100px'}}/> : null
+                )}
+              </div>
             </TabPanel>
           </TabPanels>
         </Tabs>

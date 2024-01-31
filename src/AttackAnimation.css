@@ -1,17 +1,17 @@
 @keyframes swordAttack {
     from {
-        opacity: 0.5;
-        transform: translate(200%, 200%);
+        opacity: 1;
+        transform: translate(100%, -0%);
     }
     to {
-        opacity: 1;
-        transform: translate(350%, 80%);
+        opacity: 0.5;
+        transform: translate(250%, -100%);
     }
 }
 
 .sword-animation {
     position: absolute;
-    animation: swordAttack 4s ease-out forwards;
+    animation: swordAttack 2s ease-out forwards;
     width: 300px;
     height: 300px;
     left: 300px;

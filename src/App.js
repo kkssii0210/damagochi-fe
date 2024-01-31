@@ -16,10 +16,11 @@ import ItemEdit from "./page/store/Item/ItemEdit";
 import {ItemPurchase} from "./page/store/Item/ItemPurchase";
 import MongStstusInfo from "./page/mongInfo/MongStatusInfo";
 import MongTutorial from "./page/mongInfo/MongTutorial";
-import Information from "./page/mongInfo/Information"
 import WebSocketComponent from "./page/management/WebSocketComponent";
 import KakaoRedirectPage from "./KakaoRedirectPage";
-import {Ba} from "./Ba";
+import { Ba } from "./Ba";
+import BattleRoom from "./page/battle/BattleRoom";
+import {MapListProvider} from "./MapListContext";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -35,9 +36,8 @@ const routes = createBrowserRouter(
       <Route path="payment" element={<Payment />} />
       <Route path="success" element={<Success />} />
       <Route path="fail" element={<Fail />} />
-      <Route path="MongStatusInfo" element={<MongStstusInfo/>} />
-      <Route path="Infomation" element={<Information/>} />
-      <Route path="MongTutorial" element={<MongTutorial/>} />
+      <Route path="MongStatusInfo" element={<MongStstusInfo />} />
+      <Route path="MongTutorial" element={<MongTutorial />} />
       <Route path={"management"} element={<WebSocketComponent />} />
       <Route path="store/item/register" element={<ItemRegister />} />
       <Route path="store/item/list" element={<ItemList />} />
@@ -45,14 +45,15 @@ const routes = createBrowserRouter(
       <Route path="store/item/edit/id/:storeId" element={<ItemEdit />} />
       <Route path="purchase/:storeId" element={<ItemPurchase />} />
       <Route path={"ba"} element={<Ba />}/>
+      <Route path="battle" element={<BattleRoom />} />
     </Route>,
   ),
 );
 function App() {
   return (
-    <div>
+      <MapListProvider>
       <RouterProvider router={routes} />
-    </div>
+      </MapListProvider>
   );
 }
 

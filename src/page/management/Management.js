@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {
-    Button, Drawer, DrawerBody,
+    Box,
+    Button, Center, Drawer, DrawerBody,
     DrawerCloseButton,
     DrawerContent, DrawerFooter,
     DrawerHeader,
@@ -13,9 +14,11 @@ import {
 import {useNavigate} from "react-router-dom";
 import {CountdownButton} from "./CountdownButton";
 import Step1Damagochi from "../../알.gif";
-import Step2Damagochi from "../../자아생성시기.gif";
-import Step3Damagochi from "../../사춘기.gif";
-import Step4Damagochi from "../../다큼.gif";
+import fireAtt from "../../img/fireAtt.png";
+import warterAtt from "../../img/waterAtt.png";
+import elecAtt from "../../img/elecAtt.png";
+import bg from "../../img/bg.jpg";
+import food from "../../img/food.png"
 import {Inventory} from "./Inventory";
 
 export function Management({reload2}) {
@@ -35,6 +38,8 @@ export function Management({reload2}) {
 
     const [countdown, setCountdown] = useState(null);
     const [imageModule, setImageModule] = useState(null);
+
+    const [imgSrc, setImgSrc] = useState("");
 
 
 
@@ -56,6 +61,14 @@ export function Management({reload2}) {
                     setCondition("신남")
                 } else {
                     setCondition("보통")
+                }
+
+                if (data.attribute === "물") {
+                    setImgSrc(warterAtt);
+                } else if (data.attribute === "불") {
+                    setImgSrc(fireAtt)
+                } else if (data.attribute === "전기") {
+                    setImgSrc(elecAtt)
                 }
 
                 const loadImageModule = async () => {
@@ -173,8 +186,12 @@ export function Management({reload2}) {
         setShowInventory(false);
     };
 
-    return <div style={{border : "1px solid red", width : "100%", height : "100%"}}>
-        <div style={{display : "flex"}}>
+    return <Center width={"100%"} height={"80vh"} bg={"skyblue"}>
+    <Box style={{border : "1px solid blue", width : "60%", height : "70%", display : "flex", justifyContent:"space-between "}} borderRadius="md"
+         boxShadow="sm">
+        <div style={{width : "60%", background : `url(${bg})`, backgroundSize: 'cover', // 배경 이미지를 가로와 세로가 꽉 차게 설정
+            backgroundPosition: 'center'}}>
+        <div style={{display : "flex", width : "100%", marginLeft : "5px", marginTop : "5px"}}>
             {/* setTimeout을 이용해서 먹이를 준후 랜덤시간 똥싸기 clean false */}
             <CountdownButton
                 buttonNumber={1}
@@ -184,6 +201,7 @@ export function Management({reload2}) {
                 memberId={mong.memberId}
                 label={"먹이주기"}
             />
+            <div style={{ marginRight: "5px" }}></div>
             <CountdownButton
                 buttonNumber={2}
                 onButtonClick={handleButtonClick}
@@ -193,6 +211,7 @@ export function Management({reload2}) {
                 label={"쓰다듬기"}
 
             />
+            <div style={{ marginRight: "5px" }}></div>
             <CountdownButton
                 buttonNumber={3}
                 onButtonClick={handleButtonClick}
@@ -201,47 +220,57 @@ export function Management({reload2}) {
                 memberId={mong.memberId}
                 label={"훈련하기"}
             />
+            <div style={{ marginRight: "5px" }}></div>
             <Button onClick={handleSleepClick}>잠자기</Button>
+            <div style={{ marginRight: "5px" }}></div>
             {!mong.clean &&
                 <Button onClick={handleCleanClick}>청소하기</Button>
                 }
             {(mong.level >= 1 && mong.evolutionLevel === 1) && <Button onClick={handleEvolClick}>진화</Button>}
             {(mong.level >= 4 && mong.evolutionLevel === 2) && <Button onClick={handleEvolClick}>진화</Button>}
             {(mong.level >= 8 && mong.evolutionLevel === 3) && <Button onClick={handleEvolClick}>진화</Button>}
-            <div>
-                <Button onClick={handleInvenButtonClick}>
-                    인벤토리
-                </Button>
-                {showInventory && <Inventory memberId={mong.memberId} onClose={handleInventoryClose}/>}
+            {/*<div>*/}
+            {/*    <Button onClick={handleInvenButtonClick}>*/}
+            {/*        인벤토리*/}
+            {/*    </Button>*/}
+            {/*</div>*/}
+        </div>
+            <div style={{width : "100%", height : "100%", display : "flex"}}>
+            <div style={{ width: "60%", height: "90%" }}>
+                {mong.evolutionLevel === 1 && <img src={Step1Damagochi} alt={"Step1"} style={{ width: "60%", height: "90%" }}/>}
+                {mong.evolutionLevel !== 1 && imageModule && (
+                    <img style={{height : "100%", width : "100%"}}
+                         src={imageModule}
+                         alt={`step${mong.evolutionLevel}`}
+                    />
+                )}
+            </div>
+                {mong.clean ||
+                <div style={{width : "30%", height : "30%", marginTop : "300px"}}>
+                    <img src={food} alt="" style={{width : "100%", height : "100%"}}/>
+                </div>
+                }
             </div>
         </div>
-        {mong.clean && <div>맵상태 : clean</div>}
-        {mong.clean || <div>맵상태 : dirty</div>}
-        <div style={{display : "flex"}}>
-        <div style={{ width: "300px", height: "300px" }}>
-            {mong.evolutionLevel === 1 && <img src={Step1Damagochi} alt={"Step1"} />}
-            {mong.evolutionLevel !== 1 && imageModule && (
-                <img style={{height : "100%", width : "100%"}}
-                    src={imageModule}
-                    alt={`step${mong.evolutionLevel}`}
-                />
-            )}
-        </div>
-        <div style={{ border : "1px solid black"}}>
-            <div>이름 : {mong.name}</div>
-            <div>속성 : {mong.attribute}</div>
-            <div>레벨 : {mong.level}</div>
-            <div>진화레벨 : {mong.evolutionLevel }</div>
-            <div>경험치 : {mong.exp}</div>
+        <div style={{ border : "1px solid black", height:"100%", width:"40%", background : "lightblue", padding : "5px", boxSizing: "border-box"}}>
+            <div style={{border : "1px solid blue", height : "10%", fontSize : "1.5rem", display : "flex", justifyContent : "space-between"}}>
+                <div>
+                    이름 : {mong.name}
+                </div>
+                <div style={{width : "13%"}}>
+                    <img src={imgSrc} alt="attribute" style={{width : "100%", height : "100%"}}/>
+                </div>
+            </div>
+            <div style={{border : "1px solid blue", height : "5%"}}>속성 : {mong.attribute}</div>
+            <div style={{border : "1px solid blue", height : "5%"}}>레벨 : {mong.level}</div>
+            <div style={{border : "1px solid blue", height : "5%"}}>경험치 : {mong.exp} / 100</div>
             {/* 아픔 디버프가 있다면 상태에 같이 표시 */}
-            <div>상태 : {condition}</div>
-            <div>포만감 : {mong.feed}</div>
-            <div>피로도 : {mong.tired}</div>
-            <div>근력 : {mong.strength}</div>
-            <div>민첩 : {mong.agility}</div>
-            <div>방어력 : {mong.defense}</div>
-            <div>체력 : {mong.health}</div>
+            <div style={{border : "1px solid blue", height : "5%"}}>상태 : {condition}</div>
+            <div style={{border : "1px solid blue", height : "5%"}}>포만감 : {mong.feed}</div>
+            <div style={{border : "1px solid blue", height : "5%"}}>피로도 : {mong.tired}</div>
+            <Inventory mystyle={{border : "1px solid green", height : "60%"}} memberId={mong.memberId} onClose={handleInventoryClose}/>
         </div>
-        </div>
-    </div>;
+
+    </Box>
+    </Center>;
 }
