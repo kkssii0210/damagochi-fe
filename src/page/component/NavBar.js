@@ -43,7 +43,7 @@ export function NavBar(props) {
     onOpen();
   };
 
-  const sizes = ["xl"];
+  const sizes = ["sm"];
 
   function sendRefreshToken() {
     const refreshToken = localStorage.getItem("refreshToken");
