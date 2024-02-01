@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Circle,
@@ -27,7 +27,7 @@ import level2 from "../../자아생성시기.gif";
 import level3 from "../../사춘기.gif";
 import level4 from "../../다큼.gif";
 import MongTutorial from "./MongTutorial";
-import {MapListContext} from "../../MapListContext";
+import { MapListContext } from "../../MapListContext";
 
 const statusCss = {
   background:
@@ -38,7 +38,7 @@ export function MongStatusInfo() {
   const navigate = useNavigate();
   const [mong_id, setMong_id] = useState("");
   const [memberId, setMemberId] = useState(null);
-  const {mapList, setMapList} = useContext(MapListContext);
+  const { mapList, setMapList } = useContext(MapListContext);
   //Mong 갹체의 초기 상태를 미리 설정
   const [mong, setMong] = useState({
     level: 1,
@@ -89,21 +89,31 @@ export function MongStatusInfo() {
   }
 
   function takeMapList() {
-    axios.get("/api/purchase/myMapList",{
-      headers: {
-        MemberId: memberId,
-      }
-    }).then((response) => {
-      // response.data.mapCode가 배열인지 확인
-      if (Array.isArray(response.data.mapCode)) {
-        setMapList(response.data.mapCode);
-      } else {
-        // response.data.mapCode가 배열이 아닐 경우의 처리
-        console.error('mapCode is not an array:', response.data.mapCode);
-      }
-      console.log(response.data);
-    });
+    axios
+      .get("/api/purchase/myMapList", {
+        headers: {
+          MemberId: memberId,
+        },
+      })
+      .then((response) => {
+        // response.data.mapCode가 배열인지 확인
+        if (Array.isArray(response.data.mapCode)) {
+          setMapList(response.data.mapCode);
+        } else {
+          // response.data.mapCode가 배열이 아닐 경우의 처리
+          console.error("mapCode is not an array:", response.data.mapCode);
+        }
+        console.log(response.data);
+      });
   }
+  const handleImageClick = (index) => {
+    if (index > 0) {
+      const newMapList = [...mapList];
+      const selectedMap = newMapList.splice(index, 1)[0];
+      newMapList.unshift(selectedMap);
+      setMapList(newMapList); // 상태 업데이트
+    }
+  };
 
   return (
     <div>
@@ -329,10 +339,18 @@ export function MongStatusInfo() {
             <TabPanel>
               <p>보유한 맵 종류</p>
               <div>
-                {mapList && mapList.map((url, index) =>
-                  url ? <img key={index} src={url} alt={`Map Preview ${index}`}
-                             style={{width: '100px', height: '100px'}}/> : null
-                )}
+                {mapList &&
+                  mapList.map((url, index) =>
+                    url ? (
+                      <img
+                        key={index}
+                        src={url}
+                        alt={`Map Preview ${index}`}
+                        style={{ width: "100px", height: "100px" }}
+                        onClick={() => handleImageClick(index)}
+                      />
+                    ) : null,
+                  )}
               </div>
             </TabPanel>
           </TabPanels>
