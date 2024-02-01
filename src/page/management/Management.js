@@ -186,8 +186,8 @@ export function Management({reload2}) {
         setShowInventory(false);
     };
 
-    return <Center width={"100%"} height={"80vh"} bg={"skyblue"}>
-    <Box style={{border : "1px solid blue", width : "60%", height : "70%", display : "flex", justifyContent:"space-between "}} borderRadius="md"
+    return <Center width={"100%"} height={"80vh"} >
+    <Box style={{ width : "60%", height : "70%", display : "flex", justifyContent:"space-between "}} borderRadius="md"
          boxShadow="sm">
         <div style={{width : "60%", background : `url(${bg})`, backgroundSize: 'cover', // 배경 이미지를 가로와 세로가 꽉 차게 설정
             backgroundPosition: 'center'}}>
@@ -252,8 +252,8 @@ export function Management({reload2}) {
                 }
             </div>
         </div>
-        <div style={{ border : "1px solid black", height:"100%", width:"40%", background : "lightblue", padding : "5px", boxSizing: "border-box"}}>
-            <div style={{border : "1px solid blue", height : "10%", fontSize : "1.5rem", display : "flex", justifyContent : "space-between"}}>
+        <div style={{ height:"100%", width:"40%", background : "lightblue", padding : "5px", boxSizing: "border-box"}}>
+            <div style={{ height : "10%", fontSize : "1.5rem", display : "flex", justifyContent : "space-between"}}>
                 <div>
                     이름 : {mong.name}
                 </div>
@@ -261,13 +261,13 @@ export function Management({reload2}) {
                     <img src={imgSrc} alt="attribute" style={{width : "100%", height : "100%"}}/>
                 </div>
             </div>
-            <div style={{border : "1px solid blue", height : "5%"}}>속성 : {mong.attribute}</div>
-            <div style={{border : "1px solid blue", height : "5%"}}>레벨 : {mong.level}</div>
-            <div style={{border : "1px solid blue", height : "5%"}}>경험치 : {mong.exp} / 100</div>
+            <div style={{ height : "5%"}}>속성 : {mong.attribute}</div>
+            <div style={{ height : "5%"}}>레벨 : {mong.level}</div>
+            <div style={{ height : "5%"}}>경험치 : {mong.exp} / 100</div>
             {/* 아픔 디버프가 있다면 상태에 같이 표시 */}
-            <div style={{border : "1px solid blue", height : "5%"}}>상태 : {condition}</div>
-            <div style={{border : "1px solid blue", height : "5%"}}>포만감 : {mong.feed}</div>
-            <div style={{border : "1px solid blue", height : "5%"}}>피로도 : {mong.tired}</div>
+            <div style={{ height : "5%"}}>상태 : {condition}</div>
+            <div style={{ height : "5%"}}>포만감 : {mong.feed}</div>
+            <div style={{ height : "5%"}}>피로도 : {mong.tired}</div>
             <Inventory mystyle={{border : "1px solid green", height : "60%"}} memberId={mong.id} onClose={handleInventoryClose}/>
         </div>
 
