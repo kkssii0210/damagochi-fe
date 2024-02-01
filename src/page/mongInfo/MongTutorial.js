@@ -15,7 +15,7 @@ import { faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import Step1Damagochi from "../../알.gif";
 import Step2Damagochi from "../../자아생성시기.gif";
 import Step3Damagochi from "../../사춘기.gif";
-import Step4Damagochi from "../../다큼.gif";
+import Step4Damagochi from "../../img/003-3.gif";
 import { useNavigate } from "react-router";
 
 const iconStyle = {

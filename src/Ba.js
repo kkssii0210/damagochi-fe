@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import fireImage from "./불공격.gif";
 import waterImage from "./물공격.png";
-import attackedImage from "./피격몽.gif";
+import thunderImage from "./번개 공격.png";
 import "./AttackAnimation.css";
 import axios from "axios";
 import {
@@ -205,8 +205,6 @@ export function Ba({ message, roomId }) {
       }
     }
 
-
-
     // if ((totalTurn >= 30 || mongAHp <= 0 || mongBHp <= 0) && userA && userB) {
     //
     //
@@ -314,7 +312,6 @@ export function Ba({ message, roomId }) {
   }, [message, modalOpen]);
   useEffect(() => {
     console.log(nowTurn);
-
   }, [nowTurn]);
   console.log(nowTurn);
   if (userAMongId === null || userBMongId === null) {
@@ -364,7 +361,6 @@ export function Ba({ message, roomId }) {
     }
   }
 
-
   function handleInvenButtonClick() {
     setShowInventory(!showInventory);
   }
@@ -373,12 +369,7 @@ export function Ba({ message, roomId }) {
     setShowInventory(false);
   };
 
-
   // battle 종료
-
-
-
-
 
   console.log("modal : " + modalOpen);
 
@@ -419,6 +410,33 @@ export function Ba({ message, roomId }) {
           <Text fontSize="md">Level: {victoriousUser.level}</Text>
           <Text fontSize="md">Type: {victoriousUser.attribute}</Text>
         </Box>
+        <Modal closeOnOverlayClick={false} isOpen={modalOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Create your account</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>{endMessage}</ModalBody>
+
+            <ModalFooter>
+              <Button
+                colorScheme="blue"
+                mr={3}
+                onClick={() => {
+                  axios.put("/api/manage/mong/battleEnd", {
+                    endMessage: endMessage,
+                    memberId:
+                      userName === userA.memberId
+                        ? userA.memberId
+                        : userB.memberId,
+                  });
+                  navigate("/management");
+                }}
+              >
+                나가기
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </Center>
     );
   } else if (userName === userA.memberId) {
@@ -427,7 +445,9 @@ export function Ba({ message, roomId }) {
         ? waterImage
         : userA.attribute === "불"
           ? fireImage
-          : null;
+          : userA.attribute === "전기"
+            ? thunderImage
+            : null;
     return (
       // <div
       //   style={{
@@ -523,7 +543,7 @@ export function Ba({ message, roomId }) {
                   <div style={{ position: "relative" }}>
                     {showInventory && (
                       <Inventory
-                        memberId={userA.memberId}
+                        memberId={userA.id}
                         mystyle={{ border: "10px solid green" }}
                         onClose={handleInventoryClose}
                         onClick={(item) => {
@@ -569,7 +589,7 @@ export function Ba({ message, roomId }) {
                   {mongBHp} / 100
                 </Text>
                 <Image
-                  src={imageModuleB}
+                  src={attacked ? attackedImageModuleB : imageModuleB}
                   alt=""
                   w="70%"
                   h="70%"
@@ -622,7 +642,9 @@ export function Ba({ message, roomId }) {
         ? waterImage
         : userB.attribute === "불"
           ? fireImage
-          : null;
+          : userB.attribute === "전기"
+            ? thunderImage
+            : null;
     return (
       // <div
       //   style={{
@@ -718,7 +740,7 @@ export function Ba({ message, roomId }) {
                   <div style={{ position: "relative" }}>
                     {showInventory && (
                       <Inventory
-                        memberId={userB.memberId}
+                        memberId={userB.id}
                         mystyle={{ border: "10px solid green" }}
                         onClose={handleInventoryClose}
                         onClick={(item) => {

@@ -12,8 +12,8 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import {useNavigate} from "react-router-dom";
-import {CountdownButton} from "./CountdownButton";
+import { useNavigate } from "react-router-dom";
+import { CountdownButton } from "./CountdownButton";
 import fireAtt from "../../img/fireAtt.png";
 import warterAtt from "../../img/waterAtt.png";
 import elecAtt from "../../img/elecAtt.png";
@@ -24,9 +24,9 @@ import Step1Damagochi from "../../알.gif";
 import waterMong from "../../img/002-1.gif";
 import yellowMong from "../../자아생성시기.gif";
 
-export function Management({reload2}) {
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const btnRef = React.useRef()
+export function Management({ reload2 }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = React.useRef();
 
   const [showInventory, setShowInventory] = useState(false);
 

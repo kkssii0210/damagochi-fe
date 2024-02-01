@@ -22,7 +22,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { getKakaoLogoutLink } from "../api/kakaoApi";
 import nav from "../../TutorialPage.module.css";
-import fireMong from "../../다큼.gif";
+import fireMong from "../../img/003-3.gif";
 
 import Step3Damagochi from "../../사춘기.gif";
 import { NavLink } from "react-router-dom";
@@ -269,7 +269,7 @@ export function NavBar(props) {
         onOverlayClick={onClose}
       >
         <DrawerContent colorScheme="white" onClick={handleContainerClick}>
-          <DrawerCloseButton color={"hotpink"} border={"2px solid hotpink"}/>
+          <DrawerCloseButton color={"hotpink"} border={"2px solid hotpink"} />
           <DrawerBody className={nav.status1} color="white">
             <Card
               m="10%"

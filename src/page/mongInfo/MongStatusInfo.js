@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Circle,
@@ -26,9 +26,9 @@ import { useNavigate } from "react-router-dom";
 import level1 from "../../알.gif";
 import level2 from "../../자아생성시기.gif";
 import level3 from "../../사춘기.gif";
-import level4 from "../../다큼.gif";
+import level4 from "../../img/003-3.gif";
 import MongTutorial from "./MongTutorial";
-import {MapListContext} from "../../MapListContext";
+import { MapListContext } from "../../MapListContext";
 
 const statusCss = {
   background:
@@ -357,11 +357,7 @@ export function MongStatusInfo() {
                         style={{ width: "100px", height: "100px" }}
                         onClick={() => handleImageClick(index)}
                       />
-                    ) : (
-                      <p style={{ textAlign: "center", fontSize: "1.1rem" }}>
-                        현재 보유한 맵이 없습니다.
-                      </p>
-                    ),
+                    ) : null,
                   )}
               </div>
             </TabPanel>
