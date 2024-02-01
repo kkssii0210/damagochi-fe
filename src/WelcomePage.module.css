@@ -46,16 +46,19 @@
 }
 
 .button {
-    background-color: lightpink; /* 버튼 색상 */
-    border: none;
-    border-radius: 20px; /* 버튼 둥글게 */
-    color: white;
+    background-color: #F07DD5;
+    border-radius: 20px;
+    color: ghostwhite;
     padding: 10px 20px;
     font-size: 2em;
+    font-weight: bold;
     margin-bottom: 2em;
     cursor: pointer;
-    width: 200px; /* 원하는 가로 크기로 조정 */
-    height: 100px;
+    width: 280px;
+    height: 80px;
+}
+.button:hover {
+    background-color: #ff66b2;
 }
 .hidden {
     visibility: hidden;

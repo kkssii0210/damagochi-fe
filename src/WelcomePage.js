@@ -60,8 +60,13 @@ export function WelcomePage() {
           className={styles.character}
         />
         {/* 세 번째 박스 */}
-        <Box textAlign="center" mt="5%" border="0px solid red">
-          <Button
+        <Box
+          textAlign="center"
+          mt="5%"
+          border="0px solid red"
+          fontFamily="DungGeunMo"
+        >
+          <button
             className={`${styles.button} ${isTokenPresent ? styles.hidden : ""}`}
             onClick={handleClick}
           >
@@ -70,8 +75,8 @@ export function WelcomePage() {
               size="xl"
               style={{ color: "#ffef42" }}
             />
-            시작하기
-          </Button>
+            Game Start!
+          </button>
         </Box>
       </Box>
     </div>

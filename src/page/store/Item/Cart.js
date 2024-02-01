@@ -50,7 +50,7 @@ export function Cart({ cartItems, storeId }) {
       })
       .then((response) => {
         setCartItem(response.data);
-        setBoxHeight(15 + response.data.length * 7);
+        setBoxHeight(18 + response.data.length * 7);
       })
       .catch((error) => {
         console.log("카트 아이템의 정보를 가져오는데 실패하였습니다.");
