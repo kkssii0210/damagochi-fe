@@ -16,6 +16,7 @@ import {
 import { useNavigate } from "react-router";
 import axios from "axios";
 import styles from "./WelcomePage.module.css";
+import KakaoLoginComponent from "./KakaoLoginComponent";
 
 export function MemberLogin() {
   const [id, setId] = useState("");
@@ -90,6 +91,9 @@ export function MemberLogin() {
             로그인
           </Button>
         </FormControl>
+        <Box display="flex" justifyContent="center" mt={"10px"}>
+          <KakaoLoginComponent />
+        </Box>
         <Divider my={5} border="1px solid" borderColor="gray.400" />
         <FormControl textAlign="center">
           <Button

@@ -9,6 +9,5 @@ export function HomeLayout() {
       <NavBar />
       <Outlet />
     </div>
-
   );
 }
