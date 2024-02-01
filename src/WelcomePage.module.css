@@ -37,7 +37,7 @@
 .character {
     border: 0px solid white;
     width: 400px; /* 캐릭터 크기 */
-    margin-left: 40%;
+    margin-left: 38%;
     margin-top:-5em; /* 로고와 겹치도록 위치 조정 */
 }
 
@@ -45,20 +45,20 @@
     border: 1px solid red;
 }
 
-.guideText {
-    color: #FFFFFF;
-    margin-bottom: 3em;
-}
-
 .button {
-    background-color: #6C63FF; /* 버튼 색상 */
-    border: none;
-    border-radius: 20px; /* 버튼 둥글게 */
-    color: white;
+    background-color: #F07DD5;
+    border-radius: 20px;
+    color: ghostwhite;
     padding: 10px 20px;
-    font-size: 1em;
+    font-size: 2em;
+    font-weight: bold;
     margin-bottom: 2em;
     cursor: pointer;
+    width: 280px;
+    height: 80px;
+}
+.button:hover {
+    background-color: #ff66b2;
 }
 .hidden {
     visibility: hidden;

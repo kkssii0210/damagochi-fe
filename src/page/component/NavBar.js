@@ -1,30 +1,31 @@
 import {
   Box,
   Button,
-  ButtonGroup,
   Card,
+  CardBody,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
-  Progress,
+  Flex,
+  Image,
   Stack,
   Text,
   useDisclosure,
   useToast,
+  VStack,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlay,
-  faRightFromBracket,
-  faStore,
-} from "@fortawesome/free-solid-svg-icons";
-import KakaoLoginComponent from "../../KakaoLoginComponent";
+import { faBars, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { getKakaoLogoutLink } from "../api/kakaoApi";
 import nav from "../../TutorialPage.module.css";
+import fireMong from "../../다큼.gif";
+
+import Step3Damagochi from "../../사춘기.gif";
+import { NavLink } from "react-router-dom";
 
 export function NavBar(props) {
   const [currentPoints, setCurrentPoints] = useState(0);
@@ -242,15 +243,21 @@ export function NavBar(props) {
   }
 
   return (
-    <Box border="0px solid yellow" ml="2%">
+    <Box border="0px solid yellow" ml="1%" mt={8}>
       {sizes.map((size) => (
-        <Button onClick={() => handleClickDrawer(size)} key={size}>
-          <FontAwesomeIcon
-            icon={faPlay}
-            size="xl"
-            style={{ color: "#ffef42" }}
-          />
-          Start!
+        <Button
+          onClick={() => handleClickDrawer(size)}
+          key={size}
+          colorScheme={"purple"}
+        >
+          {/*<FontAwesomeIcon*/}
+          {/*  icon={faPlay}*/}
+          {/*  size="xl"*/}
+          {/*  style={{ color: "#ffef42" }}*/}
+          {/*/>*/}
+          {/*{"  "}*/}
+          {/*Start !*/}
+          <FontAwesomeIcon icon={faBars} size="xl" />
         </Button>
       ))}
 
@@ -262,18 +269,33 @@ export function NavBar(props) {
         onOverlayClick={onClose}
       >
         <DrawerContent colorScheme="white" onClick={handleContainerClick}>
-          <DrawerCloseButton />
+          <DrawerCloseButton color={"hotpink"} border={"2px solid hotpink"}/>
           <DrawerBody className={nav.status1} color="white">
             <Card
               m="10%"
-              w="80%"
-              h="90%"
+              w="85%"
+              h={loggedIn ? "90%" : "60%"}
               backgroundColor="rgba(255, 255, 255, 0.5)"
             >
-              <Text textAlign="Center" fontSize="4rem" fontFamily="DungGeunMo">
-                DAMAGOCHI
+              <Text
+                textAlign="Center"
+                fontSize="4rem"
+                fontFamily="DungGeunMo"
+                color={"rebeccapurple"}
+                fontWeight={"bold"}
+              >
+                다마고찌
               </Text>
 
+              {/*{loggedIn && (*/}
+              <CardBody
+                display={"flex"}
+                justifyContent={"center"}
+                h={"140px"}
+                border="0px solid green"
+              >
+                <Image w={"50%"} src={Step3Damagochi} />
+              </CardBody>
               <Stack
                 w="80%"
                 m="10%"
@@ -283,35 +305,20 @@ export function NavBar(props) {
                 justifyContent="space-evenly"
               >
                 <Box
-                  padding="4"
                   borderWidth="1px"
                   borderRadius="lg"
-                  border="1px solid white"
-                  onClick={handleClick}
-                  cursor="pointer"
+                  border="0px solid purple"
+                  // onClick={handleClick}
+                  // cursor="pointer"
                 >
-                  <Text mb="8px" textAlign="center">
-                    <FontAwesomeIcon icon={faStore} fontSize="large" /> 내
-                    포인트 :{totalPoints}
+                  <Text textAlign="center" fontSize="1em">
+                    💰 나의 보유 포인트 : {totalPoints}
                   </Text>
-                  <Progress
-                    value={filledPercentage}
-                    colorScheme={filledPercentage > 50 ? "green" : "yellow"}
-                  />
+                  {/*<Progress*/}
+                  {/*  value={filledPercentage}*/}
+                  {/*  colorScheme={filledPercentage > 50 ? "green" : "yellow"}*/}
+                  {/*/>*/}
                 </Box>
-                {/*로그인 상태에서 -- 로그아웃*/}
-                {loggedIn && (
-                  <Button
-                    variant="ghost"
-                    fontFamily="Constantia"
-                    border="1px solid white"
-                    _hover={{ bg: "none" }}
-                    onClick={handleLogout}
-                    leftIcon={<FontAwesomeIcon icon={faRightFromBracket} />}
-                  >
-                    log out
-                  </Button>
-                )}
               </Stack>
               <Stack
                 variant="ghost"
@@ -320,51 +327,114 @@ export function NavBar(props) {
                 marginInline="10%"
                 flexDirection="column"
               >
+                {!loggedIn && (
+                  <VStack>
+                    <Text>로그인 후 다마고찌를 시작해보세요 !</Text>
+                    <Button
+                      color={"hotpink"}
+                      border={"3px solid pink"}
+                      bg={"white"}
+                      mb={10}
+                      w={"100%"}
+                    >
+                      <NavLink to={"/login"}>로그인 하러 가기</NavLink>
+                    </Button>
+                  </VStack>
+                )}
                 <Button
-                  backgroundColor="rgba(255, 255, 255, 0.8)"
-                  mt="30px"
-                  color="black"
+                  bg={"#9F60B8"}
+                  color={"white"}
+                  _hover={{
+                    bg: "#7B4A8F",
+                    color: "white",
+                  }}
                   size="lg"
                   onClick={() => navigate("/")}
+                  mb={loggedIn ? "none" : "100px"}
                 >
-                  Home
+                  🏠 홈
                 </Button>
-                <Button
-                  backgroundColor="rgba(255, 255, 255, 0.8)"
-                  mt="30px"
-                  color="black"
-                  onClick={() => navigate("/MongStatusInfo")}
-                >
-                  My Mong
-                </Button>
-                <Button
-                  backgroundColor="rgba(255, 255, 255, 0.8)"
-                  mt="30px"
-                  color="black"
-                  size="lg"
-                  onClick={() => navigate("store/item/list")}
-                >
-                  Store
-                </Button>
-                <Button
-                  backgroundColor="rgba(255, 255, 255, 0.8)"
-                  mt="30px"
-                  color="black"
-                  size="lg"
-                  onClick={() => navigate("/battle")}
-                >
-                  🔥Start Battle🔥
-                </Button>
-                <Button
-                  backgroundColor="rgba(255, 255, 255, 0.8)"
-                  mt="30px"
-                  color="black"
-                  size="lg"
-                  onClick={() => navigate("management")}
-                >
-                  Settings
-                </Button>
+
+                {loggedIn && (
+                  <Button
+                    bg={"#9F60B8"}
+                    color={"white"}
+                    _hover={{
+                      bg: "#7B4A8F",
+                      color: "white",
+                    }}
+                    mt="30px"
+                    size="lg"
+                    onClick={() => navigate("/MongStatusInfo")}
+                  >
+                    ℹ️ 나의 다마고찌 정보
+                  </Button>
+                )}
+                {loggedIn && (
+                  <Button
+                    bg={"#9F60B8"}
+                    color={"white"}
+                    _hover={{
+                      bg: "#7B4A8F",
+                      color: "white",
+                    }}
+                    mt="30px"
+                    size="lg"
+                    onClick={() => navigate("management")}
+                  >
+                    {" "}
+                    😺 다마고찌 키우기
+                  </Button>
+                )}
+                {loggedIn && (
+                  <Button
+                    bg={"#9F60B8"}
+                    color={"white"}
+                    _hover={{
+                      bg: "#7B4A8F",
+                      color: "white",
+                    }}
+                    mt="30px"
+                    size="lg"
+                    onClick={() => navigate("/battle")}
+                  >
+                    🔥 배틀 시작 🔥
+                  </Button>
+                )}
+                {loggedIn && (
+                  <Button
+                    bg={"#9F60B8"}
+                    color={"white"}
+                    _hover={{
+                      bg: "#7B4A8F",
+                      color: "white",
+                    }}
+                    mt="30px"
+                    size="lg"
+                    onClick={() => navigate("store/item/list")}
+                  >
+                    🛒 상점
+                  </Button>
+                )}
               </Stack>
+
+              {/*로그인 상태에서 -- 로그아웃*/}
+              {loggedIn && (
+                <Flex justify={"center"}>
+                  <Button
+                    mt="50px"
+                    mb="20px"
+                    color={"hotpink"}
+                    border={"3px solid pink"}
+                    bg={"white"}
+                    w={"35%"}
+                    onClick={handleLogout}
+                    leftIcon={<FontAwesomeIcon icon={faRightFromBracket} />}
+                  >
+                    log out
+                  </Button>
+                </Flex>
+              )}
             </Card>
           </DrawerBody>
         </DrawerContent>

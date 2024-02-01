@@ -50,7 +50,7 @@ export function Cart({ cartItems, storeId }) {
       })
       .then((response) => {
         setCartItem(response.data);
-        setBoxHeight(15 + response.data.length * 7);
+        setBoxHeight(18 + response.data.length * 7);
       })
       .catch((error) => {
         console.log("카트 아이템의 정보를 가져오는데 실패하였습니다.");
@@ -106,7 +106,7 @@ export function Cart({ cartItems, storeId }) {
       >
         <VStack spacing={4}>
           <Text fontSize="lg" fontWeight="bold" mb={5} color="black">
-            {playerIdWithoutAt}님의 장바구니
+            🧺 {playerIdWithoutAt}님의 장바구니
           </Text>
           {cartItem.map((cartItem, index) => (
             <Flex key={index} alignItems="center">

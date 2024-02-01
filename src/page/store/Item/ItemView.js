@@ -18,6 +18,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Spacer,
   Spinner,
   Text,
   useDisclosure,
@@ -166,6 +167,7 @@ function ItemView(props) {
       <Cart cartItems={cartItem} storeId={item.storeId} />
 
       <Container border="0px solid black" w="40%" h="70%" mt="5%" mb="5%">
+        <Spacer h={100} />
         <Card
           // border="6px solid #B893BA"
 
@@ -245,6 +247,12 @@ function ItemView(props) {
                   bg: "#E5087E",
                   color: "white",
                 }}
+                bg={"#E5507D"}
+                color={"white"}
+                _hover={{
+                  bg: "#E5087E",
+                  color: "white",
+                }}
                 onClick={() => {
                   if (itemCount > 0) {
                     setItemCount(itemCount + 1);
@@ -276,7 +284,6 @@ function ItemView(props) {
             </ButtonGroup>
           </CardFooter>
         </Card>
-
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent>
@@ -294,6 +301,7 @@ function ItemView(props) {
           </ModalContent>
         </Modal>
         {/*</Box>*/}
+        <Spacer h={500} />
       </Container>
     </>
   );
