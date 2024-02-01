@@ -2,7 +2,7 @@ import styles from "./WelcomePage.module.css";
 import TamagotchiImage from "./다마고찌.gif";
 import { useNavigate } from "react-router";
 import React, { useEffect, useState } from "react";
-import { Box, Button } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 
@@ -20,23 +20,6 @@ export function WelcomePage() {
   }, []);
 
   return (
-    // <div className={styles.container}>
-    //     <Box h="90%" padding="5" display="flex" border="1px solid white">
-    //         {/* 첫 번째 박스 */}
-    //         <Box h="100%" border="1px solid red" marginRight="1">1</Box>
-    //
-    //         {/* 두 번째 박스와 세 번째 박스를 포함하는 컨테이너 */}
-    //         <Box display="flex" flexDirection="column">
-    //
-    //             {/* 두 번째 박스 */}
-    //             <Box flex="1" border="1px solid red" marginBottom="1">2</Box>
-    //
-    //             {/* 세 번째 박스 */}
-    //             <Box flex="1" border="1px solid red">3</Box>
-    //
-    //         </Box>
-    //     </Box>
-    // </div>
     <div className={styles.container}>
       {/* 첫 번째 박스 */}
 
@@ -82,5 +65,3 @@ export function WelcomePage() {
     </div>
   );
 }
-
-//

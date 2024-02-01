@@ -2,15 +2,11 @@ import { useState } from "react";
 import {
   Box,
   Button,
-  ButtonGroup,
   Divider,
-  extendTheme,
   FormControl,
-  FormLabel,
   Heading,
   Input,
   Spacer,
-  Spinner,
   useToast,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router";
@@ -21,7 +17,6 @@ import KakaoLoginComponent from "./KakaoLoginComponent";
 export function MemberLogin() {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
-  const [imagePrefix, setImagePrefix] = useState("");
   const toast = useToast();
   const navigate = useNavigate();
   function handleLogin() {
@@ -77,7 +72,6 @@ export function MemberLogin() {
           />
         </FormControl>
         <FormControl mb={5} textAlign="center">
-          {/*<FormLabel>비밀번호</FormLabel>*/}
           <Input
             type="password"
             value={password}

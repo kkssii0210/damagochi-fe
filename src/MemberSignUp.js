@@ -3,14 +3,11 @@ import {
   Button,
   Card,
   CardBody,
-  CardFooter,
   CardHeader,
   Flex,
   FormControl,
   FormErrorMessage,
-  FormLabel,
   Heading,
-  HStack,
   Input,
   Spacer,
   useToast,
@@ -98,7 +95,6 @@ export function MemberSignUp() {
           </CardHeader>
           <CardBody>
             <FormControl>
-              {/*<FormLabel>아이디</FormLabel>*/}
               <Flex justify={"center"}>
                 <Input
                   placeholder="ID : 이메일을 입력해주세요"
@@ -128,7 +124,6 @@ export function MemberSignUp() {
               </Flex>
             </FormControl>
             <FormControl textAlign={"center"} mr={2} mb={10}>
-              {/*<FormLabel>비밀번호</FormLabel>*/}
               <Input
                 maxWidth={390}
                 type="password"
