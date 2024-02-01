@@ -12,8 +12,6 @@ import {
   Flex,
   Text,
   Image,
-  Badge,
-  Button,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -21,7 +19,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Text,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";

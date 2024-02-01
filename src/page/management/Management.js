@@ -14,7 +14,6 @@ import {
 } from "@chakra-ui/react";
 import {useNavigate} from "react-router-dom";
 import {CountdownButton} from "./CountdownButton";
-import Step1Damagochi from "../../알.gif";
 import fireAtt from "../../img/fireAtt.png";
 import warterAtt from "../../img/waterAtt.png";
 import elecAtt from "../../img/elecAtt.png";
@@ -22,7 +21,7 @@ import bg from "../../img/bg.jpg";
 import food from "../../img/food.png";
 import { Inventory } from "./Inventory";
 import Step1Damagochi from "../../알.gif";
-import waterMong from "../../불몽.gif";
+import waterMong from "../../img/002-1.gif";
 import yellowMong from "../../자아생성시기.gif";
 
 export function Management({reload2}) {
@@ -389,7 +388,7 @@ export function Management({reload2}) {
           </div>
           <Inventory
             mystyle={{ border: "1px solid green", height: "60%" }}
-            memberId={mong.memberId}
+            memberId={mong.id}
             onClose={handleInventoryClose}
           />
         </div>
