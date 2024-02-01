@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
   Box,
@@ -36,35 +36,32 @@ export function Management({ reload2 }) {
   const [inputValue, setInputValue] = useState("");
   const [warningMessage, setWarningMessage] = useState("");
 
-    const toast = useToast();
-    const navigate = useNavigate();
+  const toast = useToast();
+  const navigate = useNavigate();
 
-    const [countdown, setCountdown] = useState(null);
-    const [imageModule, setImageModule] = useState(null);
+  const [countdown, setCountdown] = useState(null);
+  const [imageModule, setImageModule] = useState(null);
 
-    const [imgSrc, setImgSrc] = useState("");
+  const [imgSrc, setImgSrc] = useState("");
 
-
-
-
-    useEffect(() => {
-        axios.get("/api/manage/mong", {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            }
-        })
-            .then(({data}) => {
-
-                setMong(data);
-                if (data.tired <= 50) {
-                    setCondition("졸림");
-                } else if (data.feed <= 50) {
-                    setCondition("배고픔")
-                } else if (data.tired >= 80 && data.feed >= 80) {
-                    setCondition("신남")
-                } else {
-                    setCondition("보통")
-                }
+  useEffect(() => {
+    axios
+      .get("/api/manage/mong", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      })
+      .then(({ data }) => {
+        setMong(data);
+        if (data.tired <= 50) {
+          setCondition("졸림");
+        } else if (data.feed <= 50) {
+          setCondition("배고픔");
+        } else if (data.tired >= 80 && data.feed >= 80) {
+          setCondition("신남");
+        } else {
+          setCondition("보통");
+        }
 
         if (data.attribute === "물") {
           setImgSrc(warterAtt);
@@ -180,11 +177,11 @@ export function Management({ reload2 }) {
     });
   }
 
-    const handleButtonClick = (buttonNumber) => {
-        // 버튼 클릭 시 실행될 로직
-        console.log(`Button ${buttonNumber} clicked`);
-        // 각 버튼의 상태 업데이트
-    };
+  const handleButtonClick = (buttonNumber) => {
+    // 버튼 클릭 시 실행될 로직
+    console.log(`Button ${buttonNumber} clicked`);
+    // 각 버튼의 상태 업데이트
+  };
 
   function handleCleanClick() {
     axios
@@ -388,7 +385,7 @@ export function Management({ reload2 }) {
           </div>
           <Inventory
             mystyle={{ border: "1px solid green", height: "60%" }}
-            memberId={mong.id}
+            memberId={mong.memberId}
             onClose={handleInventoryClose}
           />
         </div>

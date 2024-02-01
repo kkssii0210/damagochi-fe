@@ -205,8 +205,6 @@ export function Ba({ message, roomId }) {
       }
     }
 
-
-
     // if ((totalTurn >= 30 || mongAHp <= 0 || mongBHp <= 0) && userA && userB) {
     //
     //
@@ -545,7 +543,7 @@ export function Ba({ message, roomId }) {
                   <div style={{ position: "relative" }}>
                     {showInventory && (
                       <Inventory
-                        memberId={userA.id}
+                        memberId={userA.memberId}
                         mystyle={{ border: "10px solid green" }}
                         onClose={handleInventoryClose}
                         onClick={(item) => {
@@ -742,7 +740,7 @@ export function Ba({ message, roomId }) {
                   <div style={{ position: "relative" }}>
                     {showInventory && (
                       <Inventory
-                        memberId={userB.id}
+                        memberId={userB.memberId}
                         mystyle={{ border: "10px solid green" }}
                         onClose={handleInventoryClose}
                         onClick={(item) => {
