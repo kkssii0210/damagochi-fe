@@ -419,6 +419,30 @@ export function Ba({ message, roomId }) {
           <Text fontSize="md">Level: {victoriousUser.level}</Text>
           <Text fontSize="md">Type: {victoriousUser.attribute}</Text>
         </Box>
+        <Modal closeOnOverlayClick={false} isOpen={modalOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Create your account</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>{endMessage}</ModalBody>
+
+            <ModalFooter>
+              <Button
+                  colorScheme="blue"
+                  mr={3}
+                  onClick={() => {
+                    axios.put("/api/manage/mong/battleEnd", {
+                      endMessage: endMessage,
+                      memberId: userName === userA.memberId ? userA.memberId : userB.memberId,
+                    });
+                    navigate("/management");
+                  }}
+              >
+                나가기
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </Center>
     );
   } else if (userName === userA.memberId) {
