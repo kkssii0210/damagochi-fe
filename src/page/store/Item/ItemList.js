@@ -12,6 +12,7 @@ import {
   Heading,
   Image,
   SimpleGrid,
+  Spacer,
   Spinner,
   Text,
 } from "@chakra-ui/react";
@@ -43,6 +44,8 @@ function ItemList(props) {
 
   return (
     <>
+      <Spacer h={70} />
+
       <Button
         ml={2}
         mr={5}
@@ -142,6 +145,7 @@ function ItemList(props) {
           </>
         )}
       </SimpleGrid>
+      <Spacer h={500} />
     </>
   );
 }

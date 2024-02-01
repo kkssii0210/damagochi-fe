@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Circle,
@@ -6,10 +6,13 @@ import {
   CircularProgressLabel,
   SimpleGrid,
   Tab,
+  Table,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
+  Th,
+  Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -27,7 +30,7 @@ import level2 from "../../자아생성시기.gif";
 import level3 from "../../사춘기.gif";
 import level4 from "../../다큼.gif";
 import MongTutorial from "./MongTutorial";
-import {MapListContext} from "../../MapListContext";
+import { MapListContext } from "../../MapListContext";
 
 const statusCss = {
   background:
@@ -37,18 +40,10 @@ const statusCss = {
 export function MongStatusInfo() {
   const navigate = useNavigate();
   const [mong_id, setMong_id] = useState("");
+  const [mongInfo, setMongInfo] = useState("");
   const [memberId, setMemberId] = useState(null);
-  const {mapList, setMapList} = useContext(MapListContext);
-  //Mong 갹체의 초기 상태를 미리 설정
-  const [mong, setMong] = useState({
-    level: 1,
-    tired: 100,
-    strength: 50,
-    health: 100,
-    sleep: 100,
-    feed: 100,
-    clean: 100,
-  });
+  const { mapList, setMapList } = useContext(MapListContext);
+
   //mong id 찾는 건 백으로 -- member id
   //240115 멤버 아이디로 몽의 정보 가져오기
   // const colors = useColorModeValue(
@@ -66,55 +61,65 @@ export function MongStatusInfo() {
         console.log(response);
         setMong_id(response.data.id);
         setMemberId(response.data.memberId);
+        setMongInfo(response.data);
       })
       .catch((error) => console.log(error));
-  }, [mong_id]);
+  }, []);
 
   const scale = 0.1;
   const [tabIndex, setTabIndex] = useState(0);
   // const bg = colors[tabIndex];
-  function getImage(level) {
-    switch (level) {
-      case 1:
-        return level1;
-      case 2:
-        return level2;
-      case 3:
-        return level3;
-      case 4:
-        return level4;
-      default:
-        return null;
-    }
-  }
+  // function getImage(level) {
+  //   switch (level) {
+  //     case 1:
+  //       return level1;
+  //     case 2:
+  //       return level2;
+  //     case 3:
+  //       return level3;
+  //     case 4:
+  //       return level4;
+  //     default:
+  //       return null;
+  //   }
+  // }
 
   function takeMapList() {
-    axios.get("/api/purchase/myMapList",{
-      headers: {
-        MemberId: memberId,
-      }
-    }).then((response) => {
-      // response.data.mapCode가 배열인지 확인
-      if (Array.isArray(response.data.mapCode)) {
-        setMapList(response.data.mapCode);
-      } else {
-        // response.data.mapCode가 배열이 아닐 경우의 처리
-        console.error('mapCode is not an array:', response.data.mapCode);
-      }
-      console.log(response.data);
-    });
+    axios
+      .get("/api/purchase/myMapList", {
+        headers: {
+          MemberId: memberId,
+        },
+      })
+      .then((response) => {
+        // response.data.mapCode가 배열인지 확인
+        if (Array.isArray(response.data.mapCode)) {
+          setMapList(response.data.mapCode);
+        } else {
+          // response.data.mapCode가 배열이 아닐 경우의 처리
+          console.error("mapCode is not an array:", response.data.mapCode);
+        }
+        console.log(response.data);
+      });
+  }
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
   }
 
   return (
     <div>
-      <Box margin="30px" border="1px solid black">
+      <Box margin="30px" border="3px solid #A592F0">
         <Tabs
           mt="20px"
           colorScheme="red"
           variant="soft-rounded"
           colomn={3}
           onChange={(index) => setTabIndex(index)}
-          // bg={bg}
           border="0px solid blue"
           w="100%"
         >
@@ -125,39 +130,33 @@ export function MongStatusInfo() {
             fontSize="2rem"
             border="0px solid black"
           >
-            <Tab>My Mong Status</Tab>
-            <Tab>Mong Evolution Info</Tab>
-            <Tab onClick={takeMapList}>My Account</Tab>
+            <Tab fontSize={"1.5rem"}>나의 다마고찌 정보</Tab>
+            <Tab fontSize={"1.5rem"}>다마고찌 진화 단계</Tab>
+            <Tab fontSize={"1.5rem"} onClick={takeMapList}>
+              내 계정
+            </Tab>
           </TabList>
           <TabPanels>
-            <TabPanel border="1px solid red">
+            <TabPanel border="0px solid red">
               <div border="0px solid black">
                 <SimpleGrid
                   border="0px solid red"
-                  ml="10%"
                   display="flex"
                   columns={1}
-                  w="80%"
+                  w="100%"
                 >
-                  <Box
-                    color="white"
-                    fontSize="1.5rem"
-                    borderRadius="20px"
-                    mt={51}
-                    mb={500}
-                    w="sm"
-                    bg="rgba(255, 255, 255, 0.3)"
-                    border="0px solid red"
-                  >
-                    <img
-                      src={getImage(mong.level)}
-                      style={{ width: "500px", height: "300px" }}
-                    />
-                    {/*alt={`Mong 레벨 ${mong.level}`*/}
-                  </Box>
+                  {/*<img*/}
+                  {/*  src={getImage(mong.level)}*/}
+                  {/*  style={{*/}
+                  {/*    width: "200px",*/}
+                  {/*    height: "130px",*/}
+                  {/*    border: "1px solid green",*/}
+                  {/*  }}*/}
+                  {/*/>*/}
+                  {/*alt={`Mong 레벨 ${mong.level}`*/}
                   <Circle
-                    border="2px solid blue"
-                    ml={200}
+                    border="6px solid pink"
+                    ml={350}
                     mr="-23.4rem"
                     mt={50}
                     mb={500}
@@ -165,7 +164,7 @@ export function MongStatusInfo() {
                     h="300px"
                     fontSize="25px"
                   >
-                    Level:{mong.level}
+                    Level : {mongInfo.level}
                   </Circle>
                   <Box
                     ml={195}
@@ -193,7 +192,7 @@ export function MongStatusInfo() {
                       >
                         <CircularProgress
                           size="4rem"
-                          value={mong.tired}
+                          value={mongInfo.tired}
                           color="red"
                           max={100}
                         >
@@ -218,7 +217,7 @@ export function MongStatusInfo() {
                       >
                         <CircularProgress
                           size="4rem"
-                          value={mong.feed}
+                          value={mongInfo.feed}
                           color="#9933ff"
                         >
                           <CircularProgressLabel>
@@ -241,7 +240,7 @@ export function MongStatusInfo() {
                       >
                         <CircularProgress
                           size="4rem"
-                          value={mong.sleep}
+                          value={mongInfo.tired}
                           color="#FFB300"
                         >
                           <CircularProgressLabel>
@@ -252,7 +251,6 @@ export function MongStatusInfo() {
                             />
                           </CircularProgressLabel>
                         </CircularProgress>
-                        {/*{mong.sleep}%*/}
                       </Box>
                       <Box
                         border="0px solid yellow"
@@ -265,7 +263,7 @@ export function MongStatusInfo() {
                       >
                         <CircularProgress
                           size="4rem"
-                          value={mong.clean}
+                          value={mongInfo.clean}
                           color="pink"
                         >
                           <CircularProgressLabel>
@@ -276,7 +274,6 @@ export function MongStatusInfo() {
                             />
                           </CircularProgressLabel>
                         </CircularProgress>
-                        {/*{mong.clean}%*/}
                       </Box>
                       <Box
                         border="0px solid yellow"
@@ -289,7 +286,7 @@ export function MongStatusInfo() {
                       >
                         <CircularProgress
                           size="4rem"
-                          value={mong.strength}
+                          value={mongInfo.strength}
                           color="#00b303"
                         >
                           <CircularProgressLabel>
@@ -303,36 +300,62 @@ export function MongStatusInfo() {
                       </Box>
                     </Box>
                   </Box>
+                  <Box
+                    border="0px solid purple"
+                    fontSize="1.7rem"
+                    mt={50}
+                    w="350px"
+                    h="500px"
+                  >
+                    <p style={{ marginBottom: "10px", color: "rebeccapurple" }}>
+                      ❣️나의 다마고찌 정보❣️
+                    </p>
+                    <p mb={10}> 이름 : {mongInfo.name}</p>
+                    <p mb={10}> 속성 : {mongInfo.attribute}</p>
+                    <p mb={10}> 레벨 : {mongInfo.level}</p>
+                    <p mb={10}> 경험치 : {mongInfo.exp}/100</p>
+                    <p mb={10}> 건강 : {mongInfo.health}/100</p>
+                    <p mb={10}>근력 : {mongInfo.strength}/100</p>
+                    <p mb={10}>방어력 : {mongInfo.defense}/100</p>
+                    <p mb={10}>민첩성 : {mongInfo.defense}/100</p>
+                    <p mb={10}>포만감 : {mongInfo.feed}/100</p>
+                    <p mb={10}>배틀 우승 : {mongInfo.win}회</p>
+                    <p mb={4}>배틀 패배 : {mongInfo.lose}회</p>
+                    <p>생성날짜: {formatDate(mongInfo.birth)}</p>
+                  </Box>
                 </SimpleGrid>
-                <Box
-                  border="1px solid"
-                  fontSize="1.8rem"
-                  mt={50}
-                  mb={500}
-                  ml={0}
-                  w="800px"
-                  h="300px"
-                >
-                  <p> 몽 이름: {mong.name}</p>
-                  <p> 레벨: {mong.level}</p>
-                  <p>피로도 : {mong.tired}</p>
-                  <p>근력 : {mong.strength}</p>
-                  <p>수면 : {mong.sleep}</p>
-                  <p>배고픔 : {mong.feed}</p>
-                  <p>청소 : {mong.clean}</p>
-                </Box>
               </div>
             </TabPanel>
             <TabPanel>
               <MongTutorial />
             </TabPanel>
             <TabPanel>
-              <p>보유한 맵 종류</p>
+              <p
+                style={{
+                  textAlign: "center",
+                  fontSize: "1.4rem",
+                  fontWeight: "bold",
+                  marginBottom: "20px",
+                }}
+              >
+                내가 보유한 맵 종류
+              </p>
               <div>
-                {mapList && mapList.map((url, index) =>
-                  url ? <img key={index} src={url} alt={`Map Preview ${index}`}
-                             style={{width: '100px', height: '100px'}}/> : null
-                )}
+                {mapList &&
+                  mapList.map((url, index) =>
+                    url ? (
+                      <img
+                        key={index}
+                        src={url}
+                        alt={`Map Preview ${index}`}
+                        style={{ width: "100px", height: "100px" }}
+                      />
+                    ) : (
+                      <p style={{ textAlign: "center", fontSize: "1.1rem" }}>
+                        현재 보유한 맵이 없습니다.
+                      </p>
+                    ),
+                  )}
               </div>
             </TabPanel>
           </TabPanels>
